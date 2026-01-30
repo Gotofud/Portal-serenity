@@ -12,12 +12,18 @@ class Block extends Model
         'name',
     ];
 
-  public function communityUnits()
+    public function blocks()
+    {
+        return $this->hasMany(Block::class);
+    }
+
+    public function communityUnits()
     {
         return $this->belongsTo(CommunityUnit::class, 'community_id');
     }
 
-     public function neighborhoodUnits(){
-        return $this->belongsTo(NeighborhoodUnit::class,'neighborhood_id');
+    public function neighborhoodUnits()
+    {
+        return $this->belongsTo(NeighborhoodUnit::class, 'neighborhood_id');
     }
 }

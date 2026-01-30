@@ -39,6 +39,7 @@ Route::prefix('dashboard')->as('dashboard.')->middleware(['auth', Security::clas
     Route::resource('/guest-type', App\Http\Controllers\Admin\Master\GuestTypeController::class);
     Route::resource('/faq', App\Http\Controllers\Admin\Master\FaqController::class);
     Route::resource('/banner', App\Http\Controllers\Admin\Master\BannerController::class);
+    Route::resource('/house', App\Http\Controllers\Admin\Master\HouseController::class);
 });
 // Service
 Route::prefix('service')->as('service.')->middleware(['auth', Security::class])->group(function () {
@@ -52,6 +53,10 @@ Route::prefix('service')->as('service.')->middleware(['auth', Security::class])-
     Route::post('/contact/{contact}/reply', [ContactController::class, 'sendReply'])
         ->name('contact.sendReply');
     Route::resource('/news', App\Http\Controllers\Admin\Service\NewsController::class);
+    // Route Support
+    Route::get('/support',function (){
+        return view('admin.service.support');
+    })->name('support');;
 });
 // Resident
 Route::prefix('resident')->as('resident.')->middleware(['auth', Security::class])->group(function () {

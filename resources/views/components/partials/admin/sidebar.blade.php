@@ -72,8 +72,8 @@
                         <div data-i18n="Jenis Bangunan">Jenis Bangunan</div>
                     </a>
                 </li>
-                <li class="menu-item">
-                    <a href="" class="menu-link">
+                <li class="menu-item {{ request()->routeIs('dashboard.house.*') ? 'active' : '' }}">
+                    <a href="{{ route('dashboard.house.index') }}" class="menu-link">
                         <div data-i18n="Rumah Warga">Rumah Warga</div>
                     </a>
                 </li>
@@ -190,8 +190,8 @@
         <li class="menu-header small mt-5">
             <span class="menu-header-text" data-i18n="Misc">Misc</span>
         </li>
-        <li class="menu-item">
-            <a href="https://pixinvent.ticksy.com/" class="menu-link">
+        <li class="menu-item {{ request()->routeIs('service.support') ? 'active' : '' }}">
+            <a href="{{ route('service.support') }}" class="menu-link">
                 <i class="menu-icon icon-base ri ri-lifebuoy-line"></i>
                 <div data-i18n="Support">Support</div>
             </a>

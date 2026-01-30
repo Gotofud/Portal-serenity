@@ -9,8 +9,8 @@
                                 <div
                                     class="d-flex justify-content-between align-items-start card-widget-1 border-end pb-4 pb-sm-0">
                                     <div>
-                                        <h4 class="mb-0">{{ App\Models\Service\News::count() }}</h4>
-                                        <p class="mb-0">Total Berita </p>
+                                        <h4 class="mb-0">{{ App\Models\Master\House::count() }}</h4>
+                                        <p class="mb-0">Total Rumah </p>
                                     </div>
                                     <div class="avatar me-sm-6">
                                         <span class="avatar-initial rounded-3 bg-label-primary">
@@ -25,9 +25,9 @@
                                     class="d-flex justify-content-between align-items-start card-widget-2 border-end pb-4 pb-sm-0">
                                     <div>
                                         <h4 class="mb-0">
-                                            {{ App\Models\Service\News::where('status', 'Aktif')->count() }}
+                                            {{ App\Models\Master\House::where('status', 'Aktif')->count() }}
                                         </h4>
-                                        <p class="mb-0">Berita Aktif</p>
+                                        <p class="mb-0">Rumah Aktif</p>
                                     </div>
                                     <div class="avatar me-lg-6">
                                         <span class="avatar-initial rounded-3 bg-label-success">
@@ -42,9 +42,9 @@
                                     class="d-flex justify-content-between align-items-start  pb-4 pb-sm-0 card-widget-3">
                                     <div>
                                         <h4 class="mb-0">
-                                            {{ App\Models\Service\News::where('status', 'Nonaktif')->count() }}
+                                            {{ App\Models\Master\House::where('status', 'Nonaktif')->count() }}
                                         </h4>
-                                        <p class="mb-0">Berita Nonaktif</p>
+                                        <p class="mb-0">Rumah Nonaktif</p>
                                     </div>
                                     <div class="avatar me-sm-6">
                                         <span class="avatar-initial rounded-3 bg-label-danger">
@@ -68,10 +68,10 @@
                 <thead>
                     <tr>
                         <th>No</th>
-                        <th>Thumbnail</th>
-                        <th>Code</th>
-                        <th>Judul Berita</th>
-                        <th>Kategori</th>
+                        <th>Pemilik</th>
+                        <th>No Rt/Rw</th>
+                        <th>Alamat</th>
+                        <th>Jenis Bangunan</th>
                         <th>Status</th>
                         <th>Dibuat</th>
                         <th>Diperbarui</th>
@@ -82,15 +82,21 @@
                     @php
                         $no = 1;
                     @endphp
-                    @foreach ($news as $data)
+                    @foreach ($house as $data)
                         <tr>
                             <td>
                                 {{ $no++ }}
                             </td>
-                            <td><img src="{{asset('/storage/' . $data->image)}}" class="rounded" width="100"></td>
-                            <td>{{ $data->code }}</td>
-                            <td>{{ $data->title }}</td>
-                            <td>{{ $data->news_types }}</td>
+                            <td>
+                                @forelse ($data->usersHouses as $owner)
+                                    {{ $owner->users->name }}
+                                @empty
+                                    Belum diatur
+                                @endforelse
+                            </td>
+                            <td>RT {{ $data->neighborhoodUnits->no }} - RW {{ $data->communityUnits->no }}</td>
+                            <td>Blok {{ $data->blocks->name }} No {{ $data->number }}</td>
+                            <td>{{ $data->building_Types->name }}</td>
                             <td><span
                                     class="badge bg-{{ $data->status == 'Aktif' ? 'label-primary' : 'label-danger' }} me-1">{{ $data->status }}</span>
                             </td>
@@ -105,8 +111,6 @@
                                         <i class="icon-base ri ri-more-2-line icon-18px"></i>
                                     </button>
                                     <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="javascript:void(0);"><i
-                                                class="icon-base ri ri-eye-line icon-18px me-1"></i> Lihat</a>
                                         <a class="dropdown-item" href="javascript:void(0);"><i
                                                 class="icon-base ri ri-pencil-line icon-18px me-1"></i> Edit</a>
                                         <a class="dropdown-item" href="javascript:void(0);"><i
