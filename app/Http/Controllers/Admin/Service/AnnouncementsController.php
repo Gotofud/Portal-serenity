@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin\Service;
 
 use App\Http\Controllers\Controller;
+use App\Models\Service\Announcements;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AnnouncementsController extends Controller
 {
@@ -12,23 +14,36 @@ class AnnouncementsController extends Controller
      */
     public function index()
     {
-        //
+        $announcement = Announcements::latest()->get();
+        return view('admin.service.announcement.index', compact('announcement'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        //
+        $user = Auth::user();
+        $request->validate([
+            'subject' => 'required',
+            'image' => 'required|image',
+            'is_publish' => 'required',
+            'description' => 'required',
+        ]);
+        $announcement = new Announcements();
+        $announcement->user_id = $user->id;
+        $announcement->subject = $request->subject;
+        $announcement->description = $request->description;
+        $announcement->is_publish = $request->is_publish;
+        $filePatch = null;
+        if ($request->hasFile('image')) {
+            $filePatch = $request->file('image')->store('announcement', 'public');
+        }
+        $announcement->image = $filePatch;
+
+        $announcement->save();
+        return redirect()->route('service.announcements.index')->with('success', 'Data Berhasil Ditambahkan');
     }
 
     /**
@@ -37,6 +52,21 @@ class AnnouncementsController extends Controller
     public function show(string $id)
     {
         //
+    }
+
+    public function publish(string $id)
+    {
+        $announcement = Announcements::findOrFail($id);
+
+        if ($announcement->is_publish == true) {
+            $announcement->is_publish = false;
+            $announcement->save();
+        } else {
+            $announcement->is_publish = true;
+            $announcement->save();
+        }
+
+        return redirect()->route('service.announcements.index')->with('success', 'Status Berhasil Diubah');
     }
 
     /**
@@ -52,7 +82,26 @@ class AnnouncementsController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $user = Auth::user();
+        $request->validate([
+            'subject' => 'required',
+            'image' => 'required|image',
+            'is_publish' => 'required',
+            'description' => 'required',
+        ]);
+        $announcement = Announcements::findOrFail($id);
+        $announcement->user_id = $user->id;
+        $announcement->subject = $request->subject;
+        $announcement->description = $request->description;
+        $announcement->is_publish = $request->is_publish;
+        $filePatch = null;
+        if ($request->hasFile('image')) {
+            $filePatch = $request->file('image')->store('announcement', 'public');
+        }
+        $announcement->image = $filePatch;
+
+        $announcement->save();
+        return redirect()->route('service.announcements.index')->with('success', 'Data Berhasil Diedit');
     }
 
     /**
@@ -60,6 +109,8 @@ class AnnouncementsController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $announcement = Announcements::findOrFail($id);
+        $announcement->delete();
+        return redirect()->route('service.announcements.index')->with('success', 'Data Berhasil Dihapus');
     }
 }

@@ -10,6 +10,12 @@ class Contact extends Model
     protected $fillable = [
         'name',
         'email',
-        'question'
+        'question',
+        'reply',
+        'replied_at'
+    ];
+
+    protected $casts = [
+        'replied_at' => 'datetime',
     ];
 }

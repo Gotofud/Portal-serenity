@@ -24,11 +24,14 @@ return new class extends Migration
 
         Schema::create('stalls', function (Blueprint $table) {
             $table->id();
+            $table->string('code');
             $table->bigInteger('user_id');
-            $table->bigInteger('community_id');
-            $table->bigInteger('neighborhood_id');
-            $table->string('stall_name');
+            $table->bigInteger('stall_id');
             $table->enum('status',['Aktif','Nonaktif','Pending'])->default('pending');
+            $table->dateTime('start_date');
+            $table->dateTime('end_date');
+            $table->string('duration');
+            $table->string('total_cost');
             $table->timestamps();
         });
     }

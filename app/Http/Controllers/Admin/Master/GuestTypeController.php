@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Admin\Master;
 
 use App\Http\Controllers\Controller;
+use App\Imports\GuestypeImport;
 use App\Models\Master\GuestTypes;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class GuestTypeController extends Controller
 {
@@ -17,12 +19,15 @@ class GuestTypeController extends Controller
         return view('admin.master.guest-type.index', compact('guest_type'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function import(Request $request)
     {
-        return view('admin.master.guest-type.create');
+        $request->validate([
+            'file' => 'required|file|mimes:xlsx,csv.xls',
+        ]);
+
+        Excel::import(new GuestypeImport(), $request->file('file'));
+
+        return back()->with('success', 'Data Berhasil Diimport!');
     }
 
     /**
@@ -39,23 +44,6 @@ class GuestTypeController extends Controller
         $guest_type->save();
 
         return redirect()->route('dashboard.guest-type.index')->with('success', 'Data Berhasil Ditambahkan');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        // TODO: implement show
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        $guest_type = GuestTypes::findOrFail($id);
-        return view('admin.master.guest-type.edit', compact('guest_type'));
     }
 
     /**

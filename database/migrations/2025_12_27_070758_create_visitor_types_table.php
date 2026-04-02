@@ -21,6 +21,7 @@ return new class extends Migration {
             $table->bigInteger('user_id');
             $table->string('guest_amount');
             $table->bigInteger('guest_types');
+            $table->bigInteger('house_id');
             $table->dateTime('visit_at')->now();
             $table->timestamps();
         });

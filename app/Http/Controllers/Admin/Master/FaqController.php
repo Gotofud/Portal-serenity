@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Admin\Master;
 
 use App\Http\Controllers\Controller;
+use App\Imports\FaqImport;
 use App\Models\Master\Faq;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class FaqController extends Controller
 {
@@ -17,12 +19,15 @@ class FaqController extends Controller
         return view('admin.master.faq.index', compact('faq'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function import(Request $request)
     {
-        return view('admin.master.faq.create');
+        $request->validate([
+            'file' => 'required|file|mimes:xlsx,csv.xls',
+        ]);
+
+        Excel::import(new FaqImport(), $request->file('file'));
+
+        return back()->with('success', 'Data Berhasil Diimport!');
     }
 
     /**
@@ -52,16 +57,8 @@ class FaqController extends Controller
      */
     public function show(string $id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
         $faq = Faq::findOrFail($id);
-        return view('admin.master.faq.edit', compact('faq'));
+        return view('admin.master.faq.show', compact('faq'));
     }
 
     /**
@@ -91,9 +88,9 @@ class FaqController extends Controller
      */
     public function destroy(string $id)
     {
-       $faq = Faq::findOrFail($id);
-       $faq->delete();
-       
-       return redirect()->route('dashboard.faq.index')->with('success', 'Data Berhasil Dihapus');
+        $faq = Faq::findOrFail($id);
+        $faq->delete();
+
+        return redirect()->route('dashboard.faq.index')->with('success', 'Data Berhasil Dihapus');
     }
 }

@@ -23,6 +23,10 @@ class ContactController extends Controller
     {
         return view('admin.service.contact.reply', compact('contact'));
     }
+    public function show(Contact $contact)
+    {
+        return view('admin.service.contact.detail', compact('contact'));
+    }
 
     // kirim email manual
     public function sendReply(Request $request, Contact $contact)

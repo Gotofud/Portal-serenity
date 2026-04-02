@@ -17,9 +17,7 @@ class UserSeeder extends Seeder
         $role = [
             ['name' => 'Super Admin'],
             ['name' => 'Admin'],
-            ['name' => 'Security'],
             ['name' => 'Resident'],
-            ['name' => 'Onboarding'],
         ];
 
         foreach ($role as $roles) {
@@ -32,20 +30,7 @@ class UserSeeder extends Seeder
                 'name' => 'Gotofud',
                 'email' => 'sa@serenity.com',
                 'role_id' => 1,
-                'email_verified_at' => now(),
-                'password' => bcrypt('serenity12345'),
-            ],
-            [
-                'name' => 'Chinatsu',
-                'email' => 'admin@serenity.com',
-                'role_id' => 2,
-                'email_verified_at' => now(),
-                'password' => bcrypt('serenity12345'),
-            ],
-            [
-                'name' => 'Pak Vincet',
-                'email' => 'security@serenity.com',
-                'role_id' => 3,
+                'is_verified' => 1,
                 'email_verified_at' => now(),
                 'password' => bcrypt('serenity12345'),
             ],

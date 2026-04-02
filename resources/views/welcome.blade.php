@@ -11,11 +11,22 @@
                         Selamat datang di <span class="text-primary">Serenity</span> Portal Layanan Komplek <br>
                         Bojong Malaka Indah
                         </span>
+                        <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                            {{ __('Logout') }}
+                        </a>
+
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                            @csrf
+                        </form>
                     </h1>
                     <div class="d-flex justify-content-center align-items-center gap-3 position-relative mt-5 mb-5">
-                        <a href="../main/authentication-login.html" class="btn btn-lg btn-primary" style="width: 14rem; height: 3rem; ">Masuk Warga</a>
-                        <a href="../main/authentication-login.html" class="btn btn-lg btn-warning" style="width: 14rem; height: 3rem; ">Daftar Penduduk</a>
-                        <a href="../main/authentication-login.html" class="btn btn-lg btn-danger" style="width: 14rem; height: 3rem; ">Lapor Masalah</a>
+                        <a href="../main/authentication-login.html" class="btn btn-lg btn-primary"
+                            style="width: 14rem; height: 3rem; ">Masuk Warga</a>
+                        <a href="../main/authentication-login.html" class="btn btn-lg btn-warning"
+                            style="width: 14rem; height: 3rem; ">Daftar Penduduk</a>
+                        <a href="../main/authentication-login.html" class="btn btn-lg btn-danger"
+                            style="width: 14rem; height: 3rem; ">Lapor Masalah</a>
 
                     </div>
                 </div>
@@ -1211,33 +1222,27 @@
             <div class="row justify-content-center">
                 <div class="col-lg-8">
                     <div class="my-13">
-                 <div class="accordion faq-accordion" id="accordionFaq">
-                    @foreach ($faq as $index => $faqItem)
-                        <div class="accordion-item">
-                            <h2 class="accordion-header" id="heading{{ $index }}">
-                                <button
-                                    class="accordion-button fs-5 {{ $index != 0 ? 'collapsed' : '' }}"
-                                    type="button"
-                                    data-bs-toggle="collapse"
-                                    data-bs-target="#collapse{{ $index }}"
-                                    aria-expanded="{{ $index == 0 ? 'true' : 'false' }}"
-                                    aria-controls="collapse{{ $index }}"
-                                >
-                                    {{ $faqItem->subject }}
-                                </button>
-                            </h2>
-                            <div
-                                id="collapse{{ $index }}"
-                                class="accordion-collapse collapse {{ $index == 0 ? 'show' : '' }}"
-                                aria-labelledby="heading{{ $index }}"
-                                data-bs-parent="#accordionFaq">
-                                <div class="accordion-body">
-                                    <p>{{ $faqItem->answer }}</p>
+                        <div class="accordion faq-accordion" id="accordionFaq">
+                            @foreach ($faq as $index => $faqItem)
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="heading{{ $index }}">
+                                        <button class="accordion-button fs-5 {{ $index != 0 ? 'collapsed' : '' }}"
+                                            type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ $index }}"
+                                            aria-expanded="{{ $index == 0 ? 'true' : 'false' }}"
+                                            aria-controls="collapse{{ $index }}">
+                                            {{ $faqItem->subject }}
+                                        </button>
+                                    </h2>
+                                    <div id="collapse{{ $index }}"
+                                        class="accordion-collapse collapse {{ $index == 0 ? 'show' : '' }}"
+                                        aria-labelledby="heading{{ $index }}" data-bs-parent="#accordionFaq">
+                                        <div class="accordion-body">
+                                            <p>{{ $faqItem->answer }}</p>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
+                            @endforeach
                         </div>
-                    @endforeach
-                </div>
                     </div>
                 </div>
             </div>

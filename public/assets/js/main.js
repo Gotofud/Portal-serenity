@@ -432,21 +432,21 @@ document.addEventListener('DOMContentLoaded', function () {
 })();
 
 // Search Configuration
-const SearchConfig = {
-  container: '#autocomplete',
-  placeholder: 'Search [CTRL + K]',
-  classNames: {
-    detachedContainer: 'd-flex flex-column',
-    detachedFormContainer: 'd-flex align-items-center justify-content-between border-bottom',
-    form: 'd-flex align-items-center',
-    input: 'search-control border-none',
-    detachedCancelButton: 'btn-search-close',
-    panel: 'flex-grow content-wrapper overflow-hidden position-relative',
-    panelLayout: 'h-100',
-    clearButton: 'd-none',
-    item: 'd-block'
-  }
-};
+// const SearchConfig = {
+//   container: '#autocomplete',
+//   placeholder: 'Search [CTRL + K]',
+//   classNames: {
+//     detachedContainer: 'd-flex flex-column',
+//     detachedFormContainer: 'd-flex align-items-center justify-content-between border-bottom',
+//     form: 'd-flex align-items-center',
+//     input: 'search-control border-none',
+//     detachedCancelButton: 'btn-search-close',
+//     panel: 'flex-grow content-wrapper overflow-hidden position-relative',
+//     panelLayout: 'h-100',
+//     clearButton: 'd-none',
+//     item: 'd-block'
+//   }
+// };
 
 // Search state and data
 let data = {};

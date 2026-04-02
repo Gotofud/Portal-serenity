@@ -60,11 +60,41 @@
             </div>
         </div>
     </div>
-
+    <x-partials.admin.form-modal :formRoute=" route('dashboard.guest-type.store')" id="addTipe"
+        icon="ri ri-function-add-line" title="Tambah Data Jenis Tamu" subtitle="Wajib Diisi">
+        @include('admin.master.guest-type._fields')
+    </x-partials.admin.form-modal>
     <div class="card mt-5">
-        <h5 class="card-header">Table Basic</h5>
+        <x-partials.admin.export_modal :exportExcel="route('dashboard.community-unit.export')" />
+        <div class="card-header">
+            <div class="d-sm-flex justify-content-between align-items-start">
+                <div class="input-group position-relative d-inline-block w-25">
+                    <i class="ri ri-search-line position-absolute"
+                        style="left:12px; top:50%; transform:translateY(-50%); font-size:14px; color:#6c757d;">
+                    </i>
+                    <div class="input-group input-group-sm">
+                        <input type="text" id="customSearch" class="form-control"
+                            style="border-radius:5px; padding-left:38px;" placeholder="Cari Data...">
+                    </div>
+                </div>
+                <div class="action">
+                    <a class="btn btn-sm btn-outline-light text-dark" data-bs-toggle="modal" data-bs-target="#export"
+                        style=" height:40px;">
+                        <i class="ri ri-download-2-line"></i>
+                    </a>
+                    <a class="btn btn-sm btn-outline-light text-dark" data-bs-toggle="modal" data-bs-target="#import"
+                        style=" height:40px;">
+                        <i class="ri ri-upload-2-line"></i>
+                    </a>
+                    <a class="btn btn-sm text-white" style="background-color:#2fc692; height:40px;"
+                        data-bs-toggle="modal" data-bs-target="#addTipe">
+                        +
+                    </a>
+                </div>
+            </div>
+        </div>
         <div class="table-responsive text-nowrap">
-            <table class="table">
+            <table class="table dataTable">
                 <thead>
                     <tr>
                         <th>No</th>
@@ -75,13 +105,10 @@
                     </tr>
                 </thead>
                 <tbody class="table-border-bottom-0">
-                    @php
-                        $no = 1;
-                    @endphp
                     @foreach ($guest_type as $data)
                         <tr>
                             <td>
-                                {{ $no++ }}
+                                {{ $loop->iteration }}
                             </td>
                             <td>{{ $data->name }}</td>
                             <td>{{ $data->created_at ? $data->created_at->format('d M Y , H:i') : '-' }}
@@ -89,23 +116,27 @@
                             <td>{{ $data->updated_at ? $data->updated_at->format('d M Y , H:i') : '-' }}
                             </td>
                             <td>
-                                <div class="dropdown">
-                                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
-                                        data-bs-toggle="dropdown">
-                                        <i class="icon-base ri ri-more-2-line icon-18px"></i>
-                                    </button>
-                                    <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="javascript:void(0);"><i
-                                                class="icon-base ri ri-pencil-line icon-18px me-1"></i> Edit</a>
-                                        <a class="dropdown-item" href="javascript:void(0);"><i
-                                                class="icon-base ri ri-delete-bin-6-line icon-18px me-1"></i> Delete</a>
-                                    </div>
-                                </div>
+                                <a class="btn btn-outline-warning text-warning d-inline-flex align-items-center justify-content-center p-0"
+                                    style="height: 40px; width: 40px;" data-bs-toggle="modal"
+                                    data-bs-target="#editTipe{{ $data->id }}">
+                                    <i class="ri ri-pencil-fill" style="font-size: 15px; line-height: 1;"></i>
+                                </a>
+                                <a class="btn btn-outline-danger text-danger d-inline-flex align-items-center justify-content-center p-0"
+                                    style="height: 40px; width: 40px;" data-bs-toggle="modal" data-bs-target="#addRw">
+                                    <i class="ri ri-delete-bin-fill" style="font-size: 15px; line-height: 1;"></i>
+                                </a>
                             </td>
                         </tr>
+                        <x-partials.admin.form-modal id="editTipe{{ $data->id }}"
+                            :formRoute="route('dashboard.guest-type.update', $data->id)" method="PUT"
+                            title="Edit Jenis Tamu {{ $data->no }}">
+                            @include('admin.master.guest-type._fields', ['data' => $data])
+                        </x-partials.admin.form-modal>
                     @endforeach
                 </tbody>
             </table>
         </div>
     </div>
+    <x-partials.admin.import_modal :downloadRoute="route('dashboard.template.download', 'guest-type')"
+        :importRoute="route('dashboard.guest-type.import')" />
 </x-admin>

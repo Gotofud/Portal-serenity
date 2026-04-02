@@ -2,19 +2,11 @@
 
 use App\Http\Controllers\Admin\Service\ContactController;
 use App\Http\Controllers\GetData;
+use App\Http\Controllers\GoogleAuthController;
 use App\Http\Middleware\Security;
 use App\Models\Master\Faq;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\Master\CUController;
-use App\Http\Controllers\Admin\Master\NUController;
-use App\Http\Controllers\Admin\Master\BlockController;
-use App\Http\Controllers\Admin\Master\BuildingTypes;
-use App\Http\Controllers\Admin\Master\RoleController;
-use App\Http\Controllers\Admin\Master\StallsPlaceController;
-use App\Http\Controllers\Admin\Master\VehicleTypeController;
-use App\Http\Controllers\Admin\Master\GuestTypeController;
-use App\Http\Controllers\Admin\Master\FaqController;
-use App\Http\Controllers\GoogleAuthController;
 
 
 // Auth Biasa
@@ -24,51 +16,128 @@ Route::get('/auth/google', [GoogleAuthController::class, 'redirect']);
 Route::get('/auth/google/callback', [GoogleAuthController::class, 'callback']);
 // Route Get RT
 Route::get('/get-rt/{community_id}', [GetData::class, 'getRt']);
+// Route Get Blok
+Route::get('/get-block/{community_id}/{neighborhood_id}', [GetData::class, 'getBlock']);
+// Route OTP
+Route::middleware(['auth'])->group(function () {
+    Route::get('/verify-otp', [App\Http\Controllers\OtpController::class, 'showForm'])->name('verify-otp.view');
+    Route::post('/verify-otp', [App\Http\Controllers\OtpController::class, 'verify'])->name('verify-otp.submit');
+    Route::post('/verify-otp/resend', [App\Http\Controllers\OtpController::class, 'resend'])->name('verify-otp.resend');
+});
 
 // Admin Route
-// Master
-Route::prefix('dashboard')->as('dashboard.')->middleware(['auth', Security::class])->group(function () {
-    Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('index');
-    Route::resource('/community-unit', App\Http\Controllers\Admin\Master\CUController::class);
-    Route::resource('/neighborhood-unit', App\Http\Controllers\Admin\Master\NUController::class);
-    Route::resource('/block', App\Http\Controllers\Admin\Master\BlockController::class);
-    Route::resource('/building-type', App\Http\Controllers\Admin\Master\BuildingTypes::class);
-    Route::resource('/role', App\Http\Controllers\Admin\Master\RoleController::class);
-    Route::resource('/stall-place', App\Http\Controllers\Admin\Master\StallsPlaceController::class);
-    Route::resource('/vehicle-type', App\Http\Controllers\Admin\Master\VehicleTypeController::class);
-    Route::resource('/guest-type', App\Http\Controllers\Admin\Master\GuestTypeController::class);
-    Route::resource('/faq', App\Http\Controllers\Admin\Master\FaqController::class);
-    Route::resource('/banner', App\Http\Controllers\Admin\Master\BannerController::class);
-    Route::resource('/house', App\Http\Controllers\Admin\Master\HouseController::class);
+Route::middleware(['auth', 'is_verified'])->group(function () {
+    // Master
+    Route::prefix('dashboard')->as('dashboard.')->middleware([Security::class])->group(function () {
+        Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('index');
+        // Community Unit
+        Route::resource('/community-unit', App\Http\Controllers\Admin\Master\CUController::class);
+        Route::get('/community-unit-export', [App\Http\Controllers\Admin\Master\CUController::class, 'export'])->name('community-unit.export');
+        Route::post('/community-unit-import', [App\Http\Controllers\Admin\Master\CUController::class, 'import'])->name('community-unit.import');
+        // Neighborhood Unit
+        Route::resource('/neighborhood-unit', App\Http\Controllers\Admin\Master\NUController::class);
+        Route::post('/neighborhood-unit-import', [App\Http\Controllers\Admin\Master\NUController::class, 'import'])->name('neighborhood-unit.import');
+        // Block
+        Route::resource('/block', App\Http\Controllers\Admin\Master\BlockController::class);
+        Route::post('/block-import', [App\Http\Controllers\Admin\Master\BlockController::class, 'import'])->name('block.import');
+        // Building Type
+        Route::resource('/building-type', App\Http\Controllers\Admin\Master\BuildingTypes::class);
+        Route::post('/building-type-import', [App\Http\Controllers\Admin\Master\BuildingTypes::class, 'import'])->name('building-type.import');
+        // Stall Place
+        Route::resource('/stall-place', App\Http\Controllers\Admin\Master\StallsPlaceController::class);
+        Route::post('/stall-place-import', [App\Http\Controllers\Admin\Master\StallsPlaceController::class, 'import'])->name('stall-place.import');
+        // Vehicle Type
+        Route::resource('/vehicle-type', App\Http\Controllers\Admin\Master\VehicleTypeController::class);
+        Route::post('/vehicle-type-import', [App\Http\Controllers\Admin\Master\VehicleTypeController::class, 'import'])->name('vehicle-type.import');
+        // Report Categories
+        Route::resource('/report-categories', App\Http\Controllers\Admin\Master\ReportCategories::class);
+        Route::post('/report-categories-import', [App\Http\Controllers\Admin\Master\ReportCategories::class, 'import'])->name('report-categories.import');
+        // Guest Type
+        Route::resource('/guest-type', App\Http\Controllers\Admin\Master\GuestTypeController::class);
+        Route::post('/guest-type-import', [App\Http\Controllers\Admin\Master\GuestTypeController::class, 'import'])->name('guest-type.import');
+        // Faq
+        Route::resource('/faq', App\Http\Controllers\Admin\Master\FaqController::class);
+        Route::post('/faq-import', [App\Http\Controllers\Admin\Master\FaqController::class, 'import'])->name('faq.import');
+        // Banner
+        Route::resource('/banner', App\Http\Controllers\Admin\Master\BannerController::class);
+        // House
+        Route::resource('/house', App\Http\Controllers\Admin\Master\HouseController::class);
+        Route::post('/house-import', [App\Http\Controllers\Admin\Master\HouseController::class, 'import'])->name('house.import');
+        // Template Excel
+        Route::get('/template/{type}', function ($type) {
+
+            $files = [
+                // Master
+                'rw' => 'template-excel-rw.xlsx',
+                'rt' => 'template-excel-rt.xlsx',
+                'block' => 'template-excel-block.xlsx',
+                'building-type' => 'template-excel-building-type.xlsx',
+                'guest-type' => 'template-excel-guest-type.xlsx',
+                'vehicle-type' => 'template-excel-vehicle-type.xlsx',
+                'stall-place' => 'template-excel-stall-place.xlsx',
+                'house' => 'template-excel-house.xlsx',
+                'faq' => 'template-excel-faq.xlsx',
+                'report-categories' => 'template-excel-report-categories.xlsx',
+                // Banner Belum
+                // Resident
+                'operator' => 'template-excel-operator.xlsx',
+                // Service
+                'news' => 'template-excel-news.xlsx',
+                'announcement' => 'template-excel-announcement.xlsx',
+                // Finance
+                'bill' => 'template-excel-bill.xlsx',
+                'agreement' => 'template-excel-agreement.xlsx',
+            ];
+
+            if (!array_key_exists($type, $files)) {
+                abort(404);
+            }
+
+            return response()->download(
+                storage_path('app/public/templates/' . $files[$type])
+            );
+
+        })->name('template.download');
+    });
+    // Service
+    Route::prefix('service')->as('service.')->middleware(['auth', Security::class])->group(function () {
+        Route::resource('/announcements', App\Http\Controllers\Admin\Service\AnnouncementsController::class);
+        Route::post('/publish-announcements/{announcement}', [App\Http\Controllers\Admin\Service\AnnouncementsController::class,'publish'])->name('announcements.publish');
+        Route::resource('/report', App\Http\Controllers\Admin\Service\ReportController::class);
+        Route::post('/report/{report}/accept', [App\Http\Controllers\Admin\Service\ReportController::class, 'accept'])->name('report.accept');
+        Route::post('/report/{report}/complete', [App\Http\Controllers\Admin\Service\ReportController::class, 'complete'])->name('report.complete');
+        Route::post('/report/{report}/reject', [App\Http\Controllers\Admin\Service\ReportController::class, 'reject'])->name('report.reject');
+        Route::resource('/stall', App\Http\Controllers\Admin\Service\StallController::class);
+        Route::resource('/contact', App\Http\Controllers\Admin\Service\ContactController::class);
+        Route::get('/contact/{contact}/reply', [ContactController::class, 'reply'])
+            ->name('contact.reply');
+        Route::post('/contact/{contact}/reply', [ContactController::class, 'sendReply'])
+            ->name('contact.sendReply');
+        Route::resource('/news', App\Http\Controllers\Admin\Service\NewsController::class);
+        // Route Support
+        Route::get('/support', function () {
+            return view('admin.service.support');
+        })->name('support');
+        ;
+    });
+    // Resident
+    Route::prefix('resident')->as('resident.')->middleware(['auth', Security::class])->group(function () {
+        Route::resource('/operator', App\Http\Controllers\Admin\Resident\OperatorController::class);
+        Route::post('/operator-import', [App\Http\Controllers\Admin\Resident\OperatorController::class, 'import'])->name('operator.import');
+        Route::resource('/user', App\Http\Controllers\Admin\Resident\UserController::class);
+        Route::resource('/guest', App\Http\Controllers\Admin\Resident\GuestController::class);
+    });
+    // Finance
+    Route::prefix('finance')->as('finance.')->middleware(['auth', Security::class])->group(function () {
+        Route::resource('/agreement', App\Http\Controllers\Admin\Finance\AgreementController::class);
+        Route::resource('/bill', App\Http\Controllers\Admin\Finance\BillController::class);
+        Route::post('/generate-bill', [App\Http\Controllers\Admin\Finance\BillController::class,'generateBill'])->name('bill.generate');
+        Route::get('/bill-export', [App\Http\Controllers\Admin\Finance\BillController::class, 'export'])->name('bill.export');
+        Route::get('/bill-import', [App\Http\Controllers\Admin\Finance\BillController::class, 'import'])->name('bill.import');
+        Route::post('/bill-import', [App\Http\Controllers\Admin\Finance\BillController::class, 'importProcess'])->name('bill.importProcess');
+    });
 });
-// Service
-Route::prefix('service')->as('service.')->middleware(['auth', Security::class])->group(function () {
-    Route::resource('/announcements', App\Http\Controllers\Admin\Service\AnnouncementsController::class);
-    Route::resource('/report', App\Http\Controllers\Admin\Service\ReportController::class);
-    Route::resource('/stall', App\Http\Controllers\Admin\Service\StallController::class);
-    Route::resource('/ads', App\Http\Controllers\Admin\Service\AdsController::class);
-    Route::resource('/contact', App\Http\Controllers\Admin\Service\ContactController::class);
-    Route::get('/contact/{contact}/reply', [ContactController::class, 'reply'])
-        ->name('contact.reply');
-    Route::post('/contact/{contact}/reply', [ContactController::class, 'sendReply'])
-        ->name('contact.sendReply');
-    Route::resource('/news', App\Http\Controllers\Admin\Service\NewsController::class);
-    // Route Support
-    Route::get('/support',function (){
-        return view('admin.service.support');
-    })->name('support');;
-});
-// Resident
-Route::prefix('resident')->as('resident.')->middleware(['auth', Security::class])->group(function () {
-    Route::resource('/operator', App\Http\Controllers\Admin\Resindet\OperatorController::class);
-    Route::resource('/user', App\Http\Controllers\Admin\Resindet\UserController::class);
-    Route::resource('/guest', App\Http\Controllers\Admin\Resindet\GuestController::class);
-});
-// Finance
-Route::prefix('finance')->as('finance.')->middleware(['auth', Security::class])->group(function () {
-    Route::resource('/agreement', App\Http\Controllers\Admin\Finance\AgreementController::class);
-    Route::resource('/bill', App\Http\Controllers\Admin\Finance\BillController::class);
-});
+
 
 // User Route
 Route::get('/', function () {
@@ -77,8 +146,6 @@ Route::get('/', function () {
 });
 Route::resource('/contact', App\Http\Controllers\User\Service\Contact::class);
 
-Route::group([
-    'middleware' => ['auth']
-], function () {
+Route::middleware(['auth', 'is_verified'])->group(function () {
     Route::resource('user-profile', App\Http\Controllers\User\UserProfileController::class);
 });

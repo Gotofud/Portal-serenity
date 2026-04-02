@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Admin\Master;
 
 use App\Http\Controllers\Controller;
+use App\Imports\StallPlaceImport;
 use App\Models\Master\CommunityUnit;
 use App\Models\Master\NeighborhoodUnit;
 use App\Models\Master\StallPlace;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class StallsPlaceController extends Controller
 {
@@ -15,18 +17,21 @@ class StallsPlaceController extends Controller
      */
     public function index()
     {
-        $stall_place = StallPlace::all();
-        return view('admin.master.stall-place.index', compact('stall_place'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
         $co = CommunityUnit::all();
         $nu = NeighborhoodUnit::all();
-        return view('admin.master.stall-place.create', compact('co', 'nu'));
+        $stall_place = StallPlace::all();
+        return view('admin.master.stall-place.index', compact('stall_place','co','nu'));
+    }
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|file|mimes:xlsx,csv.xls',
+        ]);
+
+        Excel::import(new StallPlaceImport(), $request->file('file'));
+
+        return back()->with('success', 'Data Berhasil Diimport!');
     }
 
     /**
@@ -52,14 +57,6 @@ class StallsPlaceController extends Controller
         $stall_place->status = $request->status;
         $stall_place->save();
         return redirect()->route('dashboard.stall-place.index')->with('success', 'Data Berhasil Ditambahkan');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
     }
 
     /**

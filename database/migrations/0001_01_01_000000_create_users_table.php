@@ -19,6 +19,9 @@ return new class extends Migration {
             $table->BigInteger('role_id')->default('6');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable();
+            $table->string('otp')->nullable();
+            $table->timestamp('otp_expires_at')->nullable();
+            $table->boolean('is_verified')->default(false);
             $table->enum('status', ['Aktif', 'Nonaktif'])->default('Aktif');
             $table->rememberToken();
             $table->timestamps();
@@ -28,8 +31,6 @@ return new class extends Migration {
             $table->id();
             $table->string('name');
             $table->enum('status', ['Aktif', 'Nonaktif'])->default('Aktif');
-            $table->boolean('read');
-            $table->boolean('create');
             $table->timestamps();
         });
 
@@ -38,11 +39,13 @@ return new class extends Migration {
             $table->bigInteger('user_id');
             $table->string('full_name');
             $table->date('bod');
-            $table->string('pod');
-            $table->enum('gender',['Laki-Laki','Perempuan']);
-            $table->enum('citizenship',['WNA','WNI']);
-            $table->text('address');
-            $table->string  ('religion');
+            $table->string('pob');
+            $table->enum('gender', ['Laki-Laki', 'Perempuan']);
+            $table->enum('citizenship', ['WNA', 'WNI']);
+            $table->enum('family_status',['Kepala Keluarga','Ibu Rumah Tangga','Anak','Lainnya']);
+            $table->bigInteger('nik');
+            $table->bigInteger('nkk');
+            $table->string('religion');
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

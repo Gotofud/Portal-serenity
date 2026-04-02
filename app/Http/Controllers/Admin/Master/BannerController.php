@@ -18,14 +18,6 @@ class BannerController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return view('admin.master.banner.create');
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
@@ -52,23 +44,6 @@ class BannerController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        $banner = Banner::findOrFail($id);
-        return view('admin.master.banner.edit', compact('banner'));
-    }
-
-    /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
@@ -78,7 +53,7 @@ class BannerController extends Controller
             'status' => 'required',
             'start_at' => 'required',
             'expired_at' => 'required',
-            'image' => 'required|image|mimes:png,jpg,jpeg',
+            'image' => 'nullable|image|mimes:png,jpg,jpeg',
         ]);
 
         $banner = Banner::findOrFail($id);

@@ -12,11 +12,17 @@ class UserProfile extends Model
         'user_id',
         'full_name',
         'bod',
-        'pod',
+        'pob',
         'gender',
         'citizenship',
-        'address',
+        'nik',
+        'nkk',
+        'family_status',
         'religion',
+    ];
+
+    protected $casts = [
+        'bod' => 'datetime',
     ];
 
     public function users()

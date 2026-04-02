@@ -62,64 +62,100 @@
     </div>
 
     <div class="card mt-5">
-        <h5 class="card-header">Table Basic</h5>
+        <x-partials.admin.export_modal :exportExcel="route('dashboard.community-unit.export')" />
+        <div class="card-header">
+            <div class="d-sm-flex justify-content-between align-items-start">
+                <div class="input-group position-relative d-inline-block w-25">
+                    <i class="ri ri-search-line position-absolute"
+                        style="left:12px; top:50%; transform:translateY(-50%); font-size:14px; color:#6c757d;">
+                    </i>
+                    <div class="input-group input-group-sm">
+                        <input type="text" id="customSearch" class="form-control"
+                            style="border-radius:5px; padding-left:38px;" placeholder="Cari Data...">
+                    </div>
+                </div>
+                <div class="action">
+                    <div class="position-relative d-inline-block" style="width:170px;">
+
+                        <i class="ri ri-price-tag-3-line position-absolute"
+                            style="left:12px; top:50%; transform:translateY(-50%); font-size:14px; color:#6c757d;">
+                        </i>
+
+                        <select id="status" class="form-select form-select-sm"
+                            style="border-radius:5px; padding-left:38px;">
+                            <option value="" selected>Status</option>
+                            <option value="Dibalas">Dibalas</option>
+                            <option value="Belum Dibalas">Belum Dibalas</option>
+                        </select>
+
+                    </div>
+
+                    <a class="btn btn-sm btn-outline-light text-dark" data-bs-toggle="modal" data-bs-target="#export"
+                        style=" height:40px;">
+                        <i class="ri ri-download-2-line"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
         <div class="table-responsive text-nowrap">
-            <table class="table">
+            <table class="table dataTable">
                 <thead>
                     <tr>
                         <th>No</th>
                         <th>Nama Pengirim</th>
-                        <th>Email</th>
-                        <th>Pertanyaan</th>
                         <th>Status</th>
-                        <th>Dibuat</th>
+                        <th>Dikirim</th>
                         <th>Dibalas</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody class="table-border-bottom-0">
-                    @php
-                        $no = 1;
-                    @endphp
                     @foreach ($contact as $data)
                         <tr>
                             <td>
-                                {{ $no++ }}
+                                {{ $loop->iteration }}
                             </td>
-                            <td>{{ $data->name }}</td>
-                            <td>{{ $data->email }}</td>
-                            <td>{{ $data->question }}</td>
+                            <td>{{ $data->name }} <br><small class="text-muted text-light"
+                                    style="font-size: 13.5px;">{{ $data->email }}</small>
                             <td>
                                 @if ($data->replied_at)
-                                    <span class="badge bg-label-success">Sudah Dibalas</span>
+                                    <span class="badge bg-label-success">Dibalas</span>
                                 @else
                                     <span class="badge bg-label-warning">Belum Dibalas</span>
                                 @endif
                             </td>
-                            <td class="text-center">{{ $data->created_at ? $data->created_at->format('d M Y , H:i') : '-' }}
+                            <td>{{ $data->created_at->translatedFormat('d M Y, H:i')}} WIB
+                                <br><small class="text-muted text-light"
+                                    style="font-size: 11.5px;">{{ $data->created_at->diffForHumans() }}</small>
                             </td>
-                            <td class="text-center">{{ $data->replied_at ? $data->replied_at->format('d M Y , H:i') : '-' }}
+                            <td>@if($data->replied_at)
+                                {{ $data->replied_at->translatedFormat('d M Y, H:i') . ' WIB' }}
+                                <br>
+                                <small class="text-muted text-light" style="font-size: 11.5px;">
+                                    {{ $data->replied_at->diffForHumans() }}
+                                </small>
+                            @else
+                                    <span class="text-muted">-</span>
+                                @endif
                             </td>
-                            <td class="text-center">
-                                    <div class="dropdown">
-                                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
-                                            data-bs-toggle="dropdown">
-                                            <i class="icon-base ri ri-more-2-line icon-18px"></i>
-                                        </button>
-                                        <div class="dropdown-menu">
-                                            @if (!$data->replied_at)
-                                                <a class="dropdown-item "
-                                                    href="{{ route('service.contact.reply', $data->id) }}">
-                                                    <i class="icon-base ri ri-send-plane-line icon-18px me-1"></i>
-                                                    Balas Email
-                                                </a>
-                                            @endif
-                                            <a class="dropdown-item" href="javascript:void(0);"><i
-                                                    class="icon-base ri ri-pencil-line icon-18px me-1"></i> Edit</a>
-                                            <a class="dropdown-item" href="javascript:void(0);"><i
-                                                    class="icon-base ri ri-delete-bin-6-line icon-18px me-1"></i> Delete</a>
-                                        </div>
-                                    </div>
+                            <td>
+                                @if (!$data->replied_at)
+                                    <a class="btn btn-outline-primary text-primary d-inline-flex align-items-center justify-content-center p-0"
+                                        style="height: 40px; width: 40px;"
+                                        href="{{ route('service.contact.reply', $data->id)  }}">
+                                        <i class="ri ri-reply-fill" style="font-size: 15px; line-height: 1;"></i>
+                                    </a>
+                                @else
+                                    <a class="btn btn-outline-warning text-warning d-inline-flex align-items-center justify-content-center p-0"
+                                        style="height: 40px; width: 40px;"
+                                        href="{{ route('service.contact.show', $data->id)  }}">
+                                        <i class="ri ri-eye-fill" style="font-size: 15px; line-height: 1;"></i>
+                                    </a>
+                                @endif
+                                <a class="btn btn-outline-danger text-danger d-inline-flex align-items-center justify-content-center p-0"
+                                    style="height: 40px; width: 40px;" data-bs-toggle="modal" data-bs-target="#addRw">
+                                    <i class="ri ri-delete-bin-fill" style="font-size: 15px; line-height: 1;"></i>
+                                </a>
                             </td>
                         </tr>
                     @endforeach
@@ -127,4 +163,6 @@
             </table>
         </div>
     </div>
+    <x-partials.admin.import_modal :downloadRoute="route('dashboard.template.download', 'rw')"
+        :importRoute="route('dashboard.community-unit.import')" />
 </x-admin>

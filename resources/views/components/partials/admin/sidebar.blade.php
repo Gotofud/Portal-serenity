@@ -1,3 +1,7 @@
+@php
+    // Hitung Laporan masuk dan belum diproses
+    $report = App\Models\Service\Report::whereIn('status', ['Pending','Diterima'])->count();
+@endphp
 <aside id="layout-menu" class="layout-menu menu-vertical menu">
     <div class="app-brand mt-5 mb-4">
         <a href="index.html" class="app-brand-link">
@@ -29,6 +33,9 @@
             <a href="{{ route('service.report.index') }}" class="menu-link">
                 <i class="menu-icon icon-base ri ri-alert-line"></i>
                 <div data-i18n="Laporan">Laporan</div>
+                @if ($report != null)
+                    <div class="badge badge-center text-bg-danger rounded-pill ms-auto">{{ $report }}</div>
+                @endif
             </a>
         </li>
         <li class="menu-header small mt-5">
@@ -39,17 +46,11 @@
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon icon-base ri ri-folder-4-line"></i>
                 <div data-i18n="Master">Master</div>
-                <div class="badge badge-center text-bg-danger rounded-pill ms-auto">5</div>
             </a>
             <ul class="menu-sub">
                 <li class="menu-item {{ request()->routeIs('dashboard.banner.*') ? 'active' : '' }}">
                     <a href="{{ route('dashboard.banner.index') }}" class="menu-link">
                         <div data-i18n="Banner">Banner</div>
-                    </a>
-                </li>
-                <li class="menu-item {{ request()->routeIs('dashboard.role.*') ? 'active' : '' }}">
-                    <a href="{{ route('dashboard.role.index') }}" class="menu-link">
-                        <div data-i18n="Role">Role</div>
                     </a>
                 </li>
                 <li class="menu-item {{ request()->routeIs('dashboard.community-unit.*') ? 'active' : '' }}">
@@ -75,6 +76,11 @@
                 <li class="menu-item {{ request()->routeIs('dashboard.house.*') ? 'active' : '' }}">
                     <a href="{{ route('dashboard.house.index') }}" class="menu-link">
                         <div data-i18n="Rumah Warga">Rumah Warga</div>
+                    </a>
+                </li>
+                <li class="menu-item {{ request()->routeIs('dashboard.report-categories.*') ? 'active' : '' }}">
+                    <a href="{{ route('dashboard.report-categories.index') }}" class="menu-link">
+                        <div data-i18n="Jenis Laporan">Jenis Laporan</div>
                     </a>
                 </li>
                 <li class="menu-item {{ request()->routeIs('dashboard.guest-type.*') ? 'active' : '' }}">
@@ -133,23 +139,21 @@
                 <div data-i18n="Layanan Warga">Layanan Warga</div>
             </a>
             <ul class="menu-sub">
-                <li class="menu-item">
-                    <a href="../front-pages/landing-page.html" class="menu-link">
+                <li class="menu-item {{ request()->routeIs('service.announcements.*') ? 'active' : '' }}">
+                    <a href="{{ route('service.announcements.index') }}" class="menu-link">
                         <div data-i18n="Pengumuman">Pengumuman</div>
                     </a>
                 </li>
                 <li class="menu-item {{ request()->routeIs('service.report.*') ? 'active' : '' }}">
                     <a href="{{ route('service.report.index') }}" class="menu-link">
                         <div data-i18n="Laporan Warga">Laporan Warga</div>
+                        @if ($report != null)
+                            <div class="badge badge-center text-bg-danger rounded-pill ms-auto">{{ $report }}</div>
+                        @endif
                     </a>
                 </li>
-                <li class="menu-item">
-                    <a href="../front-pages/payment-page.html" class="menu-link">
-                        <div data-i18n="Periklanan">Periklanan</div>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="../front-pages/checkout-page.html" class="menu-link">
+                <li class="menu-item {{ request()->routeIs('service.stall.*') ? 'active' : '' }}">
+                    <a href="{{ route('service.stall.index') }}" class="menu-link">
                         <div data-i18n="Kios">Kios</div>
                     </a>
                 </li>
@@ -167,20 +171,20 @@
         </li>
 
         <!-- Keuangan -->
-        <li class="menu-item">
+        <li class="menu-item {{ request()->routeIs('finance.*.*') ? 'active open' : '' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon icon-base ri ri-bank-line"></i>
                 <div data-i18n="Keuangan">Keuangan</div>
             </a>
             <ul class="menu-sub">
-                <li class="menu-item">
-                    <a href="../front-pages/landing-page.html" class="menu-link">
-                        <div data-i18n="Iuran Wajib Daerah">Iuran Wajib Daerah</div>
+                <li class="menu-item {{ request()->routeIs('finance.agreement.*') ? 'active' : '' }}">
+                    <a href="{{ route('finance.agreement.index') }}" class="menu-link">
+                        <div data-i18n="Kesepakatan Rw">Kesepakatan Rw</div>
                     </a>
                 </li>
-                <li class="menu-item">
-                    <a href="../front-pages/pricing-page.html" class="menu-link">
-                        <div data-i18n="Perjanjian Rw">Perjanjian Rw</div>
+                <li class="menu-item {{ request()->routeIs('finance.bill.*') ? 'active' : '' }}">
+                    <a href="{{ route('finance.bill.index') }}" class="menu-link">
+                        <div data-i18n="Iuran Wajib Daerah">Iuran Wajib Daerah</div>
                     </a>
                 </li>
             </ul>
@@ -188,18 +192,18 @@
 
         <!-- Misc -->
         <li class="menu-header small mt-5">
-            <span class="menu-header-text" data-i18n="Misc">Misc</span>
+            <span class="menu-header-text" data-i18n="Bantuan">Bantuan</span>
         </li>
         <li class="menu-item {{ request()->routeIs('service.support') ? 'active' : '' }}">
             <a href="{{ route('service.support') }}" class="menu-link">
-                <i class="menu-icon icon-base ri ri-lifebuoy-line"></i>
-                <div data-i18n="Support">Support</div>
+                <i class="menu-icon icon-base ri ri-customer-service-2-line"></i>
+                <div data-i18n="Customer Service">Customer Service</div>
             </a>
         </li>
         <li class="menu-item">
             <a href="https://demos.pixinvent.com/materialize-html-admin-template/documentation/" class="menu-link">
                 <i class="menu-icon icon-base ri ri-article-line"></i>
-                <div data-i18n="Documentation">Documentation</div>
+                <div data-i18n="Dokumentasi">Dokumentasi</div>
             </a>
         </li>
     </ul>

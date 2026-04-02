@@ -25,7 +25,8 @@
                                     class="d-flex justify-content-between align-items-start card-widget-2 border-end pb-4 pb-sm-0">
                                     <div>
                                         <h4 class="mb-0">
-                                            {{ App\Models\Master\CommunityUnit::where('status', 'Aktif')->count() }}</h4>
+                                            {{ App\Models\Master\CommunityUnit::where('status', 'Aktif')->count() }}
+                                        </h4>
                                         <p class="mb-0">Rw Aktif</p>
                                     </div>
                                     <div class="avatar me-lg-6">
@@ -59,11 +60,56 @@
             </div>
         </div>
     </div>
-
+    <x-partials.admin.form-modal :formRoute=" route('dashboard.community-unit.store')" id="addRw"
+        icon="ri ri-function-add-line" title="Tambah Data Rw" subtitle="Wajib Diisi">
+        @include('admin.master.community-unit._fields')
+    </x-partials.admin.form-modal>
     <div class="card mt-5">
-        <h5 class="card-header">Table Basic</h5>
+        <x-partials.admin.export_modal :exportExcel="route('dashboard.community-unit.export')" />
+        <div class="card-header">
+            <div class="d-sm-flex justify-content-between align-items-start">
+                <div class="input-group position-relative d-inline-block w-25">
+                    <i class="ri ri-search-line position-absolute"
+                        style="left:12px; top:50%; transform:translateY(-50%); font-size:14px; color:#6c757d;">
+                    </i>
+                    <div class="input-group input-group-sm">
+                        <input type="text" id="customSearch" class="form-control"
+                            style="border-radius:5px; padding-left:38px;" placeholder="Cari Data...">
+                    </div>
+                </div>
+                <div class="action">
+                    <div class="position-relative d-inline-block" style="width:170px;">
+
+                        <i class="ri ri-price-tag-3-line position-absolute"
+                            style="left:12px; top:50%; transform:translateY(-50%); font-size:14px; color:#6c757d;">
+                        </i>
+
+                        <select id="status" class="form-select form-select-sm"
+                            style="border-radius:5px; padding-left:38px;">
+                            <option value="" selected>Status</option>
+                            <option value="Aktif">Aktif</option>
+                            <option value="Nonaktif">Nonaktif</option>
+                        </select>
+
+                    </div>
+
+                    <a class="btn btn-sm btn-outline-light text-dark" data-bs-toggle="modal" data-bs-target="#export"
+                        style=" height:40px;">
+                        <i class="ri ri-download-2-line"></i>
+                    </a>
+                    <a class="btn btn-sm btn-outline-light text-dark" data-bs-toggle="modal" data-bs-target="#import"
+                        style=" height:40px;">
+                        <i class="ri ri-upload-2-line"></i>
+                    </a>
+                    <a class="btn btn-sm text-white" style="background-color:#2fc692; height:40px;"
+                        data-bs-toggle="modal" data-bs-target="#addRw">
+                        +
+                    </a>
+                </div>
+            </div>
+        </div>
         <div class="table-responsive text-nowrap">
-            <table class="table">
+            <table class="table dataTable">
                 <thead>
                     <tr>
                         <th>No</th>
@@ -76,16 +122,19 @@
                     </tr>
                 </thead>
                 <tbody class="table-border-bottom-0">
-                    @php
-                        $no = 1;
-                    @endphp
                     @foreach ($co as $data)
                         <tr>
                             <td>
-                                {{ $no++ }}
+                                {{ $loop->iteration }}
                             </td>
                             <td>Rw {{ $data->no }}</td>
-                            <td>{{ $data->leader_name }}</td>
+                            <td>
+                                <span
+                                    style=" display: inline-block; max-width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; ">
+                                    {{ $data->leader_name }}
+                                </span>
+                            </td>
+
                             <td><span
                                     class="badge bg-{{ $data->status == 'Aktif' ? 'label-primary' : 'label-danger' }} me-1">{{ $data->status }}</span>
                             </td>
@@ -93,24 +142,28 @@
                             </td>
                             <td>{{ $data->updated_at ? $data->updated_at->format('d M Y , H:i') : '-' }}
                             </td>
-                            <td>
-                                <div class="dropdown">
-                                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
-                                        data-bs-toggle="dropdown">
-                                        <i class="icon-base ri ri-more-2-line icon-18px"></i>
-                                    </button>
-                                    <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="javascript:void(0);"><i
-                                                class="icon-base ri ri-pencil-line icon-18px me-1"></i> Edit</a>
-                                        <a class="dropdown-item" href="javascript:void(0);"><i
-                                                class="icon-base ri ri-delete-bin-6-line icon-18px me-1"></i> Delete</a>
-                                    </div>
-                                </div>
+                            <td class="text-center">
+                                <a class="btn btn-outline-warning text-warning d-inline-flex align-items-center justify-content-center p-0"
+                                    style="height: 40px; width: 40px;" data-bs-toggle="modal"
+                                    data-bs-target="#editRw{{ $data->id }}">
+                                    <i class="ri ri-pencil-fill" style="font-size: 15px; line-height: 1;"></i>
+                                </a>
+                                <a class="btn btn-outline-danger text-danger d-inline-flex align-items-center justify-content-center p-0"
+                                    style="height: 40px; width: 40px;" data-bs-toggle="modal" data-bs-target="#addRw">
+                                    <i class="ri ri-delete-bin-fill" style="font-size: 15px; line-height: 1;"></i>
+                                </a>
                             </td>
                         </tr>
+                        <x-partials.admin.form-modal id="editRw{{ $data->id }}"
+                            :formRoute="route('dashboard.community-unit.update', $data->id)" method="PUT"
+                            title="Edit Data Rw {{ $data->no }}">
+                            @include('admin.master.community-unit._fields', ['data' => $data])
+                        </x-partials.admin.form-modal>
                     @endforeach
                 </tbody>
             </table>
         </div>
     </div>
+    <x-partials.admin.import_modal :downloadRoute="route('dashboard.template.download', 'rw')"
+        :importRoute="route('dashboard.community-unit.import')" />
 </x-admin>

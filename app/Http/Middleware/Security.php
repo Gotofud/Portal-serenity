@@ -18,15 +18,23 @@ class Security
     {
         $user = Auth::user();
 
-        if (!$user || !$user->roles) {
-            abort(403); 
-        }
-
-        if (in_array($user->roles->name, ['Super Admin', 'Admin', 'Security'])) {
+        // 1. Jika user belum login, biarkan laravel menangani (biasanya redirect ke login)
+        if (!$user) {
             return $next($request);
         }
 
-        abort(403);
+        // 2. JIKA USER BELUM VERIFIKASI, JANGAN CEK ROLE!
+        // Biarkan Middleware IsVerified yang memutuskan nasib mereka.
+        if (!$user->is_verified) {
+            return $next($request);
+        }
 
+        // 3. SEKARANG baru cek Role karena user sudah verified
+        if ($user->roles && in_array($user->roles->name, ['Super Admin', 'Admin'])) {
+            return $next($request);
+        }
+
+        // 4. Jika user sudah verified tapi rolenya tidak cocok, baru blokir
+        abort(403, 'Akses ditolak: Anda tidak memiliki hak akses sebagai Admin.');
     }
 }

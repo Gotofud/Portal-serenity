@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\Admin\Master;
 
+use App\Exports\CuExport;
 use App\Http\Controllers\Controller;
+use App\Imports\CuImport;
 use App\Models\Master\CommunityUnit;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class CUController extends Controller
 {
@@ -17,12 +20,18 @@ class CUController extends Controller
         return view('admin.master.community-unit.index', compact('co'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return view('admin.master.community-unit.create');
+    public function export()  {
+        return Excel::download(new CuExport, 'data-rt.xlsx');
+    }
+
+    public function import(Request $request) {
+        $request->validate([
+            'file' => 'required|file|mimes:xlsx,csv.xls',
+        ]);
+
+        Excel::import(new CuImport, $request->file('file'));
+
+        return back()->with('success','Data Berhasil Diimport!');
     }
 
     /**
@@ -31,7 +40,7 @@ class CUController extends Controller
     public function store(Request $request)
     {
          $this->validate($request, [
-            'no' => 'required|numeric',
+            'no' => 'required|numeric|unique:community_units',
             'leader_name' => 'required|max:250',
             'status' => 'required',
         ]);
@@ -42,23 +51,6 @@ class CUController extends Controller
         $co->status = $request->status;
         $co->save();
         return redirect()->route('dashboard.community-unit.index')->with('success', 'Data Berhasil Ditambahkan');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        $co = CommunityUnit::findOrFail($id);
-        return view('admin.master.community-unit.edit',compact('co'));
     }
 
     /**

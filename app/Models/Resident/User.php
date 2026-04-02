@@ -5,6 +5,8 @@ namespace App\Models\Resident;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App;
 use App\Models\User\UserProfile;
+use App\Models\User\UsersHouse;
+use App\Models\Vehicles;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -24,8 +26,13 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'google_id',
+        'avatar',
         'status',
         'role_id',
+        'otp',
+        'otp_expires_at',
+        'is_verified',
     ];
 
     public function users()
@@ -39,7 +46,20 @@ class User extends Authenticatable
     }
 
     public function user_profile(){
-        return $this->hasOne(UserProfile::class,'user_id');
+        return $this->hasOne(UserProfile::class);
+    }
+    
+    public function user_house(){
+        return $this->hasOne(UsersHouse::class);
+    }
+
+    public function user_vehicle(){
+        return $this->hasMany(Vehicles::class);
+    }
+
+    public function neighborhoodOperator()
+    {
+        return $this->hasOne(NeighborhoodOperator::class, 'user_id');
     }
 
     /**
@@ -61,6 +81,7 @@ class User extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
+            'otp_expires_at' => 'datetime',
             'password' => 'hashed',
         ];
     }

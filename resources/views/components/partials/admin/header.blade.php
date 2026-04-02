@@ -19,35 +19,6 @@
     <!-- /Search -->
 
     <ul class="navbar-nav flex-row align-items-center ms-md-auto">
-      <li class="nav-item dropdown-language dropdown me-sm-2 me-xl-0">
-        <a class="nav-link dropdown-toggle hide-arrow btn btn-icon btn-text-secondary rounded-pill"
-          href="javascript:void(0);" data-bs-toggle="dropdown">
-          <i class="icon-base ri ri-translate-2 icon-22px"></i>
-        </a>
-        <ul class="dropdown-menu dropdown-menu-end">
-          <li>
-            <a class="dropdown-item" href="javascript:void(0);" data-language="en" data-text-direction="ltr">
-              <span>English</span>
-            </a>
-          </li>
-          <li>
-            <a class="dropdown-item" href="javascript:void(0);" data-language="fr" data-text-direction="ltr">
-              <span>French</span>
-            </a>
-          </li>
-          <li>
-            <a class="dropdown-item" href="javascript:void(0);" data-language="ar" data-text-direction="rtl">
-              <span>Arabic</span>
-            </a>
-          </li>
-          <li>
-            <a class="dropdown-item" href="javascript:void(0);" data-language="de" data-text-direction="ltr">
-              <span>German</span>
-            </a>
-          </li>
-        </ul>
-      </li>
-      <!--/ Language -->
 
       <!-- Style Switcher -->
       <li class="nav-item dropdown me-sm-2 me-xl-0">
@@ -79,94 +50,6 @@
         </ul>
       </li>
       <!-- / Style Switcher-->
-
-      <!-- Quick links -->
-      <li class="nav-item dropdown-shortcuts navbar-dropdown dropdown me-sm-2 me-xl-0">
-        <a class="nav-link dropdown-toggle hide-arrow btn btn-icon btn-text-secondary rounded-pill"
-          href="javascript:void(0);" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
-          <i class="icon-base ri ri-star-smile-line icon-22px"></i>
-        </a>
-        <div class="dropdown-menu dropdown-menu-end p-0">
-          <div class="dropdown-menu-header border-bottom">
-            <div class="dropdown-header d-flex align-items-center py-3">
-              <h6 class="mb-0 me-auto">Shortcuts</h6>
-              <a href="javascript:void(0)"
-                class="btn btn-text-secondary rounded-pill btn-icon dropdown-shortcuts-add text-heading"
-                data-bs-toggle="tooltip" data-bs-placement="top" title="Add shortcuts">
-                <i class="icon-base ri ri-add-line text-heading"></i>
-              </a>
-            </div>
-          </div>
-          <div class="dropdown-shortcuts-list scrollable-container">
-            <div class="row row-bordered overflow-visible g-0">
-              <div class="dropdown-shortcuts-item col">
-                <span class="dropdown-shortcuts-icon rounded-circle mb-3">
-                  <i class="icon-base ri ri-calendar-line icon-26px text-heading"></i>
-                </span>
-                <a href="app-calendar.html" class="stretched-link">Calendar</a>
-                <small>Appointments</small>
-              </div>
-              <div class="dropdown-shortcuts-item col">
-                <span class="dropdown-shortcuts-icon rounded-circle mb-3">
-                  <i class="icon-base ri ri-file-text-line icon-26px text-heading"></i>
-                </span>
-                <a href="app-invoice-list.html" class="stretched-link">Invoice App</a>
-                <small>Manage Accounts</small>
-              </div>
-            </div>
-            <div class="row row-bordered overflow-visible g-0">
-              <div class="dropdown-shortcuts-item col">
-                <span class="dropdown-shortcuts-icon rounded-circle mb-3">
-                  <i class="icon-base ri ri-user-line icon-26px text-heading"></i>
-                </span>
-                <a href="app-user-list.html" class="stretched-link">User App</a>
-                <small>Manage Users</small>
-              </div>
-              <div class="dropdown-shortcuts-item col">
-                <span class="dropdown-shortcuts-icon rounded-circle mb-3">
-                  <i class="icon-base ri ri-computer-line icon-26px text-heading"></i>
-                </span>
-                <a href="app-access-roles.html" class="stretched-link">Role
-                  Management</a>
-                <small>Permission</small>
-              </div>
-            </div>
-            <div class="row row-bordered overflow-visible g-0">
-              <div class="dropdown-shortcuts-item col">
-                <span class="dropdown-shortcuts-icon rounded-circle mb-3">
-                  <i class="icon-base ri ri-pie-chart-2-line icon-26px text-heading"></i>
-                </span>
-                <a href="index.html" class="stretched-link">Dashboard</a>
-                <small>User Dashboard</small>
-              </div>
-              <div class="dropdown-shortcuts-item col">
-                <span class="dropdown-shortcuts-icon rounded-circle mb-3">
-                  <i class="icon-base ri ri-settings-4-line icon-26px text-heading"></i>
-                </span>
-                <a href="pages-account-settings-account.html" class="stretched-link">Setting</a>
-                <small>Account Settings</small>
-              </div>
-            </div>
-            <div class="row row-bordered overflow-visible g-0">
-              <div class="dropdown-shortcuts-item col">
-                <span class="dropdown-shortcuts-icon rounded-circle mb-3">
-                  <i class="icon-base ri ri-question-line icon-26px text-heading"></i>
-                </span>
-                <a href="pages-faq.html" class="stretched-link">FAQs</a>
-                <small>FAQs & Articles</small>
-              </div>
-              <div class="dropdown-shortcuts-item col">
-                <span class="dropdown-shortcuts-icon rounded-circle mb-3">
-                  <i class="icon-base ri ri-tv-2-line icon-26px text-heading"></i>
-                </span>
-                <a href="modal-examples.html" class="stretched-link">Modals</a>
-                <small>Useful Popups</small>
-              </div>
-            </div>
-          </div>
-        </div>
-      </li>
-      <!-- Quick links -->
 
       <!-- Notification -->
       <li class="nav-item dropdown-notifications navbar-dropdown dropdown me-4 me-xl-1">
@@ -399,22 +282,44 @@
       <!-- User -->
       <li class="nav-item navbar-dropdown dropdown-user dropdown">
         <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
-          <div class="avatar avatar-online">
-            <img src="../../assets/img/avatars/1.png" alt="avatar" class="rounded-circle" />
-          </div>
+          @if (Auth::user()->avatar)
+            <div class="avatar avatar-online">
+              <img src="{{Auth::user()->avatar}}" alt="avatar" class="rounded-circle" />
+            </div>
+          @else
+            <div class="avatar avatar-online bg-light d-flex align-items-center justify-content-center"
+              style="border-radius:50%;">
+
+              <span class="fs-5 fw-bold text-white">
+                {{ substr(Auth::user()->name ?? '-', 0, 2) }}
+              </span>
+
+            </div>
+          @endif
         </a>
         <ul class="dropdown-menu dropdown-menu-end mt-3 py-2">
           <li>
             <a class="dropdown-item" href="pages-account-settings-account.html">
               <div class="d-flex align-items-center">
                 <div class="flex-shrink-0 me-2">
-                  <div class="avatar avatar-online">
-                    <img src="../../assets/img/avatars/1.png" alt="alt" class="w-px-40 h-auto rounded-circle" />
-                  </div>
+                  @if (Auth::user()->avatar)
+                    <div class="avatar avatar-online">
+                      <img src="{{Auth::user()->avatar}}" alt="avatar" class="rounded-circle" />
+                    </div>
+                  @else
+                    <div class="avatar avatar-online bg-light d-flex align-items-center justify-content-center"
+                      style="border-radius:50%;">
+
+                      <span class="fs-5 fw-bold text-white">
+                        {{ substr(Auth::user()->name ?? '-', 0, 2) }}
+                      </span>
+
+                    </div>
+                  @endif
                 </div>
                 <div class="flex-grow-1">
-                  <h6 class="mb-0 small">John Doe</h6>
-                  <small class="text-body-secondary">Admin</small>
+                  <h6 class="mb-0 small">{{ Auth::user()->user_profile->full_name ?? Auth::user()->name }}</h6>
+                  <small class="text-body-secondary">{{ Auth::user()->roles->name }}</small>
                 </div>
               </div>
             </a>
@@ -430,29 +335,6 @@
           <li>
             <a class="dropdown-item" href="pages-account-settings-account.html">
               <i class="icon-base ri ri-settings-4-line icon-22px me-3"></i><span class="align-middle">Settings</span>
-            </a>
-          </li>
-          <li>
-            <a class="dropdown-item" href="pages-account-settings-billing.html">
-              <span class="d-flex align-items-center align-middle">
-                <i class="flex-shrink-0 icon-base ri ri-file-text-line icon-22px me-3"></i>
-                <span class="flex-grow-1 align-middle">Billing Plan</span>
-                <span class="flex-shrink-0 badge badge-center rounded-pill bg-danger">4</span>
-              </span>
-            </a>
-          </li>
-          <li>
-            <div class="dropdown-divider"></div>
-          </li>
-          <li>
-            <a class="dropdown-item" href="pages-pricing.html">
-              <i class="icon-base ri ri-money-dollar-circle-line icon-22px me-3"></i><span
-                class="align-middle">Pricing</span>
-            </a>
-          </li>
-          <li>
-            <a class="dropdown-item" href="pages-faq.html">
-              <i class="icon-base ri ri-question-line icon-22px me-3"></i><span class="align-middle">FAQ</span>
             </a>
           </li>
           <li>

@@ -12,12 +12,12 @@ class Announcements extends Model
         'subject',
         'description',
         'image',
-        'status',
-        'publish_at'
+        'is_publish',
     ];
 
-       public function users()
+
+    public function users()
     {
-        return $this->belongsTo(User::class,'user_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

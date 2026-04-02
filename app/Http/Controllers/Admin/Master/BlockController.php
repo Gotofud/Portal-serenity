@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Admin\Master;
 
 use App\Http\Controllers\Controller;
+use App\Imports\BlockImport;
 use App\Models\Master\Block;
 use App\Models\Master\CommunityUnit;
 use App\Models\Master\NeighborhoodUnit;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class BlockController extends Controller
 {
@@ -16,26 +18,27 @@ class BlockController extends Controller
     public function index()
     {
         $block = Block::all();
-        return view('admin.master.block.index', compact('block'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
         $co = CommunityUnit::all();
-        $nu = NeighborhoodUnit::all();
-        return view('admin.master.block.create', compact('co', 'nu'));
+
+        return view('admin.master.block.index', compact('block','co'));
     }
 
+     public function import(Request $request) {
+        $request->validate([
+            'file' => 'required|file|mimes:xlsx,csv.xls',
+        ]);
+
+        Excel::import(new BlockImport(), $request->file('file'));
+
+        return back()->with('success','Data Berhasil Diimport!');
+    }
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required|max:250|unique',
+            'name' => 'required|max:250|unique:blocks,name',
             'community_id' => 'required',
             'neighborhood_id' => 'required',
             'status' => 'required',
@@ -48,25 +51,6 @@ class BlockController extends Controller
         $block->status = $request->status;
         $block->save();
         return redirect()->route('dashboard.block.index')->with('success', 'Data Berhasil Ditambahkan');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        $co = CommunityUnit::all();
-        $nu = NeighborhoodUnit::all();
-        $block = Block::findOrFail($id);
-        return view('admin.master.block.edit', compact('co', 'nu', 'block'));
     }
 
     /**

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Admin\Master;
 use App\Http\Controllers\Controller;
+use App\Imports\BuildingTypeImport;
 use App\Models\Master\BuildingType;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class BuildingTypes extends Controller
 {
@@ -16,14 +18,16 @@ class BuildingTypes extends Controller
         return view('admin.master.building-types.index', compact('buildingTypes'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function import(Request $request)
     {
-        return view('admin.master.building-types.create');
-    }
+        $request->validate([
+            'file' => 'required|file|mimes:xlsx,csv.xls',
+        ]);
 
+        Excel::import(new BuildingTypeImport(), $request->file('file'));
+
+        return back()->with('success', 'Data Berhasil Diimport!');
+    }
     /**
      * Store a newly created resource in storage.
      */
@@ -42,23 +46,6 @@ class BuildingTypes extends Controller
         $buildingTypes->code = $codes;
         $buildingTypes->save();
         return redirect()->route('dashboard.building-type.index')->with('success', 'Data Berhasil Ditambahkan');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        $buildingTypes = BuildingType::findOrFail($id);
-        return view('admin.master.building-types.edit', compact('buildingTypes'));
     }
 
     /**

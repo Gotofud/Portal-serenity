@@ -27,8 +27,7 @@ class AuthController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'status' => $request->status,
-            'role_id' => $request->role_id
+            // 'role_id' => $request->role_id
         ]);
 
         // $token = $user->createToken('auth_token')->plainTextToken;
@@ -60,7 +59,7 @@ class AuthController extends Controller
 
         return response()->json([
             'message' => 'Login success',
-            'access_token' => $token,
+            'token' => $token,
             'token_type' => 'Bearer'
         ]);
     }

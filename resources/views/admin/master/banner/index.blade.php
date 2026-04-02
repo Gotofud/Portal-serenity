@@ -60,11 +60,53 @@
             </div>
         </div>
     </div>
-
+    <x-partials.admin.form-modal :formRoute=" route('dashboard.banner.store')" id="addBanner"
+        icon="ri ri-function-add-line" title="Tambah Data Banner"
+        subtitle="Gambar Wajib berukuran Gambar Wajib 3780x1890">
+        @include('admin.master.banner._fields')
+    </x-partials.admin.form-modal>
+    <x-partials.admin.export_modal :exportExcel="null" />
     <div class="card mt-5">
-        <h5 class="card-header">Table Basic</h5>
+        <div class="card-header">
+            <div class="d-sm-flex justify-content-between align-items-start">
+                <div class="input-group position-relative d-inline-block w-25">
+                    <i class="ri ri-search-line position-absolute"
+                        style="left:12px; top:50%; transform:translateY(-50%); font-size:14px; color:#6c757d;">
+                    </i>
+                    <div class="input-group input-group-sm">
+                        <input type="text" id="customSearch" class="form-control"
+                            style="border-radius:5px; padding-left:38px;" placeholder="Cari Data...">
+                    </div>
+                </div>
+                <div class="action">
+                    <div class="position-relative d-inline-block" style="width:170px;">
+
+                        <i class="ri ri-price-tag-3-line position-absolute"
+                            style="left:12px; top:50%; transform:translateY(-50%); font-size:14px; color:#6c757d;">
+                        </i>
+
+                        <select id="status" class="form-select form-select-sm"
+                            style="border-radius:5px; padding-left:38px;">
+                            <option value="" selected>Status</option>
+                            <option value="Aktif">Aktif</option>
+                            <option value="Nonaktif">Nonaktif</option>
+                        </select>
+
+                    </div>
+
+                    <a class="btn btn-sm btn-outline-light text-dark" data-bs-toggle="modal" data-bs-target="#export"
+                        style=" height:40px;">
+                        <i class="ri ri-download-2-line"></i>
+                    </a>
+                    <a class="btn btn-sm text-white" style="background-color:#2fc692; height:40px;"
+                        data-bs-toggle="modal" data-bs-target="#addBanner">
+                        +
+                    </a>
+                </div>
+            </div>
+        </div>
         <div class="table-responsive text-nowrap">
-            <table class="table">
+            <table class="table dataTable">
                 <thead>
                     <tr>
                         <th>No</th>
@@ -85,7 +127,8 @@
                             <td>
                                 {{ $no++ }}
                             </td>
-                            <td><img src="{{asset('/storage/' . $data->image)}}" class="rounded" width="100"></td>
+                            <td><img src="{{ Storage::url($data->image) }}" class="img-fluid"
+                                    lass="img-fluid rounded border" alt="Banner Image" style="max-width: 150px;"></td>
                             <td>{{ $data->title  }}</td>
                             <td><span
                                     class="badge bg-{{ $data->status == 'Aktif' ? 'label-primary' : 'label-danger' }} me-1">{{ $data->status }}</span>
@@ -95,20 +138,22 @@
                             <td>{{ $data->updated_at ? $data->updated_at->format('d M Y , H:i') : '-' }}
                             </td>
                             <td>
-                                <div class="dropdown">
-                                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
-                                        data-bs-toggle="dropdown">
-                                        <i class="icon-base ri ri-more-2-line icon-18px"></i>
-                                    </button>
-                                    <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="javascript:void(0);"><i
-                                                class="icon-base ri ri-pencil-line icon-18px me-1"></i> Edit</a>
-                                        <a class="dropdown-item" href="javascript:void(0);"><i
-                                                class="icon-base ri ri-delete-bin-6-line icon-18px me-1"></i> Delete</a>
-                                    </div>
-                                </div>
+                                <a class="btn btn-outline-warning text-warning d-inline-flex align-items-center justify-content-center p-0"
+                                    style="height: 40px; width: 40px;" data-bs-toggle="modal"
+                                    data-bs-target="#editBanner{{ $data->id }}">
+                                    <i class="ri ri-pencil-fill" style="font-size: 15px; line-height: 1;"></i>
+                                </a>
+                                <a class="btn btn-outline-danger text-danger d-inline-flex align-items-center justify-content-center p-0"
+                                    style="height: 40px; width: 40px;" data-bs-toggle="modal" data-bs-target="#addRw">
+                                    <i class="ri ri-delete-bin-fill" style="font-size: 15px; line-height: 1;"></i>
+                                </a>
                             </td>
                         </tr>
+                        <x-partials.admin.form-modal id="editBanner{{ $data->id }}"
+                            :formRoute="route('dashboard.banner.update', $data->id)" method="PUT"
+                            title="Edit Blok {{ $data->no }}">
+                            @include('admin.master.banner._fields', ['data' => $data])
+                        </x-partials.admin.form-modal>
                     @endforeach
                 </tbody>
             </table>

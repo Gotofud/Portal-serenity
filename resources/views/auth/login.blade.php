@@ -13,7 +13,7 @@
         </div>
         <!-- /Logo -->
 
-        <div class="card-body mt-1">
+        <div class="card-body mt-4">
             <h4 class="mb-1">Selamat Datang! 👋</h4>
             <p class="mb-5">Nikmati kemudahan akses layanan perumahan.</p>
 

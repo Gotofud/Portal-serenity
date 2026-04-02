@@ -32,4 +32,6 @@
 
 <!-- Form Wizard -->
 <script src="{{ asset('assets/js/form-wizard-numbered.js') }}"></script>
+<script src="{{ asset('assets/vendor/libs/bs-stepper/bs-stepper.js') }}"></script>
+<script src="{{ asset('assets/vendor/libs/bootstrap-select/bootstrap-select.js') }}"></script>
 <script src="{{ asset('assets/js/form-wizard-validation.js') }}"></script>

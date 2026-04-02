@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class CommunityUnit extends Model
 {
     protected $fillable = [
-        'name',
+        'no',
+        'leader_name',  
     ];
 
     public function communityUnits()

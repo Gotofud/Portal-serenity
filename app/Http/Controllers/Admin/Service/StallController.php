@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Service;
 
 use App\Http\Controllers\Controller;
+use App\Models\Service\Stall;
 use Illuminate\Http\Request;
 
 class StallController extends Controller
@@ -12,7 +13,8 @@ class StallController extends Controller
      */
     public function index()
     {
-        //
+        $stall  = Stall::all();
+        return view('admin.service.stall.index',compact('stall'));
     }
 
     /**
@@ -36,7 +38,8 @@ class StallController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $stall = Stall::findOrFail($id);
+        return view('admin.service.stall.detail',compact('stall'));
     }
 
     /**

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Service;
 
 use App\Http\Controllers\Controller;
 use App\Models\Service\News;
+use Auth;
 use Illuminate\Http\Request;
 
 class NewsController extends Controller
@@ -14,7 +15,7 @@ class NewsController extends Controller
     public function index()
     {
         $news = News::latest()->get();
-        return view('admin.service.news.index',compact('news'));
+        return view('admin.service.news.index', compact('news'));
     }
 
     /**
@@ -22,7 +23,7 @@ class NewsController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.service.news.create');
     }
 
     /**
@@ -30,7 +31,33 @@ class NewsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user = Auth::user();
+        $request->validate([
+            'title' => 'required',
+            'image' => 'required|image',
+            'news_types' => 'required',
+            'description' => 'required',
+            'status' => 'required',
+        ]);
+
+        $news = new News();
+        $lastRecord = News::latest('id')->first();
+        $lastId = $lastRecord ? $lastRecord->id : 0;
+        $years = date('Y');
+        $codes = 'BTK-' . $years . '-' . str_pad($lastId, 4, '0', STR_PAD_LEFT);
+        $news->code = $codes;
+        $news->user_id = $user->id;
+        $news->title = $request->title;
+        $filePatch = null;
+        if ($request->hasFile('image')) {
+            $filePatch = $request->file('image')->store('news', 'public');
+        }
+        $news->image = $filePatch;
+        $news->news_types = $request->news_types;
+        $news->description = $request->description;
+        $news->status = $request->status;
+        $news->save();
+        return redirect()->route('service.news.index')->with('success', 'Data Berhasil Ditambahkan');
     }
 
     /**
@@ -38,7 +65,14 @@ class NewsController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $news = News::findOrFail($id);
+        $sessionKey = 'news_viewed_' . $id;
+
+        if (!session()->has($sessionKey)) {
+            $news->increment('views');
+            session()->put($sessionKey, true);
+        }
+        return view('admin.service.news.detail', compact('news'));
     }
 
     /**
@@ -46,7 +80,8 @@ class NewsController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $news = News::findOrFail($id);
+        return view('admin.service.news.edit', compact('news'));
     }
 
     /**
@@ -54,7 +89,28 @@ class NewsController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'code' => 'required',
+            'title' => 'required',
+            'image' => 'required|image',
+            'news_types' => 'required',
+            'description' => 'required',
+            'status' => 'required',
+        ]);
+
+        $news = News::findOrFail($id);
+        $news->code = $request->code;
+        $news->title = $request->title;
+        $filePatch = null;
+        if ($request->hasFile('image')) {
+            $filePatch = $request->file('image')->store('news', 'public');
+        }
+        $news->image = $filePatch;
+        $news->news_types = $request->news_types;
+        $news->description = $request->description;
+        $news->status = $request->status;
+        $news->save();
+        return redirect()->route('service.news.index')->with('success', 'Data Berhasil Diedit');
     }
 
     /**
@@ -62,6 +118,8 @@ class NewsController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $news = News::findOrFail($id);
+        $news->delete();
+        return redirect()->route('service.news.index')->with('success', 'Data Berhasil Dihapus');
     }
 }

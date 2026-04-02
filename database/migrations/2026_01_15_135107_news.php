@@ -12,13 +12,15 @@ return new class extends Migration {
     {
         Schema::create('news', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('user_id');
             $table->string('code');
             $table->string('image');
+            $table->string('image_subtitle');
             $table->string('title');
-            $table->enum('news_types',['Umum','Insiden/Bencana','Kegiatan Sosial']);
+            $table->enum('news_types',['Umum','Insiden','Sosial']);
             $table->longText('description');
             $table->enum('status',['Aktif','Nonaktif']);
-            $table->bigInteger('views');
+            $table->unsignedBigInteger('views');
             $table->timestamps();
         });
     }

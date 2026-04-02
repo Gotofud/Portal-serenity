@@ -60,68 +60,215 @@
             </div>
         </div>
     </div>
-
+    <x-partials.admin.form-modal :formRoute=" route('dashboard.house.store')" id="addHouse"
+        icon="ri ri-function-add-line" title="Tambah Data House" subtitle="Wajib Diisi">
+        @include('admin.master.house._fields')
+    </x-partials.admin.form-modal>
     <div class="card mt-5">
-        <h5 class="card-header">Table Basic</h5>
+        <x-partials.admin.export_modal :exportExcel="route('dashboard.community-unit.export')" />
+        <div class="card-header">
+            <div class="d-sm-flex justify-content-between align-items-start">
+                <div class="input-group position-relative d-inline-block w-25">
+                    <i class="ri ri-search-line position-absolute"
+                        style="left:12px; top:50%; transform:translateY(-50%); font-size:14px; color:#6c757d;">
+                    </i>
+                    <div class="input-group input-group-sm">
+                        <input type="text" id="customSearch" class="form-control"
+                            style="border-radius:5px; padding-left:38px;" placeholder="Cari Data...">
+                    </div>
+                </div>
+                <div class="action">
+                    <div class="position-relative d-inline-block" style="width:170px;">
+
+                        <i class="ri ri-price-tag-3-line position-absolute"
+                            style="left:12px; top:50%; transform:translateY(-50%); font-size:14px; color:#6c757d;">
+                        </i>
+
+                        <select id="status" class="form-select form-select-sm"
+                            style="border-radius:5px; padding-left:38px;">
+                            <option value="" selected>Status</option>
+                            <option value="Aktif">Aktif</option>
+                            <option value="Nonaktif">Nonaktif</option>
+                        </select>
+
+                    </div>
+
+                    <a class="btn btn-sm btn-outline-light text-dark" data-bs-toggle="modal" data-bs-target="#export"
+                        style=" height:40px;">
+                        <i class="ri ri-download-2-line"></i>
+                    </a>
+                    <a class="btn btn-sm btn-outline-light text-dark" data-bs-toggle="modal" data-bs-target="#import"
+                        style=" height:40px;">
+                        <i class="ri ri-upload-2-line"></i>
+                    </a>
+                    <a class="btn btn-sm text-white" style="background-color:#2fc692; height:40px;"
+                        data-bs-toggle="modal" data-bs-target="#addHouse">
+                        +
+                    </a>
+                </div>
+            </div>
+        </div>
         <div class="table-responsive text-nowrap">
-            <table class="table">
+            <table class="table dataTable">
                 <thead>
                     <tr>
                         <th>No</th>
                         <th>Pemilik</th>
-                        <th>No Rt/Rw</th>
                         <th>Alamat</th>
+                        <th>Tipe Hunian</th>
                         <th>Jenis Bangunan</th>
                         <th>Status</th>
-                        <th>Dibuat</th>
-                        <th>Diperbarui</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody class="table-border-bottom-0">
-                    @php
-                        $no = 1;
-                    @endphp
                     @foreach ($house as $data)
                         <tr>
                             <td>
-                                {{ $no++ }}
+                                {{ $loop->iteration }}
                             </td>
                             <td>
-                                @forelse ($data->usersHouses as $owner)
-                                    {{ $owner->users->name }}
+                                @forelse ($data->users_houses as $owner)
+                                    <a href="{{ route('resident.user.show', $owner->users->id) }}"
+                                        class="text-dark text-decoration-none">
+                                        {{ $owner->users->user_profile->full_name ?? 'N/A' }}
+                                        <br><small class="text-muted text-light"
+                                            style="font-size: 13.5px;">{{ $owner->users->email }}</small>
+                                    </a>
                                 @empty
                                     Belum diatur
                                 @endforelse
                             </td>
-                            <td>RT {{ $data->neighborhoodUnits->no }} - RW {{ $data->communityUnits->no }}</td>
-                            <td>Blok {{ $data->blocks->name }} No {{ $data->number }}</td>
-                            <td>{{ $data->building_Types->name }}</td>
+                            <td>Blok {{ $data->blocks->name ?? 'N/a' }} No {{ $data->number }} <br><small
+                                    class="text-muted text-light" style="font-size: 13.5px;">
+                                    RT {{ $data->neighborhoodUnits->no }} RW
+                                    {{ $data->communityUnits->no }}</small></td>
+                            <td>
+                                @forelse ($data->users_houses as $primary_house)
+                                    {{ $primary_house->is_primary }}
+                                    <br><small class="text-muted text-light" style="font-size: 13.5px;">
+                                        {{ $primary_house->total_resident }} Penghuni</small>
+                                @empty
+                                    Belum diatur
+                                @endforelse
+                            </td>
+                            <td>{{ $data->building_Types->name }}<br><small class="text-muted text-light"
+                                    style="font-size: 13.5px;">
+                                    {{ $data->building_Types->code }} </small></td>
                             <td><span
                                     class="badge bg-{{ $data->status == 'Aktif' ? 'label-primary' : 'label-danger' }} me-1">{{ $data->status }}</span>
                             </td>
-                            <td>{{ $data->created_at ? $data->created_at->format('d M Y , H:i') : '-' }}
-                            </td>
-                            <td>{{ $data->updated_at ? $data->updated_at->format('d M Y , H:i') : '-' }}
-                            </td>
                             <td>
-                                <div class="dropdown">
-                                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
-                                        data-bs-toggle="dropdown">
-                                        <i class="icon-base ri ri-more-2-line icon-18px"></i>
-                                    </button>
-                                    <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="javascript:void(0);"><i
-                                                class="icon-base ri ri-pencil-line icon-18px me-1"></i> Edit</a>
-                                        <a class="dropdown-item" href="javascript:void(0);"><i
-                                                class="icon-base ri ri-delete-bin-6-line icon-18px me-1"></i> Delete</a>
-                                    </div>
-                                </div>
+                                <a class="btn btn-outline-warning text-warning d-inline-flex align-items-center justify-content-center p-0"
+                                    style="height: 40px; width: 40px;" data-bs-toggle="modal"
+                                    data-bs-target="#editHouse{{ $data->id }}">
+                                    <i class="ri ri-pencil-fill" style="font-size: 15px; line-height: 1;"></i>
+                                </a>
+                                <a class="btn btn-outline-danger text-danger d-inline-flex align-items-center justify-content-center p-0"
+                                    style="height: 40px; width: 40px;" data-bs-toggle="modal" data-bs-target="#addRw">
+                                    <i class="ri ri-delete-bin-fill" style="font-size: 15px; line-height: 1;"></i>
+                                </a>
                             </td>
                         </tr>
+                        <x-partials.admin.form-modal id="editHouse{{ $data->id }}"
+                            :formRoute="route('dashboard.guest-type.update', $data->id)" method="PUT"
+                            title="Edit House {{ $data->no }}">
+                            @include('admin.master.house._fields', ['data' => $data])
+                        </x-partials.admin.form-modal>
                     @endforeach
                 </tbody>
             </table>
         </div>
     </div>
+    <x-partials.admin.import_modal :downloadRoute="route('dashboard.template.download', 'house')"
+        :importRoute="route('dashboard.house.import')" />
+    @push('scripts')
+        <script>
+            // --- 1. Fungsi Fetch Blok ---
+            function fetchBlock(modal, rwId, rtId, selectedBlockId = null) {
+                let blockSelect = modal.querySelector('.block-select');
+                if (!rwId || !rtId || rwId === " " || rtId === " ") return;
+
+                blockSelect.innerHTML = '<option>Loading...</option>';
+                blockSelect.disabled = true;
+
+                fetch(`/get-block/${rwId}/${rtId}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        blockSelect.innerHTML = '<option selected disabled>Pilih Blok</option>';
+                        data.forEach(item => {
+                            let opt = document.createElement('option');
+                            opt.value = item.id;
+                            opt.textContent = 'Blok ' + item.name; // Sesuaikan dengan kolom nama blok kamu
+                            if (selectedBlockId && item.id == selectedBlockId) opt.selected = true;
+                            blockSelect.appendChild(opt);
+                        });
+                        blockSelect.disabled = false;
+                    });
+            }
+
+            // --- 2. Fungsi Fetch RT (Dimodifikasi untuk memicu Blok) ---
+            function fetchRT(modal, rwId, selectedRtId = null, selectedBlockId = null) {
+                let rtSelect = modal.querySelector('.rt-select');
+                let blockSelect = modal.querySelector('.block-select');
+                if (!rwId || rwId === " ") return;
+
+                rtSelect.innerHTML = '<option>Loading...</option>';
+                rtSelect.disabled = true;
+                blockSelect.disabled = true; // Reset blok saat RW berubah
+
+                fetch(`/get-rt/${rwId}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        rtSelect.innerHTML = '<option selected disabled>Pilih RT</option>';
+                        data.forEach(item => {
+                            let opt = document.createElement('option');
+                            opt.value = item.id;
+                            opt.textContent = 'RT ' + item.no;
+                            if (selectedRtId && item.id == selectedRtId) opt.selected = true;
+                            rtSelect.appendChild(opt);
+                        });
+                        rtSelect.disabled = false;
+
+                        // KUNCI EDIT BERANTAI: Jika RT sudah terpilih otomatis, langsung fetch Blok
+                        if (selectedRtId) {
+                            fetchBlock(modal, rwId, selectedRtId, selectedBlockId);
+                        }
+                    });
+            }
+
+            // --- 3. Event Listeners ---
+            document.addEventListener('change', function (e) {
+                let modal = e.target.closest('.modal');
+
+                // Jika RW Berubah
+                if (e.target.classList.contains('rw-select')) {
+                    fetchRT(modal, e.target.value);
+                    modal.querySelector('.block-select').innerHTML = '<option selected disabled>Pilih Blok</option>';
+                }
+
+                // Jika RT Berubah
+                if (e.target.classList.contains('rt-select')) {
+                    let rwId = modal.querySelector('.rw-select').value;
+                    fetchBlock(modal, rwId, e.target.value);
+                }
+            });
+
+            // --- 4. Event Auto-Load saat Edit ---
+            document.addEventListener('shown.bs.modal', function (e) {
+                let modal = e.target;
+                let rwSelect = modal.querySelector('.rw-select');
+                let rtSelect = modal.querySelector('.rt-select');
+                let blockSelect = modal.querySelector('.block-select');
+
+                if (rwSelect && rwSelect.value !== " " && rwSelect.value !== "") {
+                    let savedRtId = rtSelect.getAttribute('data-selected');
+                    let savedBlockId = blockSelect.getAttribute('data-selected');
+
+                    // Panggil fetchRT, yang di dalamnya akan otomatis memanggil fetchBlock
+                    fetchRT(modal, rwSelect.value, savedRtId, savedBlockId);
+                }
+            });
+        </script>
+    @endpush
 </x-admin>

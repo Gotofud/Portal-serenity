@@ -43,6 +43,7 @@ return new class extends Migration {
             $table->foreignId('community_id')->constrained('community_units')->onDelete('cascade');
             $table->foreignId('building_types_id')->constrained('building_type')->onDelete('cascade');
             $table->bigInteger('bill_amount');
+            $table->enum('status', ['Aktif', 'Nonaktif']);
             $table->timestamps();
         });
     }

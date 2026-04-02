@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Admin\Master;
 
 use App\Http\Controllers\Controller;
+use App\Imports\VehicletypeImport;
 use App\Models\Master\VehicleTypes;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class VehicleTypeController extends Controller
 {
@@ -17,12 +19,15 @@ class VehicleTypeController extends Controller
         return view('admin.master.vehicle-type.index', compact('vehicle_type'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function import(Request $request)
     {
-        return view('admin.master.vehicle-type.create');
+        $request->validate([
+            'file' => 'required|file|mimes:xlsx,csv.xls',
+        ]);
+
+        Excel::import(new VehicletypeImport(), $request->file('file'));
+
+        return back()->with('success', 'Data Berhasil Diimport!');
     }
 
     /**
@@ -40,15 +45,7 @@ class VehicleTypeController extends Controller
 
         return redirect()->route('dashboard.vehicle-type.index')->with('success', 'Data Berhasil Ditambahkan');
     }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
+    
     /**
      * Show the form for editing the specified resource.
      */

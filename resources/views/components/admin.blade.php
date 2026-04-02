@@ -56,6 +56,7 @@
     <!-- / Layout wrapper -->
 
     <x-partials.admin.script/>
+    @stack('scripts')
 </body>
 
 </html>

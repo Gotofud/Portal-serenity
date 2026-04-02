@@ -32,15 +32,13 @@
 
 <!-- endbuild -->
 
-<link rel="stylesheet" href="{{ asset('assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css') }}" />
-<link rel="stylesheet" href="{{ asset('assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css') }}" />
+<link rel="stylesheet" href="{{ asset('assets/vendor/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css') }}" />
 <link rel="stylesheet" href="{{ asset('assets/vendor/libs/swiper/swiper.css') }}" />
 <link rel="stylesheet" href="{{ asset('assets/vendor/libs/apex-charts/apex-charts.css') }}" />
 
 <!-- Page CSS -->
 <link rel="stylesheet" href="{{ asset('assets/vendor/css/pages/cards-statistics.css') }}" />
-<!-- Row Group CSS -->
-<link rel="stylesheet" href="{{ asset('assets/vendor/libs/datatables-rowgroup-bs5/rowgroup.bootstrap5.css') }}" />
+
 <!-- Helpers -->
 <script src="{{ asset('assets/vendor/js/helpers.js') }}"></script>
 <script src="{{ asset('assets/js/config.js') }}"></script>

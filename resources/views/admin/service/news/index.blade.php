@@ -62,57 +62,105 @@
     </div>
 
     <div class="card mt-5">
-        <h5 class="card-header">Table Basic</h5>
+        <x-partials.admin.export_modal :exportExcel="route('dashboard.community-unit.export')" />
+        <div class="card-header">
+            <div class="d-sm-flex justify-content-between align-items-start">
+                <div class="input-group position-relative d-inline-block w-25">
+                    <i class="ri ri-search-line position-absolute"
+                        style="left:12px; top:50%; transform:translateY(-50%); font-size:14px; color:#6c757d;">
+                    </i>
+                    <div class="input-group input-group-sm">
+                        <input type="text" id="customSearch" class="form-control"
+                            style="border-radius:5px; padding-left:38px;" placeholder="Cari Data...">
+                    </div>
+                </div>
+                <div class="action">
+                    <div class="position-relative d-inline-block" style="width:170px;">
+
+                        <i class="ri ri-price-tag-3-line position-absolute"
+                            style="left:12px; top:50%; transform:translateY(-50%); font-size:14px; color:#6c757d;">
+                        </i>
+
+                        <select id="status" class="form-select form-select-sm"
+                            style="border-radius:5px; padding-left:38px;">
+                            <option value="" selected>Status</option>
+                            <option value="Aktif">Aktif</option>
+                            <option value="Nonaktif">Nonaktif</option>
+                        </select>
+
+                    </div>
+
+                    <a class="btn btn-sm btn-outline-light text-dark" data-bs-toggle="modal" data-bs-target="#export"
+                        style=" height:40px;">
+                        <i class="ri ri-download-2-line"></i>
+                    </a>
+                    <a class="btn btn-sm btn-outline-light text-dark" data-bs-toggle="modal" data-bs-target="#import"
+                        style=" height:40px;">
+                        <i class="ri ri-upload-2-line"></i>
+                    </a>
+                    <a href="{{ route('service.news.create') }}" class="btn btn-sm text-white"
+                        style="background-color:#2fc692; height:40px;">
+                        +
+                    </a>
+                </div>
+            </div>
+        </div>
         <div class="table-responsive text-nowrap">
-            <table class="table">
+            <table class="table dataTable">
                 <thead>
                     <tr>
                         <th>No</th>
                         <th>Thumbnail</th>
-                        <th>Code</th>
                         <th>Judul Berita</th>
-                        <th>Kategori</th>
-                        <th>Status</th>
+                        <th>Jumlah Pembaca</th>
                         <th>Dibuat</th>
-                        <th>Diperbarui</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody class="table-border-bottom-0">
-                    @php
-                        $no = 1;
-                    @endphp
                     @foreach ($news as $data)
                         <tr>
                             <td>
-                                {{ $no++ }}
+                                {{ $loop->iteration }}
                             </td>
-                            <td><img src="{{asset('/storage/' . $data->image)}}" class="rounded" width="100"></td>
-                            <td>{{ $data->code }}</td>
-                            <td>{{ $data->title }}</td>
-                            <td>{{ $data->news_types }}</td>
-                            <td><span
-                                    class="badge bg-{{ $data->status == 'Aktif' ? 'label-primary' : 'label-danger' }} me-1">{{ $data->status }}</span>
+                            <td><img src="{{ Storage::url($data->image) }}"
+                                    style="width: 150px; height: 80px; object-fit: cover;"></td>
+                            <td style="max-width: 150px;">
+
+                                <!-- TITLE -->
+                                <div class="fw-bold text-truncate">
+                                    {{ $data->title }}
+                                </div>
+
+                                <!-- META -->
+                                <div class="small text-muted text-ligth" style="font-size: 12.5px;">
+                                    {{ $data->code }} • {{ $data->news_types }}
+                                </div>
+
+                                <!-- STATUS -->
+                                <div class="small mt-1">
+                                    <span class="badge bg-label-{{ $data->status == 'Aktif' ? 'primary' : 'danger' }}">
+                                        {{ $data->status }}
+                                    </span>
+                                </div>
+
                             </td>
+                            <td class="text-center">{{ $data->views }} Pembaca</td>
                             <td>{{ $data->created_at ? $data->created_at->format('d M Y , H:i') : '-' }}
                             </td>
-                            <td>{{ $data->updated_at ? $data->updated_at->format('d M Y , H:i') : '-' }}
-                            </td>
                             <td>
-                                <div class="dropdown">
-                                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
-                                        data-bs-toggle="dropdown">
-                                        <i class="icon-base ri ri-more-2-line icon-18px"></i>
-                                    </button>
-                                    <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="javascript:void(0);"><i
-                                                class="icon-base ri ri-eye-line icon-18px me-1"></i> Lihat</a>
-                                        <a class="dropdown-item" href="javascript:void(0);"><i
-                                                class="icon-base ri ri-pencil-line icon-18px me-1"></i> Edit</a>
-                                        <a class="dropdown-item" href="javascript:void(0);"><i
-                                                class="icon-base ri ri-delete-bin-6-line icon-18px me-1"></i> Delete</a>
-                                    </div>
-                                </div>
+                                <a class="btn btn-outline-warning text-warning d-inline-flex align-items-center justify-content-center p-0"
+                                    style="height: 40px; width: 40px;" href="{{ route('service.news.edit',$data->id ) }}">
+                                    <i class="ri ri-pencil-fill" style="font-size: 15px; line-height: 1;"></i>
+                                </a>
+                                <a class="btn btn-outline-primary text-primary d-inline-flex align-items-center justify-content-center p-0"
+                                    style="height: 40px; width: 40px;" href="{{ route('service.news.show', $data->id) }}">
+                                    <i class="ri ri-eye-fill" style="font-size: 15px; line-height: 1;"></i>
+                                </a>
+                                <a class="btn btn-outline-danger text-danger d-inline-flex align-items-center justify-content-center p-0"
+                                    style="height: 40px; width: 40px;" data-bs-toggle="modal" data-bs-target="#addRw">
+                                    <i class="ri ri-delete-bin-fill" style="font-size: 15px; line-height: 1;"></i>
+                                </a>
                             </td>
                         </tr>
                     @endforeach
@@ -120,4 +168,6 @@
             </table>
         </div>
     </div>
+    <x-partials.admin.import_modal :downloadRoute="route('dashboard.template.download', 'rw')"
+        :importRoute="route('dashboard.community-unit.import')" />
 </x-admin>

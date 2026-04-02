@@ -13,7 +13,7 @@
         </div>
         <!-- /Logo -->
 
-        <div class="card-body mt-1">
+        <div class="card-body mt-4">
             <h4 class="mb-1">Petualangan Mulai disini 🚀</h4>
             <p class="mb-5">Nikmati kemudahan akses layanan perumahan.</p>
 
@@ -63,7 +63,8 @@
                     <div class="form-password-toggle form-control-validation">
                         <div class="input-group input-group-merge">
                             <div class="form-floating form-floating-outline">
-                                <input type="password" class="form-control @error('password_confirmation') is-invalid @enderror"
+                                <input type="password"
+                                    class="form-control @error('password_confirmation') is-invalid @enderror"
                                     type="password" placeholder="Confirm Password" id="password_confirmation" required
                                     aria-label="Password" name="password_confirmation"
                                     placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"

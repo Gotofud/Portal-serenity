@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Master\VehicleTypes;
 use Illuminate\Database\Eloquent\Model;
 
 class Vehicles extends Model
@@ -12,7 +13,7 @@ class Vehicles extends Model
         'plate_number'
     ];
 
-    public function vehicle_types(){
+    public function vehicleTypes(){
         return $this->belongsTo(VehicleTypes::class,'vehicle_types');
     }
 

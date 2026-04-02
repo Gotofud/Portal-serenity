@@ -40,7 +40,7 @@ class House extends Model
     {
         return $this->hasMany(House::class);
     }
-    public function usersHouses()
+    public function users_houses()
     {
         return $this->hasMany(UsersHouse::class);
     }
