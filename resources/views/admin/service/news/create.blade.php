@@ -21,7 +21,8 @@
                     </a>
                 </div>
 
-                <form action="{{ route('service.news.store') }}" method="POST" enctype="multipart/form-data">
+                <form id="newsForm" action="{{ route('service.news.store') }}" method="POST"
+                    enctype="multipart/form-data">
                     @csrf
 
                     <!-- Card 1: Informasi Utama -->
@@ -91,6 +92,10 @@
                         <div class="card-body px-4 py-4">
                             <div id="editor" style="height: 300px;"></div>
                             <input type="hidden" name="description" id="description">
+
+                            @error('description')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
                         </div>
                     </div>
 
@@ -111,11 +116,25 @@
     @push('scripts')
         <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
         <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+
         <script>
             document.addEventListener('DOMContentLoaded', function () {
-                const quill = new Quill('#editor', { theme: 'snow' });
-                document.querySelector('form').addEventListener('submit', function () {
-                    document.querySelector('#description').value = quill.root.innerHTML;
+                const quill = new Quill('#editor', {
+                    theme: 'snow'
+                });
+
+                const form = document.getElementById('newsForm');
+
+                form.addEventListener('submit', function () {
+                    let html = quill.root.innerHTML;
+
+                    console.log("ISI QUILL:", html); // debug
+
+                    if (html === '<p><br></p>') {
+                        document.getElementById('description').value = '';
+                    } else {
+                        document.getElementById('description').value = html;
+                    }
                 });
             });
         </script>

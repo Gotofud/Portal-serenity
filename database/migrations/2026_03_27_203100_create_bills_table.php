@@ -12,7 +12,7 @@ return new class extends Migration {
     {
         Schema::create('bills', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('house_id');
+            $table->foreignId('house_id')->constrained('houses')->onDelete('cascade');
             $table->string('code');
             $table->year('year');
             $table->enum(
@@ -33,7 +33,7 @@ return new class extends Migration {
                 ]
             );
             $table->string('amount');
-            $table->string('file');
+            $table->string('file')->nullable();
             $table->string('status');
             $table->timestamp('paid_at')->nullable();
             $table->timestamp('due_at');

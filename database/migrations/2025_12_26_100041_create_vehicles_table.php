@@ -18,8 +18,8 @@ return new class extends Migration
         });
         Schema::create('vehicles', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('user_id');
-            $table->bigInteger('vehicle_types');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('vehicle_types')->constrained('vehicle_types')->onDelete('cascade');
             $table->string('plate_number');
             $table->timestamps();
         });

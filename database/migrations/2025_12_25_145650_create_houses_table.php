@@ -19,10 +19,10 @@ return new class extends Migration {
 
         Schema::create('houses', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('building_types_id')->constrained('building_type')->onDelete('cascade');
-            $table->bigInteger('community_id')->constrained('community_units')->onDelete('cascade');
-            $table->bigInteger('neighborhood_id')->constrained('neighborhood_units')->onDelete('cascade');
-            $table->bigInteger('block_id')->constrained('blocks')->onDelete('cascade');
+            $table->foreignId('building_types_id')->constrained('building_type')->onDelete('cascade');
+            $table->foreignId('community_id')->constrained('community_units')->onDelete('cascade');
+            $table->foreignId('neighborhood_id')->constrained('neighborhood_units')->onDelete('cascade');
+            $table->foreignId('block_id')->constrained('blocks')->onDelete('cascade');
             $table->string('number');
             $table->enum('status', ['Aktif', 'Nonaktif']);
             $table->timestamps();
@@ -30,8 +30,8 @@ return new class extends Migration {
 
         Schema::create('users_house', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('user_id')->constrained('users')->onDelete('cascade');
-            $table->bigInteger('house_id')->constrained('houses')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('house_id')->constrained('houses')->onDelete('cascade');
             $table->enum('is_primary', ['Rumah Utama', 'Rumah Lainnya']);
             $table->integer('total_resident');
             $table->string('status');

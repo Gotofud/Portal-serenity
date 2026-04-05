@@ -2,18 +2,20 @@
 
 namespace App\Http\Controllers\User\Service;
 
-use App;
 use App\Http\Controllers\Controller;
+use App\Models\Service\News;
 use Illuminate\Http\Request;
 
-class Contact extends Controller
+class NewsController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('user.service.contact.form');
+        $mainNews = News::latest()->first();
+        $sideNews = News::latest()->skip(1)->take(3)->get();
+        return view('user.service.news.index', compact('mainNews', 'sideNews'));
     }
 
     /**
@@ -29,18 +31,7 @@ class Contact extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'name' => 'required|max:250',
-            'email' => 'required',
-            'question' => 'required',
-        ]);
-
-        $contact = new App\Models\Service\Contact();
-        $contact->name = $request->name;
-        $contact->email = $request->email;
-        $contact->question = $request->question;
-        $contact->save();
-        return redirect()->back()->with('success', 'Data Berhasil Ditambahkan');
+        //
     }
 
     /**
@@ -48,7 +39,14 @@ class Contact extends Controller
      */
     public function show(string $id)
     {
-        //
+        $news = News::findOrFail($id);
+        $sessionKey = 'news_viewed_' . $id;
+
+        if (!session()->has($sessionKey)) {
+            $news->increment('views');
+            session()->put($sessionKey, true);
+        }
+        return view('user.service.news.detail', compact('news'));
     }
 
     /**

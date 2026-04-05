@@ -31,10 +31,12 @@ class NewsController extends Controller
      */
     public function store(Request $request)
     {
+    
         $user = Auth::user();
         $request->validate([
             'title' => 'required',
-            'image' => 'required|image',
+            'image_subtitle' => 'required',
+            'image' => 'required|image|max:5120', 
             'news_types' => 'required',
             'description' => 'required',
             'status' => 'required',
@@ -48,11 +50,13 @@ class NewsController extends Controller
         $news->code = $codes;
         $news->user_id = $user->id;
         $news->title = $request->title;
-        $filePatch = null;
+        $news->image_subtitle = $request->image_subtitle;
+        $news->views = 0;
+        $filePath = null;
         if ($request->hasFile('image')) {
-            $filePatch = $request->file('image')->store('news', 'public');
+            $filePath = $request->file('image')->store('news', 'public');
         }
-        $news->image = $filePatch;
+        $news->image = $filePath;
         $news->news_types = $request->news_types;
         $news->description = $request->description;
         $news->status = $request->status;

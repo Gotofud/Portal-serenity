@@ -12,7 +12,7 @@ return new class extends Migration {
     {
         Schema::create('news', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('user_id');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->string('code');
             $table->string('image');
             $table->string('image_subtitle');
@@ -20,7 +20,7 @@ return new class extends Migration {
             $table->enum('news_types',['Umum','Insiden','Sosial']);
             $table->longText('description');
             $table->enum('status',['Aktif','Nonaktif']);
-            $table->unsignedBigInteger('views');
+            $table->unsignedBigInteger('views')->nullable();
             $table->timestamps();
         });
     }

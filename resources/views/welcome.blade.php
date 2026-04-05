@@ -1,1296 +1,407 @@
 <x-user>
-    <!-- ------------------------------------- -->
-    <!-- banner Start -->
-    <!-- ------------------------------------- -->
-    <Section class="bg-primary-subtle pt-7 py-lg-0 py-7"
-        style="background-image: url('{{ asset('/assets/images/backgrounds/resident.png') }}'); background-repeat: no-repeat;  background-size: cover;  ">
-        <div class="custom-container">
-            <div class="row justify-content-center pt-lg-5">
-                <div class="col-lg-8 mt-5 mb-5">
-                    <h1 class="text-link-color fw-bolder text-center fs-13 mb-0 pt-lg-2">
-                        Selamat datang di <span class="text-primary">Serenity</span> Portal Layanan Komplek <br>
-                        Bojong Malaka Indah
-                        </span>
-                        <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                            {{ __('Logout') }}
-                        </a>
-
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                            @csrf
-                        </form>
+    <link rel="stylesheet" href="{{ asset(' ') }}" />
+    <style>
+        .meta-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 13px;
+        }
+    </style>
+    <!-- Hero: Start -->
+    <section id="landingHero" class="section-py landing-hero position-relative ">
+        <img src="../../assets/img/front-pages/backgrounds/bg-color.png" alt="hero background"
+            class="position-absolute top-0 start-0 w-100 h-200 z-n1" />
+        <div class="container mt-5">
+            <div class="row justify-content-center">
+                <div class="col-lg-10 text-center text-white py-5 mt-5">
+                    <h1 class="display-1 mb-4 text-white" style="font-size:100px; font-weight: 100;">
+                        Satu <span style="font-weight:bold; font-style:italic;">Akses</span> untuk <br
+                            class="d-none d-md-block"><span style="font-weight: bold;">Kenyamanan</span>
                     </h1>
-                    <div class="d-flex justify-content-center align-items-center gap-3 position-relative mt-5 mb-5">
-                        <a href="../main/authentication-login.html" class="btn btn-lg btn-primary"
-                            style="width: 14rem; height: 3rem; ">Masuk Warga</a>
-                        <a href="../main/authentication-login.html" class="btn btn-lg btn-warning"
-                            style="width: 14rem; height: 3rem; ">Daftar Penduduk</a>
-                        <a href="../main/authentication-login.html" class="btn btn-lg btn-danger"
-                            style="width: 14rem; height: 3rem; ">Lapor Masalah</a>
+                    <p class="lead mb-5 opacity-75"><b>Serenity,</b> Portal Komplek Bojong Malaka Indah <br> untuk
+                        mempermudah
+                        segala aktivitas Anda.
+                    </p>
 
-                    </div>
+                    <a href="{{ route('login') }}" class="btn btn-md btn-warning btn-lg px-5 py-3 fw-semibold">
+                        Mulai Sekarang <i class="ri ri-arrow-right-up-line ms-3"></i>
+                    </a>
                 </div>
             </div>
-
         </div>
-    </Section>
-    <!-- ------------------------------------- -->
-    <!-- banner End -->
-    <!-- ------------------------------------- -->
+    </section>
+    <!-- Hero: End -->
+    <!-- Fun facts: Start -->
+    <section id="landingFunFacts" class="section-py landing-fun-facts py-12 my-4"
+        style="background: linear-gradient(to bottom, #f7f7f9 0%, #ffffff 100%);">
+        <div class="container">
+            <div class="row gx-0 gy-5 gx-sm-6">
+                <div class="col-md-3 col-sm-6 text-center">
+                    <span class="badge rounded-pill bg-label-primary bg-label-hover fun-facts-icon mb-6 p-5"><i
+                            class="icon-base ri ri-home-4-line icon-42px"></i></span>
+                    <h2 class="fw-bold mb-0 fun-facts-text">{{ $house }}+</h2>
+                    <h6 class="mb-0 text-body">Rumah Terdaftar</h6>
+                </div>
+                <div class="col-md-3 col-sm-6 text-center">
+                    <span class="badge rounded-pill bg-label-warning bg-label-hover fun-facts-icon mb-6 p-5"><i
+                            class="icon-base ri ri-user-smile-line icon-42px"></i></span>
+                    <h2 class="fw-bold mb-0 fun-facts-text">{{ $user }}+</h2>
+                    <h6 class="mb-0 text-body">Pengguna Bahagia</h6>
+                </div>
+                <div class="col-md-3 col-sm-6 text-center">
+                    <span class="badge rounded-pill bg-label-success bg-label-hover fun-facts-icon mb-6 p-5"><i
+                            class="icon-base ri ri-user-community-line icon-42px"></i></span>
+                    <h2 class="fw-bold mb-0 fun-facts-text">{{ $rt }}+</h2>
+                    <h6 class="mb-0 text-body">Rukun Tetangga</h6>
+                </div>
+                <div class="col-md-3 col-sm-6 text-center">
+                    <span class="badge rounded-pill bg-label-info bg-label-hover fun-facts-icon mb-6 p-5"><i
+                            class="icon-base ri ri-community-line icon-42px"></i></span>
+                    <h2 class="fw-bold mb-0 fun-facts-text">{{ $rw }}+</h2>
+                    <h6 class="mb-0 text-body">Rukun Warga</h6>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Fun facts: End -->
 
-    <!-- ------------------------------------- -->
-    <!-- Card Start -->
-    <!-- ------------------------------------- -->
-    <section class="pt-5 pt-md-14 pt-lg-12 pb-3 pb-md-7 pb-lg-14">
-        <div class="container-fluid">
-            <div class="row justify-content-center">
-                <div class="col-lg-6">
-                    <p class="fs-4 fw-normal text-center mb-7 mb-md-5">
-                        Introducing Modernize's Light & Dark
-                        Skins, <span class="fw-bolder">Exceptional Dashboards</span>, and Dynamic Pages - Stay
-                        Updated on
-                        What's New!
+    <!-- Fitur-Fitur : Start -->
+    <section id="landingFeatures" class="section-py">
+        <div class="container">
+            <h6 class="text-center d-flex justify-content-center align-items-center mb-6">
+                <img src="../../assets/img/front-pages/icons/section-title-icon.png" alt="section title icon"
+                    class="me-3" height="19" />
+                <span class="text-uppercase">Fitur Fitur</span>
+            </h6>
+            <h5 class="text-center mb-2">
+                Semua yang kamu butuhin ada disini!
+            </h5>
+            <p class="text-center fw-medium mb-4 mb-md-12">
+                Bukan sekadar kumpulan <i>tools</i>, tapi solusi siap pakai yang bisa langsung digunakan.
+            </p>
+            <div class="features-icon-wrapper row gx-0 gy-12 gx-sm-6">
+                <div class="col-lg-4 col-sm-6 text-center features-icon-box">
+                    <div class="features-icon mb-4">
+                        <img src="../../assets/img/front-pages/icons/pemberitahuan.svg" alt="laptop charging" width="90"
+                            height="60" />
+                    </div>
+                    <h5 class="mb-2">Pemberitahuan</h5>
+                    <p class="features-icon-description">
+                        Semua informasi dan pemberitahuan <br> komplek ada di sini!
                     </p>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-6 col-lg-4">
-                    <div class="card shadow-none bg-warning-subtle rounded-24">
-                        <div class="card-body text-center py-14">
-                            <img src="../assets/images/frontend-pages/icon-briefcase.svg" alt="icon">
-                            <h5 class="my-3 fw-bolder fs-5">Light & Dark Color Schemes</h5>
-                            <p class="mb-0 fs-4">Choose your preferred visual style effortlessly.</p>
-                        </div>
+                <div class="col-lg-4 col-sm-6 text-center features-icon-box">
+                    <div class="features-icon mb-4">
+                        <img src="../../assets/img/front-pages/icons/laporan.svg" alt="transition up" width="60"
+                            height="60" />
                     </div>
-                    <div class="card shadow-none bg-secondary-subtle rounded-24">
-                        <div class="card-body text-center pt-5 mt-2 mb-8">
-                            <h5 class="mb-3 fw-bolder fs-5">12+ Ready to Use Application Designs</h5>
-                            <p class="mb-0 fs-4"> Instantly deployable designs for your applications.</p>
-                        </div>
-                        <div class="d-flex justify-content-center">
-                            <img src="../assets/images/frontend-pages/playframe.png" alt="icon">
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 order-last order-lg-0">
-                    <div class="card shadow-none bg-primary-subtle rounded-24">
-                        <div class="card-body text-center py-14 px-3">
-                            <img src="../assets/images/logos/favicon.png" alt="icon">
-                            <h2 class="fs-10 fw-bolder mt-5 mb-3">New Demos</h2>
-                            <p class="mb-14 fs-4">Brand new demos to help you build the perfect dashboard: <span
-                                    class="fw-semibold">Dark</span> and <span class="fw-semibold">Right-to-Left.</span>
-                            </p>
-                            <img src="../assets/images/frontend-pages/screen.png" alt="icon" class="img-fluid pb-2">
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-lg-4">
-                    <div class="card shadow-none bg-secondary-subtle rounded-24">
-                        <div class="card-body text-center py-14">
-                            <img src="../assets/images/frontend-pages/icon-speech-bubble.svg" alt="icon">
-                            <h5 class="my-3 fw-bolder fs-5">Code Improvements</h5>
-                            <p class="mb-0 fs-4"> Benefit from continuous improvements and optimizations.</p>
-                        </div>
-                    </div>
-                    <div class="card shadow-none bg-danger-subtle rounded-24">
-                        <div class="card-body text-center pt-14 pb-5 mb-8">
-                            <img src="../assets/images/frontend-pages/icon-favorites.svg" alt="icon">
-                            <h5 class="my-3 fw-bolder fs-5">50+ UI Components</h5>
-                            <p class="mb-0 fs-4"> A rich collection for seamless user experiences.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- ------------------------------------- -->
-    <!-- Card end -->
-    <!-- ------------------------------------- -->
-
-    <!-- ------------------------------------- -->
-    <!-- Tabs Start -->
-    <!-- ------------------------------------- -->
-    <section class="shadow-sm">
-        <div class="border-top">
-            <ul class="nav team-tab nav-tabs flex-nowrap overflow-x-auto container-fluid" id="myTab" role="tablist">
-                <li class="nav-item " role="presentation">
-                    <button
-                        class="nav-link py-7 fs-5 fw-semibold w-100 active border-end justify-content-center d-flex align-items-center rounded-0"
-                        id="team-tab" data-bs-toggle="tab" data-bs-target="#team-tab-pane" type="button" role="tab"
-                        aria-controls="team-tab-pane" aria-selected="true">
-                        <i class="ti ti-user-circle fs-7 me-2"></i>
-                        Team Scheduling
-                    </button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button
-                        class="nav-link py-7 fs-5 fw-semibold w-100 border-end d-flex justify-content-center align-items-center rounded-0"
-                        id="payments-tab" data-bs-toggle="tab" data-bs-target="#payments-tab-pane" type="button"
-                        role="tab" aria-controls="payments-tab-pane" aria-selected="false">
-                        <i class="ti ti-wallet fs-7 me-2"></i>
-                        Payments
-                    </button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button
-                        class="nav-link py-7 fs-5 fw-semibold w-100 border-end d-flex justify-content-center align-items-center rounded-0"
-                        id="embedding-tab" data-bs-toggle="tab" data-bs-target="#embedding-tab-pane" type="button"
-                        role="tab" aria-controls="embedding-tab-pane" aria-selected="false">
-                        <i class="ti ti-layout-sidebar fs-7 me-2"></i>
-                        Embedding
-                    </button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button
-                        class="nav-link py-7 fs-5 fw-semibold w-100 d-flex justify-content-center align-items-center rounded-0"
-                        id="workflows-tab" data-bs-toggle="tab" data-bs-target="#workflows-tab-pane" type="button"
-                        role="tab" aria-controls="workflows-tab-pane" aria-selected="false">
-                        <i class="ti ti-arrow-fork fs-7 me-2"></i>
-                        Workflows
-                    </button>
-                </li>
-            </ul>
-        </div>
-        <div class="container-fluid py-lg-14 py-md-7 py-3">
-            <div class="">
-                <div class="tab-content" id="myTabContent">
-                    <div class="tab-pane fade show active" id="team-tab-pane" role="tabpanel" aria-labelledby="team-tab"
-                        tabindex="0">
-                        <div class="row gap-lg-0 gap-7">
-                            <div class="col-lg-6">
-                                <div class="bg-primary-subtle rounded-3 px-10 pt-5 pb-4">
-                                    <img src="../assets/images/frontend-pages/tabsimage.png" alt="icon" class="w-100">
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div
-                                    class="d-flex flex-column h-100 justify-content-center align-items-start ps-lg-7 ms-lg-8">
-                                    <h2 class="fs-10 fw-bolder">Defend your focus</h2>
-                                    <div class="accordion tabs-accordion my-4 w-100" id="accordionExample1">
-                                        <div class="accordion-item border-0 border-bottom">
-                                            <h2 class="accordion-header ">
-                                                <button class="accordion-button shadow-none px-0 fs-5 fw-bold"
-                                                    type="button" data-bs-toggle="collapse"
-                                                    data-bs-target="#collapseOne" aria-expanded="true"
-                                                    aria-controls="collapseOne">
-                                                    Combine teammate schedules
-                                                </button>
-                                            </h2>
-                                            <div id="collapseOne" class="accordion-collapse collapse show"
-                                                data-bs-parent="#accordionExample1">
-                                                <div class="accordion-body px-0 fs-4">
-                                                    Factor in availability for required attendees, and skip checking
-                                                    for
-                                                    conflicts for optional attendees.
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="accordion-item border-0 border-bottom">
-                                            <h2 class="accordion-header ">
-                                                <button class="accordion-button shadow-none collapsed px-0 fs-5 fw-bold"
-                                                    type="button" data-bs-toggle="collapse"
-                                                    data-bs-target="#collapseTwo" aria-expanded="false"
-                                                    aria-controls="collapseTwo">
-                                                    Factor in outside colleagues
-                                                </button>
-                                            </h2>
-                                            <div id="collapseTwo" class="accordion-collapse collapse"
-                                                data-bs-parent="#accordionExample1">
-                                                <div class="accordion-body px-0 fs-4">
-                                                    Factor in availability for required attendees, and skip checking
-                                                    for
-                                                    conflicts for optional attendees.
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="accordion-item border-0 border-bottom">
-                                            <h2 class="accordion-header">
-                                                <button class="accordion-button shadow-none collapsed px-0 fs-5 fw-bold"
-                                                    type="button" data-bs-toggle="collapse"
-                                                    data-bs-target="#collapseThree" aria-expanded="false"
-                                                    aria-controls="collapseThree">
-                                                    Round robin pooling
-                                                </button>
-                                            </h2>
-                                            <div id="collapseThree" class="accordion-collapse collapse"
-                                                data-bs-parent="#accordionExample1">
-                                                <div class="accordion-body px-0 fs-4">
-                                                    Factor in availability for required attendees, and skip checking
-                                                    for
-                                                    conflicts for optional attendees.
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <button class="btn btn-primary px-9 py-6">Learn More</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="tab-pane fade" id="payments-tab-pane" role="tabpanel" aria-labelledby="payments-tab"
-                        tabindex="0">
-                        <div class="row gap-lg-0 gap-7">
-                            <div class="col-lg-6">
-                                <div class="bg-primary-subtle rounded-3 p-13">
-                                    <img src="../assets/images/frontend-pages/tabsimage.png" alt="icon" class="w-100">
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="d-flex flex-column h-100 justify-content-center align-items-start ps-lg-7">
-                                    <h2 class="fs-10 fw-bolder">Defend your focus</h2>
-                                    <div class="accordion tabs-accordion my-4 w-100" id="accordionExample2">
-                                        <div class="accordion-item border-0 border-bottom">
-                                            <h2 class="accordion-header ">
-                                                <button class="accordion-button shadow-none px-0 fs-5 fw-bold"
-                                                    type="button" data-bs-toggle="collapse"
-                                                    data-bs-target="#collapseOne" aria-expanded="true"
-                                                    aria-controls="collapseOne">
-                                                    Combine teammate schedules
-                                                </button>
-                                            </h2>
-                                            <div id="collapseOne" class="accordion-collapse collapse show"
-                                                data-bs-parent="#accordionExample2">
-                                                <div class="accordion-body px-0 fs-4">
-                                                    Factor in availability for required attendees, and skip checking
-                                                    for
-                                                    conflicts for optional attendees.
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="accordion-item border-0 border-bottom">
-                                            <h2 class="accordion-header ">
-                                                <button class="accordion-button shadow-none collapsed px-0 fs-5 fw-bold"
-                                                    type="button" data-bs-toggle="collapse"
-                                                    data-bs-target="#collapseTwo" aria-expanded="false"
-                                                    aria-controls="collapseTwo">
-                                                    Factor in outside colleagues
-                                                </button>
-                                            </h2>
-                                            <div id="collapseTwo" class="accordion-collapse collapse"
-                                                data-bs-parent="#accordionExample2">
-                                                <div class="accordion-body px-0 fs-4">
-                                                    Factor in availability for required attendees, and skip checking
-                                                    for
-                                                    conflicts for optional attendees.
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="accordion-item border-0 border-bottom">
-                                            <h2 class="accordion-header">
-                                                <button class="accordion-button shadow-none collapsed px-0 fs-5 fw-bold"
-                                                    type="button" data-bs-toggle="collapse"
-                                                    data-bs-target="#collapseThree" aria-expanded="false"
-                                                    aria-controls="collapseThree">
-                                                    Round robin pooling
-                                                </button>
-                                            </h2>
-                                            <div id="collapseThree" class="accordion-collapse collapse"
-                                                data-bs-parent="#accordionExample2">
-                                                <div class="accordion-body px-0 fs-4">
-                                                    Factor in availability for required attendees, and skip checking
-                                                    for
-                                                    conflicts for optional attendees.
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <button class="btn btn-primary">Learn More</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="tab-pane fade" id="embedding-tab-pane" role="tabpanel" aria-labelledby="embedding-tab"
-                        tabindex="0">
-                        <div class="row gap-lg-0 gap-7">
-                            <div class="col-lg-6">
-                                <div class="bg-primary-subtle rounded-3 p-13">
-                                    <img src="../assets/images/frontend-pages/tabsimage.png" alt="icon" class="w-100">
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="d-flex flex-column h-100 justify-content-center align-items-start ps-lg-7">
-                                    <h2 class="fs-10 fw-bolder">Defend your focus</h2>
-                                    <div class="accordion tabs-accordion my-4 w-100" id="accordionExample3">
-                                        <div class="accordion-item border-0 border-bottom">
-                                            <h2 class="accordion-header ">
-                                                <button class="accordion-button shadow-none px-0 fs-5 fw-bold"
-                                                    type="button" data-bs-toggle="collapse"
-                                                    data-bs-target="#collapseOne" aria-expanded="true"
-                                                    aria-controls="collapseOne">
-                                                    Combine teammate schedules
-                                                </button>
-                                            </h2>
-                                            <div id="collapseOne" class="accordion-collapse collapse show"
-                                                data-bs-parent="#accordionExample3">
-                                                <div class="accordion-body px-0 fs-4">
-                                                    Factor in availability for required attendees, and skip checking
-                                                    for
-                                                    conflicts for optional attendees.
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="accordion-item border-0 border-bottom">
-                                            <h2 class="accordion-header ">
-                                                <button class="accordion-button shadow-none collapsed px-0 fs-5 fw-bold"
-                                                    type="button" data-bs-toggle="collapse"
-                                                    data-bs-target="#collapseTwo" aria-expanded="false"
-                                                    aria-controls="collapseTwo">
-                                                    Factor in outside colleagues
-                                                </button>
-                                            </h2>
-                                            <div id="collapseTwo" class="accordion-collapse collapse"
-                                                data-bs-parent="#accordionExample3">
-                                                <div class="accordion-body px-0 fs-4">
-                                                    Factor in availability for required attendees, and skip checking
-                                                    for
-                                                    conflicts for optional attendees.
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="accordion-item border-0 border-bottom">
-                                            <h2 class="accordion-header">
-                                                <button class="accordion-button shadow-none collapsed px-0 fs-5 fw-bold"
-                                                    type="button" data-bs-toggle="collapse"
-                                                    data-bs-target="#collapseThree" aria-expanded="false"
-                                                    aria-controls="collapseThree">
-                                                    Round robin pooling
-                                                </button>
-                                            </h2>
-                                            <div id="collapseThree" class="accordion-collapse collapse"
-                                                data-bs-parent="#accordionExample3">
-                                                <div class="accordion-body px-0 fs-4">
-                                                    Factor in availability for required attendees, and skip checking
-                                                    for
-                                                    conflicts for optional attendees.
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <button class="btn btn-primary">Learn More</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="tab-pane fade" id="workflows-tab-pane" role="tabpanel" aria-labelledby="workflows-tab"
-                        tabindex="0">
-                        <div class="row gap-lg-0 gap-7">
-                            <div class="col-lg-6">
-                                <div class="bg-primary-subtle rounded-3 p-13">
-                                    <img src="../assets/images/frontend-pages/tabsimage.png" alt="icon" class="w-100">
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="d-flex flex-column h-100 justify-content-center align-items-start ps-lg-7">
-                                    <h2 class="fs-10 fw-bolder">Defend your focus</h2>
-                                    <div class="accordion tabs-accordion my-4 w-100" id="accordionExample4">
-                                        <div class="accordion-item border-0 border-bottom">
-                                            <h2 class="accordion-header ">
-                                                <button class="accordion-button shadow-none px-0 fs-5 fw-bold"
-                                                    type="button" data-bs-toggle="collapse"
-                                                    data-bs-target="#collapseOne" aria-expanded="true"
-                                                    aria-controls="collapseOne">
-                                                    Combine teammate schedules
-                                                </button>
-                                            </h2>
-                                            <div id="collapseOne" class="accordion-collapse collapse show"
-                                                data-bs-parent="#accordionExample4">
-                                                <div class="accordion-body px-0 fs-4">
-                                                    Factor in availability for required attendees, and skip checking
-                                                    for
-                                                    conflicts for optional attendees.
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="accordion-item border-0 border-bottom">
-                                            <h2 class="accordion-header ">
-                                                <button class="accordion-button shadow-none collapsed px-0 fs-5 fw-bold"
-                                                    type="button" data-bs-toggle="collapse"
-                                                    data-bs-target="#collapseTwo" aria-expanded="false"
-                                                    aria-controls="collapseTwo">
-                                                    Factor in outside colleagues
-                                                </button>
-                                            </h2>
-                                            <div id="collapseTwo" class="accordion-collapse collapse"
-                                                data-bs-parent="#accordionExample4">
-                                                <div class="accordion-body px-0 fs-4">
-                                                    Factor in availability for required attendees, and skip checking
-                                                    for
-                                                    conflicts for optional attendees.
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="accordion-item border-0 border-bottom">
-                                            <h2 class="accordion-header">
-                                                <button class="accordion-button shadow-none collapsed px-0 fs-5 fw-bold"
-                                                    type="button" data-bs-toggle="collapse"
-                                                    data-bs-target="#collapseThree" aria-expanded="false"
-                                                    aria-controls="collapseThree">
-                                                    Round robin pooling
-                                                </button>
-                                            </h2>
-                                            <div id="collapseThree" class="accordion-collapse collapse"
-                                                data-bs-parent="#accordionExample4">
-                                                <div class="accordion-body px-0 fs-4">
-                                                    Factor in availability for required attendees, and skip checking
-                                                    for
-                                                    conflicts for optional attendees.
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <button class="btn btn-primary">Learn More</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- ------------------------------------- -->
-    <!-- Tabs end -->
-    <!-- ------------------------------------- -->
-
-    <!-- ------------------------------------- -->
-    <!-- Leadership Start -->
-    <!-- ------------------------------------- -->
-    <section class="py-5 py-md-14 py-lg-12">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-5">
-                    <h2 class="fs-10 fw-bolder">Our leadership</h2>
-                    <p class="fs-4 mb-0">
-                        Our robust analytics offer rich insights into the
-                        information buyers want, informing where teams
+                    <h5 class="mb-2">Laporin</h5>
+                    <p class="features-icon-description">
+                        Buat laporan sekarang, kami siap <br> menanganinya dengan cepat!
                     </p>
                 </div>
-            </div>
-            <div class="owl-carousel leadership-carousel owl-theme mt-5">
-                <div class="item">
-                    <div class="">
-                        <img src="../assets/images/frontend-pages/alex.jpg" alt="leader" class="rounded-3">
-                        <div
-                            class="position-relative leadership-card z-1 bg-white mt-n10 rounded py-3 px-8 mx-9 text-center shadow-sm">
-                            <h4 class="fs-5 fw-semibold mb-2">Alex Martinez</h4>
-                            <p class="fs-3 mb-0">CEO & Co-Founder</p>
-                        </div>
+                <div class="col-lg-4 col-sm-6 text-center features-icon-box">
+                    <div class="features-icon mb-4">
+                        <img src="../../assets/img/front-pages/icons/berita.svg" alt="edit" width="60" height="60" />
                     </div>
+                    <h5 class="mb-2">Berita</h5>
+                    <p class="features-icon-description">
+                        Update berita terbaru dari komplek <br> ada di sini!
+                    </p>
                 </div>
-                <div class="item">
-                    <div class="">
-                        <img src="../assets/images/frontend-pages/jordan.jpg" alt="leader" class="rounded-3">
-                        <div
-                            class="position-relative leadership-card z-1 bg-white mt-n10 rounded py-3 px-8 mx-9 text-center shadow-sm">
-                            <h4 class="fs-5 fw-semibold mb-2">Jordan Nguyen</h4>
-                            <p class="fs-3 mb-0">CTO & Co-Founder</p>
-                        </div>
+                <div class="col-lg-4 col-sm-6 text-center features-icon-box">
+                    <div class="features-icon mb-4">
+                        <img src="../../assets/img/front-pages/icons/iwd.svg" alt="3d select solid" width="60"
+                            height="60" />
                     </div>
+                    <h5 class="mb-2">Bayar IWD</h5>
+                    <p class="features-icon-description">
+                        Udah nggak ribet lagi—bayar dan data <br> semua serba otomatis!
+                    </p>
                 </div>
-                <div class="item">
-                    <div class="">
-                        <img src="../assets/images/frontend-pages/taylor.jpg" alt="leader" class="rounded-3">
-                        <div
-                            class="position-relative leadership-card z-1 bg-white mt-n10 rounded py-3 px-8 mx-9 text-center shadow-sm">
-                            <h4 class="fs-5 fw-semibold mb-2">Taylor Roberts</h4>
-                            <p class="fs-3 mb-0">Product Manager</p>
-                        </div>
+                <div class="col-lg-4 col-sm-6 text-center features-icon-box">
+                    <div class="features-icon mb-4">
+                        <img src="../../assets/img/front-pages/icons/kios.svg" alt="lifebelt" width="60" height="60" />
                     </div>
+                    <h5 class="mb-2">Sewa Kios</h5>
+                    <p class="features-icon-description">Sewa kios jadi lebih mudah, cepat, <br> dan tanpa ribet!</p>
                 </div>
-                <div class="item">
-                    <div class="">
-                        <img src="../assets/images/frontend-pages/morgan.jpg" alt="leader" class="rounded-3">
-                        <div
-                            class="position-relative leadership-card z-1 bg-white mt-n10 rounded py-3 px-8 mx-9 text-center shadow-sm">
-                            <h4 class="fs-5 fw-semibold mb-2">Morgan Patel</h4>
-                            <p class="fs-3 mb-0">Lead Developer</p>
-                        </div>
+                <div class="col-lg-4 col-sm-6 text-center features-icon-box">
+                    <div class="features-icon mb-4">
+                        <img src="../../assets/img/front-pages/icons/tamu.svg" alt="google docs" width="60"
+                            height="60" />
                     </div>
-                </div>
-                <div class="item">
-                    <div class="">
-                        <img src="../assets/images/frontend-pages/kiana.jpg" alt="leader" class="rounded-3">
-                        <div
-                            class="position-relative leadership-card z-1 bg-white mt-n10 rounded py-3 px-8 mx-9 text-center shadow-sm">
-                            <h4 class="fs-5 fw-semibold mb-2">Morgan Patel</h4>
-                            <p class="fs-3 mb-0">Lead Developer</p>
-                        </div>
-                    </div>
+                    <h5 class="mb-2">Tamu</h5>
+                    <p class="features-icon-description">Catat dan laporkan tamu yang datang <br> ke rumahmu dengan
+                        mudah.</p>
                 </div>
             </div>
         </div>
     </section>
-    <!-- ------------------------------------- -->
-    <!-- Leadership end -->
-    <!-- ------------------------------------- -->
+    <!-- Fitur-Fitur : End -->
 
-    <section class="bg-primary py-9">
-        <div class="container-fluid">
-            <div class="d-flex gap-3 justify-content-center align-items-center flex-md-nowrap flex-wrap">
-                <ul class="hstack mb-0">
-                    <li class="ms-n8">
-                        <a href="javascript:void(0)" class="me-1">
-                            <img src="../assets/images/profile/user-5.jpg"
-                                class="rounded-circle border border-2 border-white" width="44" height="44"
-                                alt="modernize-img">
-                        </a>
-                    </li>
-                    <li class="ms-n8">
-                        <a href="javascript:void(0)" class="me-1">
-                            <img src="../assets/images/profile/user-2.jpg"
-                                class="rounded-circle border border-2 border-white" width="44" height="44"
-                                alt="modernize-img">
-                        </a>
-                    </li>
-                </ul>
-                <p class="text-white fs-4 mb-0 text-md-start text-center">Save valuable time and effort spent
-                    searching for a solution.</p>
-                <a href="javascript:void(0)" class="text-white fs-4 fw-semibold text-underline">Contact us now</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- ------------------------------------- -->
-    <!-- Discover Start -->
-    <!-- ------------------------------------- -->
-    <section class="py-5 py-md-14 py-lg-12">
-        <div class="custom-container">
-            <div class="rounded-24 bg-primary-subtle py-5 py-md-14 my-md-2">
-                <div class="px-md-12 px-4">
-                    <h2 class="fs-10 fw-bolder mb-5 pb-lg-2">Discover Powerful Dozens of
-                        <br />
-                        Purpose-Fit Templates
-                    </h2>
-                </div>
-                <div class="mb-14 pb-lg-3">
-                    <div class="owl-carousel template-carousel owl-theme">
-                        <div class="item rounded overflow-hidden">
-                            <a target="_blank" href="../main/index.html">
-                                <img src="../assets/images/demos/demo-main.jpg" alt="template">
-                            </a>
-                        </div>
-                        <div class="item rounded overflow-hidden">
-                            <a target="_blank" href="../dark/index.html">
-                                <img src="../assets/images/demos/demo-dark.jpg" alt="template">
-                            </a>
-                        </div>
-                        <div class="item rounded overflow-hidden">
-                            <a target="_blank" href="../horizontal/index.html">
-                                <img src="../assets/images/demos/demo-horizontal.jpg" alt="template">
-                            </a>
-                        </div>
-                        <div class="item rounded overflow-hidden">
-                            <a target="_blank" href="../minisidebar/index.html">
-                                <img src="../assets/images/demos/demo-minisidebar.jpg" alt="template">
-                            </a>
-                        </div>
-                        <div class="item rounded overflow-hidden">
-                            <a target="_blank" href="../rtl/index.html">
-                                <img src="../assets/images/demos/demo-rtl.jpg" alt="template">
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="d-flex flex-lg-row flex-column gap-xl-13 gap-9 px-sm-12">
-                    <div>
-                        <h3 class="fs-5 fw-bolder text-center mb-3">High Customizability</h3>
-                        <p class="text-center fs-3 mb-0">
-                            Tailor the dashboard to your exact needs. Customize layouts,
-                            color schemes, and widgets effortlessly for a personalized user experience.
-                        </p>
-                    </div>
-                    <div>
-                        <h3 class="fs-5 fw-bolder text-center mb-3"> Powerful Data Analytics</h3>
-                        <p class="text-center fs-3 mb-0">
-                            Unlock the true potential of your data with our advanced
-                            analytics tools. Gain valuable insights and make data-driven decisions with ease.</p>
-                    </div>
-                    <div>
-                        <h3 class="fs-5 fw-bolder text-center mb-3"> Interactive Graphs & Charts</h3>
-                        <p class="text-center fs-3 mb-0">
-                            Visualize complex data sets beautifully with our interactive
-                            graphs and charts. Quickly grasp trends and patterns for smarter analysis.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- ------------------------------------- -->
-    <!-- Discover End -->
-    <!-- ------------------------------------- -->
-
-    <!-- ------------------------------------- -->
-    <!-- Testimonial Start -->
-    <!-- ------------------------------------- -->
-    <section class="pb-5 pb-md-14 pb-lg-12">
-        <div class="container-fluid">
-            <div class="row align-items-center justify-content-between">
-                <div class="col-lg-5">
-                    <div class="">
-                        <h2 class="fs-10 fw-bolder mb-3">
-                            What our clients
-                            <br /> think
-                            <img src="../assets/images/logos/favicon.png" alt="icon"> about us?
+    <!-- Real customers reviews: Start -->
+    <section id="landingReviews" class="section-py bg-body landing-reviews">
+        <div class="container py-4">
+            <div class="row g-4">
+                <a href="{{ route('services.news.show', $mainNews->id) }}">
+                    <div class="col-lg-12">
+                        <!-- Title -->
+                        <h2 class="fw-bold mb-2" style="line-height: 1.3;">
+                            {{ $mainNews->title }}
                         </h2>
-                        <p class="fs-4">
-                            Our users' feedback is a testament to our commitment to quality and user satisfaction.
-                            Read what they have to say about their journey with us.
-                        </p>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="border p-7 p-md-5 rounded-3">
-                        <h3 class="fs-7 fw-semibold text-dark">Features avaibility</h3>
-                        <div class="owl-carousel testimonial-carousel owl-theme">
-                            <div class="item">
-                                <div>
-                                    <div class="d-flex align-items-center gap-3 my-4">
-                                        <div>
-                                            <img src="../assets/images/frontend-pages/user_1.png" width="56" height="56"
-                                                alt="user">
-                                        </div>
-                                        <p class="fs-4 fw-semibold mb-0 text-dark">Sophia Johnson</p>
-                                    </div>
-                                    <p class="fs-5 border-bottom pb-4 mb-4">
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod
-                                        tempor incididunt ut labore et dolore magna aliqua.
-                                    </p>
 
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div>
-                                    <div class="d-flex align-items-center gap-3 my-4">
-                                        <div>
-                                            <img src="../assets/images/frontend-pages/user-2.png" width="56" height="56"
-                                                alt="user">
-                                        </div>
-                                        <p class="fs-4 fw-semibold mb-0 text-dark">Jenny Wilson</p>
-                                    </div>
-                                    <p class="fs-5 border-bottom pb-4 mb-4">
-                                        This template is great, UI-rich and up-to-date. Although it is pretty much
-                                        complete, I suggest to improve a bit of documentation. Thanks & Highly
-                                        recommended!
-                                    </p>
-
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div>
-                                    <div class="d-flex align-items-center gap-3 my-4">
-                                        <div>
-                                            <img src="../assets/images/frontend-pages/user-3.png" width="56" height="56"
-                                                alt="user">
-                                        </div>
-                                        <p class="fs-4 fw-semibold mb-0 text-dark">Liam Carter</p>
-                                    </div>
-                                    <p class="fs-5 border-bottom pb-4 mb-4">
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod
-                                        tempor incididunt ut labore et dolore magna aliqua.
-                                    </p>
-
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div>
-                                    <div class="d-flex align-items-center gap-3 my-4">
-                                        <div>
-                                            <img src="../assets/images/frontend-pages/user_1.png" width="56" height="56"
-                                                alt="user">
-                                        </div>
-                                        <p class="fs-4 fw-semibold mb-0 text-dark">Sophia Johnson</p>
-                                    </div>
-                                    <p class="fs-5 border-bottom pb-4 mb-4">
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod
-                                        tempor incididunt ut labore et dolore magna aliqua.
-                                    </p>
-
-                                </div>
-                            </div>
+                        <!-- Meta -->
+                        <div class="mb-3">
+                            <span class="text-danger small">{{ $mainNews->news_types }}</span>
+                            <span class="text-muted border-start ps-2 text-dark small">
+                                {{ $mainNews->created_at ? $mainNews->created_at->format('d M Y') : '-' }}</span>
                         </div>
+
+                        <!-- Image -->
+                        <img src="{{ Storage::url($mainNews->image) }}" class="w-100 rounded-4"
+                            style="height: 350px; object-fit: cover;">
+
                     </div>
+                </a>
+
+
+            </div>
+            <div class="row g-4 mt-3">
+                @foreach ($recentNews as $newsData)
+                    <div class="col-md-6">
+                        <a href="{{ route('services.news.show', $newsData->id) }}">
+                            <div class="card border-0 text-white overflow-hidden shadow-sm" style="height: 18rem;">
+                                <img src="{{ Storage::url($newsData->image) }}" class="card-img" alt="Diver"
+                                    style="height: 350px; object-fit: cover;">
+                                <div class="card-img-overlay d-flex flex-column justify-content-end"
+                                    style="background: linear-gradient(transparent, rgba(0, 0, 0, 0.6));">
+                                    <div class="flex me-3">
+                                        <span class="text-danger small  fw-semibold">{{ $newsData->news_types }}</span>
+                                        <span class="text-muted border-start ps-2 small">
+                                            {{ $newsData->created_at ? $newsData->created_at->format('d M Y') : '-' }}</span>
+                                        <h5 class="mb-1 text-white" style="line-height:1.3;">
+                                            {{ $newsData->title }}
+                                        </h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                @endforeach
+            </div>
+
+            <div class="row mt-5">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2 class="fw-bold mb-0">Berita Lainnya</h2>
+                    <a href="{{ route('services.news.index') }}" class="text-danger fw-bold text-decoration-none small">
+                        Lihat Semua <i class="ri-arrow-right-line ms-1"></i>
+                    </a>
                 </div>
+                @foreach ($otherNews as $otherNewsData)
+
+                    <div class="col-sm-6 col-md-3">
+                        <a href="{{ route('services.news.show', $otherNewsData->id) }}">
+                            <div class="cardh-100">
+                                <img src="{{ Storage::url($otherNewsData->image) }}" class="card-img-top rounded-4 mb-3"
+                                    alt="Article 1" style="height: 180px; object-fit: cover;">
+                                <div class="card-body p-0">
+                                    <h6 class="fw-bold lh-base mb-3">{{ $otherNewsData->title }}</h6>
+                                    <div class="d-flex align-items-center small mt-auto">
+                                        <span class="text-danger fw-bold me-2">{{ $otherNewsData->news_types }}</span>
+                                        <span
+                                            class="text-muted text-dark border-start ps-2">{{ $otherNewsData->created_at ? $otherNewsData->created_at->format('d M Y') : '-' }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                @endforeach
             </div>
         </div>
     </section>
-    <!-- ------------------------------------- -->
-    <!-- Testimonial End -->
-    <!-- ------------------------------------- -->
+    <!-- Real customers reviews: End -->
 
-    <!-- ------------------------------------- -->
-    <!-- Features Start -->
-    <!-- ------------------------------------- -->
-    <section>
-        <div class="custom-container">
-            <div class="py-5 py-md-14 py-lg-12 bg-primary-subtle rounded-3 overflow-hidden">
-                <div class="row justify-content-center">
-                    <div class="col-lg-6">
-                        <h2 class="fs-10 fw-bolder text-center mb-10 pb-lg-4 px-2 px-md-0">
-                            Enjoy unparalleled features & exceptional flexibility.
-                        </h2>
-                    </div>
-                </div>
-                <div class="w-100 text-nowrap">
-                    <div class="slide-animation1 d-flex gap-7 text-nowrap">
-                        <!-- Feature Item 1 -->
-                        <div
-                            class="feature-item bg-white rounded-3 gap-8 d-flex align-items-center justify-content-center">
-                            <i class="ti ti-wand text-primary fs-8" aria-hidden="true"></i>
-                            <p class="fs-3 fw-semibold mb-0 gap-3">6 Theme Colors</p>
-                        </div>
-                        <!-- Feature Item 2 -->
-                        <div
-                            class="feature-item bg-white rounded-3 gap-8 d-flex align-items-center justify-content-center">
-                            <i class="ti ti-table text-primary fs-8" aria-hidden="true"></i>
-                            <p class="fs-3 fw-semibold mb-0 gap-3">Dark & Light Sidebar</p>
-                        </div>
-                        <!-- Feature Item 3 -->
-                        <div
-                            class="feature-item bg-white rounded-3 gap-8 d-flex align-items-center justify-content-center">
-                            <i class="ti ti-stack-2 text-primary fs-8" aria-hidden="true"></i>
-                            <p class="fs-3 fw-semibold mb-0 gap-3">425+ Page Templates</p>
-                        </div>
-                        <!-- Feature Item 4 -->
-                        <div
-                            class="feature-item bg-white rounded-3 gap-8 d-flex align-items-center justify-content-center">
-                            <i class="ti ti-puzzle text-primary fs-8" aria-hidden="true"></i>
-                            <p class="fs-3 fw-semibold mb-0 gap-3">150+ UI Components</p>
-                        </div>
-                        <!-- Feature Item 5 -->
-                        <div
-                            class="feature-item bg-white rounded-3 gap-8 d-flex align-items-center justify-content-center">
-                            <i class="ti ti-switch-2 text-primary fs-8" aria-hidden="true"></i>
-                            <p class="fs-3 fw-semibold mb-0 gap-3">6 Theme Colors</p>
-                        </div>
-                        <!-- Feature Item 1 -->
-                        <div
-                            class="feature-item bg-white rounded-3 gap-8 d-flex align-items-center justify-content-center">
-                            <i class="ti ti-wand text-primary fs-8" aria-hidden="true"></i>
-                            <p class="fs-3 fw-semibold mb-0 gap-3">6 Theme Colors</p>
-                        </div>
-                        <!-- Feature Item 2 -->
-                        <div
-                            class="feature-item bg-white rounded-3 gap-8 d-flex align-items-center justify-content-center">
-                            <i class="ti ti-table text-primary fs-8" aria-hidden="true"></i>
-                            <p class="fs-3 fw-semibold mb-0 gap-3">Dark & Light Sidebar</p>
-                        </div>
-                        <!-- Feature Item 3 -->
-                        <div
-                            class="feature-item bg-white rounded-3 gap-8 d-flex align-items-center justify-content-center">
-                            <i class="ti ti-stack-2 text-primary fs-8" aria-hidden="true"></i>
-                            <p class="fs-3 fw-semibold mb-0 gap-3">425+ Page Templates</p>
-                        </div>
-                        <!-- Feature Item 4 -->
-                        <div
-                            class="feature-item bg-white rounded-3 gap-8 d-flex align-items-center justify-content-center">
-                            <i class="ti ti-puzzle text-primary fs-8" aria-hidden="true"></i>
-                            <p class="fs-3 fw-semibold mb-0 gap-3">150+ UI Components</p>
-                        </div>
-                        <!-- Feature Item 5 -->
-                        <div
-                            class="feature-item bg-white rounded-3 gap-8 d-flex align-items-center justify-content-center">
-                            <i class="ti ti-switch-2 text-primary fs-8" aria-hidden="true"></i>
-                            <p class="fs-3 fw-semibold mb-0 gap-3">6 Theme Colors</p>
-                        </div>
-                    </div>
+    <!-- FAQ: Start -->
+    <section id="landingFAQ" class="section-py bg-body landing-faq" style="margin-top: -100px;">
+        <div class="container bg-icon-right">
+            <div class="content-wrapper">
+                <!-- Content -->
+                <div class="faq-header d-flex flex-column justify-content-center align-items-center h-px-300 position-relative overflow-hidden rounded-4"
+                    style="background: url(../../assets/img/front-pages/backgrounds/bg-color.png); background-size: cover;">
+                    <h2 class="text-center text-white mb-2"><b>Pertanyaan</b> Umum</h2>
+                    <p class="text-muted text-white text-center mb-0 px-4">Punya pertanyaan? Cek kumpulan FAQ kami untuk
+                        menemukan
+                        jawabannya.
+                    </p>
                 </div>
 
-                <div class="w-100 text-nowrap">
-                    <div class="slide-animation2 d-flex gap-7 text-nowrap my-4">
-                        <!-- Feature Item 6 -->
-                        <div
-                            class="feature-item bg-white p-4 rounded-3 gap-8 d-flex align-items-center justify-content-center">
-                            <i class="ti ti-tag text-primary fs-8" aria-hidden="true"></i>
-                            <p class="fs-3 fw-semibold mb-0 gap-3">Bootstrap 5x</p>
-                        </div>
-                        <!-- Feature Item 7 -->
-                        <div
-                            class="feature-item bg-white p-4 rounded-3 gap-8 d-flex align-items-center justify-content-center">
-                            <i class="ti ti-diamonds text-primary fs-8" aria-hidden="true"></i>
-                            <p class="fs-3 fw-semibold mb-0 gap-3">200+ Font Icons</p>
-                        </div>
-                        <!-- Feature Item 8 -->
-                        <div
-                            class="feature-item bg-white p-4 rounded-3 gap-8 d-flex align-items-center justify-content-center">
-                            <i class="ti ti-device-mobile text-primary fs-8" aria-hidden="true"></i>
-                            <p class="fs-3 fw-semibold mb-0 gap-3">Fully Responsive</p>
-                        </div>
-                        <!-- Feature Item 9 -->
-                        <div
-                            class="feature-item bg-white p-4 rounded-3 gap-8 d-flex align-items-center justify-content-center">
-                            <i class="ti ti-source-code text-primary fs-8" aria-hidden="true"></i>
-                            <p class="fs-3 fw-semibold mb-0 gap-3">SassBase CSS</p>
-                        </div>
-                        <!-- Feature Item 6 -->
-                        <div
-                            class="feature-item bg-white p-4 rounded-3 gap-8 d-flex align-items-center justify-content-center">
-                            <i class="ti ti-tag text-primary fs-8" aria-hidden="true"></i>
-                            <p class="fs-3 fw-semibold mb-0 gap-3">Bootstrap 5x</p>
-                        </div>
-                        <!-- Feature Item 7 -->
-                        <div
-                            class="feature-item bg-white p-4 rounded-3 gap-8 d-flex align-items-center justify-content-center">
-                            <i class="ti ti-diamonds text-primary fs-8" aria-hidden="true"></i>
-                            <p class="fs-3 fw-semibold mb-0 gap-3">200+ Font Icons</p>
-                        </div>
-                        <!-- Feature Item 8 -->
-                        <div
-                            class="feature-item bg-white p-4 rounded-3 gap-8 d-flex align-items-center justify-content-center">
-                            <i class="ti ti-device-mobile text-primary fs-8" aria-hidden="true"></i>
-                            <p class="fs-3 fw-semibold mb-0 gap-3">Fully Responsive</p>
-                        </div>
-                        <!-- Feature Item 9 -->
-                        <div
-                            class="feature-item bg-white p-4 rounded-3 gap-8 d-flex align-items-center justify-content-center">
-                            <i class="ti ti-source-code text-primary fs-8" aria-hidden="true"></i>
-                            <p class="fs-3 fw-semibold mb-0 gap-3">SassBase CSS</p>
-                        </div>
-                        <!-- Feature Item 6 -->
-                        <div
-                            class="feature-item bg-white p-4 rounded-3 gap-8 d-flex align-items-center justify-content-center">
-                            <i class="ti ti-tag text-primary fs-8" aria-hidden="true"></i>
-                            <p class="fs-3 fw-semibold mb-0 gap-3">Bootstrap 5x</p>
-                        </div>
-                        <!-- Feature Item 7 -->
-                        <div
-                            class="feature-item bg-white p-4 rounded-3 gap-8 d-flex align-items-center justify-content-center">
-                            <i class="ti ti-diamonds text-primary fs-8" aria-hidden="true"></i>
-                            <p class="fs-3 fw-semibold mb-0 gap-3">200+ Font Icons</p>
-                        </div>
-                        <!-- Feature Item 8 -->
-                        <div
-                            class="feature-item bg-white p-4 rounded-3 gap-8 d-flex align-items-center justify-content-center">
-                            <i class="ti ti-device-mobile text-primary fs-8" aria-hidden="true"></i>
-                            <p class="fs-3 fw-semibold mb-0 gap-3">Fully Responsive</p>
-                        </div>
-                        <!-- Feature Item 9 -->
-                        <div
-                            class="feature-item bg-white p-4 rounded-3 gap-8 d-flex align-items-center justify-content-center">
-                            <i class="ti ti-source-code text-primary fs-8" aria-hidden="true"></i>
-                            <p class="fs-3 fw-semibold mb-0 gap-3">SassBase CSS</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="w-100 text-nowrap">
-                    <div class="slide-animation1 d-flex gap-7 text-nowrap">
-                        <!-- Feature Item 10 -->
-                        <div
-                            class="feature-item bg-white p-4 rounded-3 gap-8 d-flex align-items-center justify-content-center">
-                            <i class="ti ti-toggle-left text-primary fs-8" aria-hidden="true"></i>
-                            <p class="fs-3 fw-semibold mb-0 gap-3">Easy to Customize</p>
-                        </div>
-                        <!-- Feature Item 11 -->
-                        <div
-                            class="feature-item bg-white p-4 rounded-3 gap-8 d-flex align-items-center justify-content-center">
-                            <i class="ti ti-chart-pie-3 text-primary fs-8" aria-hidden="true"></i>
-                            <p class="fs-3 fw-semibold mb-0 gap-3">Lots of Chart Options</p>
-                        </div>
-                        <!-- Feature Item 12 -->
-                        <div
-                            class="feature-item bg-white p-4 rounded-3 gap-8 d-flex align-items-center justify-content-center">
-                            <i class="ti ti-table text-primary fs-8" aria-hidden="true"></i>
-                            <p class="fs-3 fw-semibold mb-0 gap-3">Lots of Table Examples</p>
-                        </div>
-                        <!-- Feature Item 13 -->
-                        <div
-                            class="feature-item bg-white p-4 rounded-3 gap-8 d-flex align-items-center justify-content-center">
-                            <i class="ti ti-repeat text-primary fs-8" aria-hidden="true"></i>
-                            <p class="fs-3 fw-semibold mb-0 gap-3">Regular Updates</p>
-                        </div>
-                        <!-- Feature Item 14 -->
-                        <div
-                            class="feature-item bg-white p-4 rounded-3 gap-8 d-flex align-items-center justify-content-center">
-                            <i class="ti ti-messages text-primary fs-8" aria-hidden="true"></i>
-                            <p class="fs-3 fw-semibold mb-0 gap-3">Dedicated Support</p>
-                        </div>
-                        <!-- Feature Item 10 -->
-                        <div
-                            class="feature-item bg-white p-4 rounded-3 gap-8 d-flex align-items-center justify-content-center">
-                            <i class="ti ti-toggle-left text-primary fs-8" aria-hidden="true"></i>
-                            <p class="fs-3 fw-semibold mb-0 gap-3">Easy to Customize</p>
-                        </div>
-                        <!-- Feature Item 11 -->
-                        <div
-                            class="feature-item bg-white p-4 rounded-3 gap-8 d-flex align-items-center justify-content-center">
-                            <i class="ti ti-chart-pie-3 text-primary fs-8" aria-hidden="true"></i>
-                            <p class="fs-3 fw-semibold mb-0 gap-3">Lots of Chart Options</p>
-                        </div>
-                        <!-- Feature Item 12 -->
-                        <div
-                            class="feature-item bg-white p-4 rounded-3 gap-8 d-flex align-items-center justify-content-center">
-                            <i class="ti ti-table text-primary fs-8" aria-hidden="true"></i>
-                            <p class="fs-3 fw-semibold mb-0 gap-3">Lots of Table Examples</p>
-                        </div>
-                        <!-- Feature Item 13 -->
-                        <div
-                            class="feature-item bg-white p-4 rounded-3 gap-8 d-flex align-items-center justify-content-center">
-                            <i class="ti ti-repeat text-primary fs-8" aria-hidden="true"></i>
-                            <p class="fs-3 fw-semibold mb-0 gap-3">Regular Updates</p>
-                        </div>
-                        <!-- Feature Item 14 -->
-                        <div
-                            class="feature-item bg-white p-4 rounded-3 gap-8 d-flex align-items-center justify-content-center">
-                            <i class="ti ti-messages text-primary fs-8" aria-hidden="true"></i>
-                            <p class="fs-3 fw-semibold mb-0 gap-3">Dedicated Support</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- ------------------------------------- -->
-    <!-- Features End -->
-    <!-- ------------------------------------- -->
-
-    <!-- ------------------------------------- -->
-    <!-- Plans Start -->
-    <!-- ------------------------------------- -->
-    <section class="py-5 py-md-14 py-lg-12">
-        <div class="container-fluid">
-            <div class="">
-                <h2 class="fw-bolder fs-10 text-center">111,476+ Trusted developers &
-                    <br /> many tech giants
-                    as well
-                </h2>
-                <div class="row my-sm-5 my-4">
-                    <div class="col-xl-3 col-sm-6 mb-4">
-                        <div class="card p-7 mb-0 rounded-3 border">
-                            <h3 class="fs-6 fw-bolder mb-0">Single Use</h3>
-                            <p class="fs-2 mt-3 pb-sm-7 pb-3 mb-0 fw-bold border-bottom">
-                                Use for single end product which end
-                                users can’t be charged for.
-                            </p>
-                            <h3 class="fs-3 fw-normal mt-sm-7 mt-3 text-muted">
-                                <span class="fs-10 fw-bolder text-dark">$49</span>/
-                                one time pay
-                            </h3>
-                            <div class="my-sm-7 my-3 d-flex flex-column gap-3">
-                                <div class="d-flex gap-2">
-                                    <img src="../assets/images/frontend-pages/icon-circle-check.svg" alt="">
-                                    <p class="fs-3 fw-bold text-dark mb-0">Full source code</p>
-                                </div>
-                                <div class="d-flex gap-2">
-                                    <img src="../assets/images/frontend-pages/icon-circle-check.svg" alt="">
-                                    <p class="fs-3 fw-bold text-dark mb-0">Documentation</p>
-                                </div>
-                                <div class="d-flex gap-2">
-                                    <img src="../assets/images/frontend-pages/icon-circle-x.svg" alt="">
-                                    <p class="fs-3 fw-bold mb-0 text-muted">Use in SaaS app</p>
-                                </div>
-                                <div class="d-flex gap-2">
-                                    <img src="../assets/images/frontend-pages/icon-circle-check.svg" alt="">
-                                    <p class="fs-3 fw-bold text-dark mb-0">
-                                        <span class="fw-bolder">One</span>
-                                        Project
-                                    </p>
-                                </div>
-                                <div class="d-flex gap-2">
-                                    <img src="../assets/images/frontend-pages/icon-circle-check.svg" alt="">
-                                    <p class="fs-3 fw-bold text-dark mb-0">
-                                        <span class="fw-bolder">One Year</span>
-                                        Technical
-                                        Support
-                                    </p>
-                                </div>
-                                <div class="d-flex gap-2">
-                                    <img src="../assets/images/frontend-pages/icon-circle-check.svg" alt="">
-                                    <p class="fs-3 fw-bold text-dark mb-0">
-                                        <span class="fw-bolder">One Year</span>
-                                        Free
-                                        Updates
-                                    </p>
-                                </div>
-                            </div>
-                            <a href="javascript:void(0)" class="btn btn-primary">Purchase Now</a>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-sm-6 mb-4">
-                        <div class="card p-7 mb-0 rounded-3 border">
-                            <h3 class="fs-6 fw-bolder mb-0">Multiple Use</h3>
-                            <p class="fs-2 mt-3 mb-0 pb-sm-7 pb-3 fw-bold border-bottom">
-                                Use for unlimited end products end users
-                                can’t be charged for.
-                            </p>
-                            <h3 class="fs-3 fw-normal mt-sm-7 mt-3 text-muted">
-                                <span class="fs-10 fw-bolder text-dark">$89</span>/
-                                one time pay
-                            </h3>
-                            <div class="my-sm-7 my-3 d-flex flex-column gap-3">
-                                <div class="d-flex gap-2">
-                                    <img src="../assets/images/frontend-pages/icon-circle-check.svg" alt="">
-                                    <p class="fs-3 fw-bold text-dark mb-0">Full source code</p>
-                                </div>
-                                <div class="d-flex gap-2">
-                                    <img src="../assets/images/frontend-pages/icon-circle-check.svg" alt="">
-                                    <p class="fs-3 fw-bold text-dark mb-0">Documentation</p>
-                                </div>
-                                <div class="d-flex gap-2">
-                                    <img src="../assets/images/frontend-pages/icon-circle-x.svg" alt="">
-                                    <p class="fs-3 fw-bold mb-0 text-muted">Use in SaaS app</p>
-                                </div>
-                                <div class="d-flex gap-2">
-                                    <img src="../assets/images/frontend-pages/icon-circle-check.svg" alt="">
-                                    <p class="fs-3 fw-bold text-dark mb-0">
-                                        <span class="fw-bolder">One</span>
-                                        Project
-                                    </p>
-                                </div>
-                                <div class="d-flex gap-2">
-                                    <img src="../assets/images/frontend-pages/icon-circle-check.svg" alt="">
-                                    <p class="fs-3 fw-bold text-dark mb-0">
-                                        <span class="fw-bolder">One Year</span>
-                                        Technical
-                                        Support
-                                    </p>
-                                </div>
-                                <div class="d-flex gap-2">
-                                    <img src="../assets/images/frontend-pages/icon-circle-check.svg" alt="">
-                                    <p class="fs-3 fw-bold text-dark mb-0">
-                                        <span class="fw-bolder">One Year</span>
-                                        Free
-                                        Updates
-                                    </p>
-                                </div>
-                            </div>
-                            <button class="btn btn-primary">Purchase Now</button>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-sm-6 mb-4">
-                        <div class="card p-7 mb-0 rounded-3 border">
-                            <h3 class="fs-6 fw-bolder mb-0">
-                                Extended Use <span
-                                    class="text-primary fs-2 fw-bolder bg-primary-subtle py-1 px-2 rounded ms-2">Popular</span>
-                            </h3>
-                            <p class="fs-2 mt-3 mb-0 pb-sm-7 pb-3 fw-bold border-bottom">
-                                Use for single end product which end
-                                users can be charged for.
-                            </p>
-                            <h3 class="fs-3 fw-normal mt-sm-7 mt-3 text-muted">
-                                <span class="fs-10 fw-bolder text-dark">$299</span>/
-                                one time pay
-                            </h3>
-                            <div class="my-sm-7 my-3 d-flex flex-column gap-3">
-                                <div class="d-flex gap-2">
-                                    <img src="../assets/images/frontend-pages/icon-circle-check.svg" alt="">
-                                    <p class="fs-3 fw-bold text-dark mb-0">Full source code</p>
-                                </div>
-                                <div class="d-flex gap-2">
-                                    <img src="../assets/images/frontend-pages/icon-circle-check.svg" alt="">
-                                    <p class="fs-3 fw-bold text-dark mb-0">Documentation</p>
-                                </div>
-                                <div class="d-flex gap-2">
-                                    <img src="../assets/images/frontend-pages/icon-circle-check.svg" alt="">
-                                    <p class="fs-3 fw-bold mb-0 text-dark">Use in SaaS app</p>
-                                </div>
-                                <div class="d-flex gap-2">
-                                    <img src="../assets/images/frontend-pages/icon-circle-check.svg" alt="">
-                                    <p class="fs-3 fw-bold text-dark mb-0">
-                                        <span class="fw-bolder">One</span>
-                                        Project
-                                    </p>
-                                </div>
-                                <div class="d-flex gap-2">
-                                    <img src="../assets/images/frontend-pages/icon-circle-check.svg" alt="">
-                                    <p class="fs-3 fw-bold text-dark mb-0">
-                                        <span class="fw-bolder">One Year</span>
-                                        Technical
-                                        Support
-                                    </p>
-                                </div>
-                                <div class="d-flex gap-2">
-                                    <img src="../assets/images/frontend-pages/icon-circle-check.svg" alt="">
-                                    <p class="fs-3 fw-bold text-dark mb-0">
-                                        <span class="fw-bolder">One Year</span>
-                                        Free
-                                        Updates
-                                    </p>
-                                </div>
-                            </div>
-                            <button class="btn btn-primary">Purchase Now</button>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-sm-6">
-                        <div class="card p-7 mb-0 rounded-3 border">
-                            <h3 class="fs-6 fw-bolder mb-0">
-                                Unlimited Use
-                            </h3>
-                            <p class="fs-2 mt-3 pb-sm-7 pb-3 mb-0 fw-bold border-bottom">
-                                Use in unlimited end products end users
-                                can be charged for.
-                            </p>
-                            <h3 class="fs-3 fw-normal mt-sm-7 mt-3 text-muted">
-                                <span class="fs-10 fw-bolder text-dark">$499</span>/
-                                one time pay
-                            </h3>
-                            <div class="my-sm-7 my-3 d-flex flex-column gap-3">
-                                <div class="d-flex gap-2">
-                                    <img src="../assets/images/frontend-pages/icon-circle-check.svg" alt="">
-                                    <p class="fs-3 fw-bold text-dark mb-0">Full source code</p>
-                                </div>
-                                <div class="d-flex gap-2">
-                                    <img src="../assets/images/frontend-pages/icon-circle-check.svg" alt="">
-                                    <p class="fs-3 fw-bold text-dark mb-0">Documentation</p>
-                                </div>
-                                <div class="d-flex gap-2">
-                                    <img src="../assets/images/frontend-pages/icon-circle-check.svg" alt="">
-                                    <p class="fs-3 fw-bold mb-0 text-dark">Use in SaaS app</p>
-                                </div>
-                                <div class="d-flex gap-2">
-                                    <img src="../assets/images/frontend-pages/icon-circle-check.svg" alt="">
-                                    <p class="fs-3 fw-bold text-dark mb-0">
-                                        <span class="fw-bolder">One</span>
-                                        Project
-                                    </p>
-                                </div>
-                                <div class="d-flex gap-2">
-                                    <img src="../assets/images/frontend-pages/icon-circle-check.svg" alt="">
-                                    <p class="fs-3 fw-bold text-dark mb-0">
-                                        <span class="fw-bolder">One Year</span>
-                                        Technical
-                                        Support
-                                    </p>
-                                </div>
-                                <div class="d-flex gap-2">
-                                    <img src="../assets/images/frontend-pages/icon-circle-check.svg" alt="">
-                                    <p class="fs-3 fw-bold text-dark mb-0">
-                                        <span class="fw-bolder">One Year</span>
-                                        Free
-                                        Updates
-                                    </p>
-                                </div>
-                            </div>
-                            <button class="btn btn-primary">Purchase Now</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="">
-                    <p class="fs-4 fw-bold text-center mb-7">Secured payment with PayPal & Razorpay</p>
-                    <div class="row justify-content-center">
-                        <div class="col-lg-10">
-                            <div class="d-flex align-items-center justify-content-between gap-4 flex-wrap">
-                                <a href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-placement="top"
-                                    data-bs-title="Visa">
-                                    <img src=" ../assets/images/frontend-pages/visa.png" alt="visa">
-                                </a>
-                                <a href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-placement="top"
-                                    data-bs-title="Mastercard">
-                                    <img src="../assets/images/frontend-pages/mastercard.png" alt="mastercard">
-                                </a>
-                                <a href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-placement="top"
-                                    data-bs-title="Americanexpress">
-                                    <img src="../assets/images/frontend-pages/americanexpress.png"
-                                        alt="americanexpress">
-                                </a>
-                                <a href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-placement="top"
-                                    data-bs-title="Paypal">
-                                    <img src="../assets/images/frontend-pages/paypal.png" alt="paypal">
-                                </a>
-                                <a href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-placement="top"
-                                    data-bs-title="Maestro">
-                                    <img src="../assets/images/frontend-pages/maestro.png" alt="maestro">
-                                </a>
-                                <a href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-placement="top"
-                                    data-bs-title="JCB">
-                                    <img src="../assets/images/frontend-pages/jcb.png" alt="jcb">
-                                </a>
-                                <a href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-placement="top"
-                                    data-bs-title="Dinersclub">
-                                    <img src="../assets/images/frontend-pages/dinersclub.png" alt="dinersclub">
-                                </a>
-                                <a href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-placement="top"
-                                    data-bs-title="Discover">
-                                    <img src="../assets/images/frontend-pages/discover.png" alt="discover">
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- ------------------------------------- -->
-    <!-- Plans End -->
-    <!-- ------------------------------------- -->
-
-    <!-- ------------------------------------- -->
-    <!-- Faq Start -->
-    <!-- ------------------------------------- -->
-    <section>
-        <div class="container-fluid">
-            <h2 class="fs-10 fw-bolder text-center">Frequently Asked Questions</h2>
-            <div class="row justify-content-center">
-                <div class="col-lg-8">
-                    <div class="my-13">
-                        <div class="accordion faq-accordion" id="accordionFaq">
-                            @foreach ($faq as $index => $faqItem)
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header" id="heading{{ $index }}">
-                                        <button class="accordion-button fs-5 {{ $index != 0 ? 'collapsed' : '' }}"
-                                            type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ $index }}"
-                                            aria-expanded="{{ $index == 0 ? 'true' : 'false' }}"
-                                            aria-controls="collapse{{ $index }}">
-                                            {{ $faqItem->subject }}
+                <div class="row mt-6">
+                    <div class="col-lg-3 col-md-4 col-12 mb-md-0 mb-4">
+                        <div class="d-flex justify-content-between flex-column nav-align-left mb-2 mb-md-0">
+                            <ul class="nav nav-pills flex-column flex-nowrap">
+                                @foreach($faq as $category_name => $questions)
+                                    <li class="nav-item">
+                                        <button class="nav-link {{ $loop->first ? 'active' : '' }}" data-bs-toggle="tab"
+                                            data-bs-target="#faq-{{ Str::slug($category_name) }}">
+                                            {{-- Icon bisa kamu sesuaikan manual berdasarkan nama kategori jika perlu --}}
+                                            <i class="icon-base ri ri-add-fill icon-sm me-2"></i>
+                                            <span class="align-middle">{{ $category_name }}</span>
                                         </button>
-                                    </h2>
-                                    <div id="collapse{{ $index }}"
-                                        class="accordion-collapse collapse {{ $index == 0 ? 'show' : '' }}"
-                                        aria-labelledby="heading{{ $index }}" data-bs-parent="#accordionFaq">
-                                        <div class="accordion-body">
-                                            <p>{{ $faqItem->answer }}</p>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-9 col-md-8 col-12">
+                        <div class="tab-content p-0">
+                            @foreach($faq as $category_name => $questions)
+                                <div class="tab-pane fade {{ $loop->first ? 'show active' : '' }}"
+                                    id="faq-{{ Str::slug($category_name) }}" role="tabpanel">
+
+                                    <div class="d-flex mb-4 gap-4 align-items-center">
+                                        <div class="avatar avatar-md">
+                                            <div class="avatar-initial bg-label-primary rounded-4">
+                                                <i class="icon-base ri ri-questionnaire-fill icon-30px"></i>
+                                            </div>
                                         </div>
+                                        <div>
+                                            <h5 class="mb-0">{{ $category_name }}</h5>
+                                            <span>Daftar pertanyaan seputar {{ $category_name }}</span>
+                                        </div>
+                                    </div>
+
+                                    <div id="accordion-{{ Str::slug($category_name) }}" class="accordion">
+                                        @foreach($questions as $item)
+                                            <div class="accordion-item {{ $loop->first ? 'active' : '' }}">
+                                                <h2 class="accordion-header">
+                                                    <button class="accordion-button {{ $loop->first ? '' : 'collapsed' }}"
+                                                        type="button" data-bs-toggle="collapse"
+                                                        data-bs-target="#item-{{ $item->id }}"
+                                                        aria-expanded="{{ $loop->first ? 'true' : 'false' }}">
+                                                        {{ $item->subject }} {{-- Menggunakan kolom subject dari db kamu --}}
+                                                    </button>
+                                                </h2>
+
+                                                <div id="item-{{ $item->id }}"
+                                                    class="accordion-collapse collapse {{ $loop->first ? 'show' : '' }}"
+                                                    data-bs-parent="#accordion-{{ Str::slug($category_name) }}">
+                                                    <div class="accordion-body">
+                                                        {!! $item->answer !!} {{-- Menggunakan kolom answer dari db kamu --}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endforeach
                                     </div>
                                 </div>
                             @endforeach
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="d-flex justify-content-center align-items-center">
-                <p class="text-center fs-3 fw-bold dashed-border py-1 px-2 rounded mb-0">
-                    Masih ada pertanyaan? <a target="_blank" href="{{ route('contact.index') }}"
-                        class="text-underline text-body">Kirim Pertanyaan mu disini</a>
-                </p>
+                <!-- / Content -->
+
+                <div class="content-backdrop fade"></div>
             </div>
         </div>
     </section>
-    <!-- ------------------------------------- -->
-    <!-- Faq End -->
-    <!-- ------------------------------------- -->
+    <!-- FAQ: End -->
 
-    <!-- ------------------------------------- -->
-    <!-- Develop Start -->
-    <!-- ------------------------------------- -->
-    <section class="my-5 my-md-14 my-lg-12">
-        <div class="custom-container">
-            <div class="bg-primary-subtle rounded-3 position-relative overflow-hidden">
-                <div class="row">
-                    <div class="col-lg-6">
-                        <div class="py-lg-12 ps-lg-12 py-5 px-lg-0 px-9">
-                            <h2 class="fs-10 fw-bolder text-lg-start text-center">
-                                Develop with feature-rich Bootstrap Dashboard
-                            </h2>
-                            <div
-                                class="d-flex justify-content-lg-start justify-content-center gap-3 my-4 flex-sm-nowrap flex-wrap">
-                                <a href="../main/authentication-login.html" class="btn btn-primary py-6 px-9">Member
-                                    Login</a>
-                                <a href="../main/authentication-register.html"
-                                    class="btn btn-outline-primary py-6 px-9">Register as Member</a>
-                            </div>
-                            <p class="fs-3 text-lg-start text-center mb-0">
-                                <span class="fw-bolder">One-time purchase</span> - no recurring fees.
+    <!-- CTA: Start -->
+    <section id="landingCTA" class="section-py landing-cta p-lg-0 pb-0 position-relative">
+        <img src="../../assets/img/front-pages/backgrounds/cta.png"
+            class="position-absolute bottom-0 end-0 scaleX-n1-rtl h-100 w-100 z-n1" alt="cta image" />
+        <div class="container">
+            <div class="row align-items-center gy-5 gy-lg-0">
+                <div class="col-lg-6 text-center text-lg-start">
+                    <h2 class="display-5 text-primary mb-3">Siap Untuk Pakai <i class="fw-bold">Serenity</i>?</h2>
+                    <p class="fw-medium mb-md-8">Daftar warga baru atau login disini</p>
+                    <a href="{{ route('login') }}" class="btn btn-primary">Masuk Warga<i
+                            class="icon-base ri ri-arrow-right-line icon-16px ms-2 scaleX-n1-rtl"></i></a>
+                </div>
+                <div class="col-lg-6 pt-lg-12">
+                    <img src="../../assets/img/front-pages/landing-page/bg-website.png" alt="cta dashboard"
+                        class="img-fluid" />
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- CTA: End -->
+
+    <!-- Contact Us: Start -->
+    <section id="landingContact" class="section-py bg-body landing-contact">
+        <div class="container bg-icon-left position-relative">
+            <img src="../../assets/img/front-pages/icons/bg-left-icon-light.png" alt="section icon"
+                class="position-absolute top-0 start-0" data-speed="1"
+                data-app-light-img="front-pages/icons/bg-left-icon-light.png"
+                data-app-dark-img="front-pages/icons/bg-left-icon-dark.png" />
+            <h6 class="text-center d-flex justify-content-center align-items-center mb-6">
+                <img src="../../assets/img/front-pages/icons/section-title-icon.png" alt="section title icon"
+                    class="me-3" height="19" />
+                <span class="text-uppercase">Kontak Kami</span>
+            </h6>
+            <h5 class="text-center mb-2">Ayo kita bekerjasama</h5>
+            <p class="text-center fw-medium mb-4 mb-md-12 pb-3">Punya pertanyaan, masukan, atau ingin bekerja sama? Kami
+                siap mendengar dari Anda.</p>
+            <div class="row gy-4">
+                <div class="col-lg-5">
+                    <div class="card h-100">
+                        <div class="bg-primary rounded-4 text-white card-body p-lg-8">
+                            <p class="fw-medium mb-1_5 tagline">Mari terhubung dengan kami</p>
+                            <h4 class="text-white mb-5 title">Sampaikan Masukan atau kebutuhan Anda bersama tim ahli
+                                kami.</h4>
+                            <img src="../../assets/img/front-pages/landing-page/let’s-contact.png" alt="let’s contact"
+                                class="w-100 mb-4 pb-1" />
+                            <p class="mb-0 description">
+                                Butuh fitur tambahan atau penyesuaian khusus? Tenang, kami siap membantu dengan tim
+                                profesional yang berpengalaman.
                             </p>
                         </div>
                     </div>
-                    <div class="col-lg-6 d-lg-block d-none">
-                        <img src="../assets/images/frontend-pages/design-collection.png" alt="banner"
-                            class="position-absolute develop-feature-rich">
+                </div>
+                <div class="col-lg-7">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="mb-6">Kirim Masukan mu</h5>
+                            <form action="{{ route('contact.store') }}" method="post">
+                                @csrf
+                                <div class="row g-5">
+                                    <div class="col-md-6">
+                                        <div class="form-floating form-floating-outline">
+                                            <input type="text" class="form-control" id="basic-default-fullname"
+                                                placeholder="John Doe" name="name" />
+                                            <label for="basic-default-fullname">Nama</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-floating form-floating-outline">
+                                            <input type="email" class="form-control" id="basic-default-email"
+                                                placeholder="johndoe99@gmail.com" name="email" />
+                                            <label for="basic-default-email">Email</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <div class="form-floating form-floating-outline">
+                                            <textarea class="form-control h-px-250" placeholder="Message"
+                                                aria-label="Message" id="basic-default-message"
+                                                name="question"></textarea>
+                                            <label for="basic-default-message">Pertanyaan</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary mt-5">Kirim</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <!-- ------------------------------------- -->
-    <!-- Develop End -->
-    <!-- ------------------------------------- -->
+    <!-- Contact Us: End -->
 </x-user>

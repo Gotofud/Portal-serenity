@@ -4,7 +4,13 @@ use App\Http\Controllers\Admin\Service\ContactController;
 use App\Http\Controllers\GetData;
 use App\Http\Controllers\GoogleAuthController;
 use App\Http\Middleware\Security;
+use App\Models\Master\Block;
+use App\Models\Master\CommunityUnit;
 use App\Models\Master\Faq;
+use App\Models\Master\House;
+use App\Models\Master\NeighborhoodUnit;
+use App\Models\Resident\User;
+use App\Models\Service\News;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -18,6 +24,8 @@ Route::get('/auth/google/callback', [GoogleAuthController::class, 'callback']);
 Route::get('/get-rt/{community_id}', [GetData::class, 'getRt']);
 // Route Get Blok
 Route::get('/get-block/{community_id}/{neighborhood_id}', [GetData::class, 'getBlock']);
+// Route Get House
+Route::get('/get-house/{community_id}/{neighborhood_id}/{block_id}', [GetData::class, 'getHouse']);
 // Route OTP
 Route::middleware(['auth'])->group(function () {
     Route::get('/verify-otp', [App\Http\Controllers\OtpController::class, 'showForm'])->name('verify-otp.view');
@@ -102,7 +110,7 @@ Route::middleware(['auth', 'is_verified'])->group(function () {
     // Service
     Route::prefix('service')->as('service.')->middleware(['auth', Security::class])->group(function () {
         Route::resource('/announcements', App\Http\Controllers\Admin\Service\AnnouncementsController::class);
-        Route::post('/publish-announcements/{announcement}', [App\Http\Controllers\Admin\Service\AnnouncementsController::class,'publish'])->name('announcements.publish');
+        Route::post('/publish-announcements/{announcement}', [App\Http\Controllers\Admin\Service\AnnouncementsController::class, 'publish'])->name('announcements.publish');
         Route::resource('/report', App\Http\Controllers\Admin\Service\ReportController::class);
         Route::post('/report/{report}/accept', [App\Http\Controllers\Admin\Service\ReportController::class, 'accept'])->name('report.accept');
         Route::post('/report/{report}/complete', [App\Http\Controllers\Admin\Service\ReportController::class, 'complete'])->name('report.complete');
@@ -131,7 +139,7 @@ Route::middleware(['auth', 'is_verified'])->group(function () {
     Route::prefix('finance')->as('finance.')->middleware(['auth', Security::class])->group(function () {
         Route::resource('/agreement', App\Http\Controllers\Admin\Finance\AgreementController::class);
         Route::resource('/bill', App\Http\Controllers\Admin\Finance\BillController::class);
-        Route::post('/generate-bill', [App\Http\Controllers\Admin\Finance\BillController::class,'generateBill'])->name('bill.generate');
+        Route::post('/generate-bill', [App\Http\Controllers\Admin\Finance\BillController::class, 'generateBill'])->name('bill.generate');
         Route::get('/bill-export', [App\Http\Controllers\Admin\Finance\BillController::class, 'export'])->name('bill.export');
         Route::get('/bill-import', [App\Http\Controllers\Admin\Finance\BillController::class, 'import'])->name('bill.import');
         Route::post('/bill-import', [App\Http\Controllers\Admin\Finance\BillController::class, 'importProcess'])->name('bill.importProcess');
@@ -141,11 +149,25 @@ Route::middleware(['auth', 'is_verified'])->group(function () {
 
 // User Route
 Route::get('/', function () {
-    $faq = Faq::all();
-    return view('welcome', compact('faq'));
-});
+    $faq = Faq::where('status', 'Aktif')->get()->groupBy('category');
+    $mainNews = News::latest()->first();
+    $recentNews = News::inRandomOrder()->limit(2)->get();
+    $otherNews = News::inRandomOrder()->limit(4)->get();
+    $house = House::all()->count();
+    $user = $user = User::whereHas('roles', function ($role) {
+        $role->whereIn('name', ['Resident', 'Onboarding']);
+    })->count();
+    $rt = NeighborhoodUnit::all()->count();
+    $rw = CommunityUnit::all()->count();
+    return view('welcome', compact('faq', 'mainNews', 'recentNews', 'house', 'user', 'rt', 'rw','otherNews'));
+})->name('home');
 Route::resource('/contact', App\Http\Controllers\User\Service\Contact::class);
+// Route Berita User
+Route::prefix('services')->as('services.')->group(function () {
+    Route::resource('news', App\Http\Controllers\User\Service\NewsController::class);
+});
 
 Route::middleware(['auth', 'is_verified'])->group(function () {
     Route::resource('user-profile', App\Http\Controllers\User\UserProfileController::class);
+    Route::resource('user-dashboard', App\Http\Controllers\User\Dashboard::class);
 });

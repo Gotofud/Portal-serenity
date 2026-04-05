@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -13,9 +12,9 @@ return new class extends Migration
     {
         Schema::create('neighborhood_operators', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('user_id');
-            $table->bigInteger('community_id');
-            $table->bigInteger('neighborhood_id');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('community_id')->constrained('community_units')->onDelete('cascade');
+            $table->foreignId('neighborhood_id')->constrained('neighborhood_units')->onDelete('cascade');
             $table->timestamps();
         });
     }

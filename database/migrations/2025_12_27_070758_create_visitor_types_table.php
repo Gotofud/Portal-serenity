@@ -18,10 +18,10 @@ return new class extends Migration {
 
         Schema::create('guest', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('user_id');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->string('guest_amount');
-            $table->bigInteger('guest_types');
-            $table->bigInteger('house_id');
+            $table->foreignId('guest_types')->constrained('guest_types')->onDelete('cascade');
+            $table->foreignId('house_id')->constrained('houses')->onDelete('cascade');
             $table->dateTime('visit_at')->now();
             $table->timestamps();
         });

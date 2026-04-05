@@ -18,7 +18,7 @@ class HouseController extends Controller
      */
     public function index()
     {
-        $house = House::with('users_houses.users')->get();
+        $house = House::with(['users_houses.users.user_profile'])->get();
         $co = CommunityUnit::all();
         $bt = BuildingType::all();
         return view('admin.master.house.index', compact('house', 'co', 'bt'));
@@ -61,7 +61,7 @@ class HouseController extends Controller
 
         return redirect()->route('dashboard.house.index')->with('success', 'Data Berhasil Ditambahkan');
     }
-    
+
     /**
      * Update the specified resource in storage.
      */

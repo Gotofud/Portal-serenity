@@ -128,29 +128,35 @@
                                 {{ $loop->iteration }}
                             </td>
                             <td>
-                                @forelse ($data->users_houses as $owner)
-                                    <a href="{{ route('resident.user.show', $owner->users->id) }}"
+                                @php
+                                    // Ambil data pertama dari relasi
+                                    $house = $data->users_houses->first();
+                                @endphp
+                                @if($house && $house->users)
+                                    <a href="{{ route('resident.user.show', $house->users->id) }}"
                                         class="text-dark text-decoration-none">
-                                        {{ $owner->users->user_profile->full_name ?? 'N/A' }}
-                                        <br><small class="text-muted text-light"
-                                            style="font-size: 13.5px;">{{ $owner->users->email }}</small>
+                                        {{ $house->users->user_profile->full_name ?? 'N/A' }}
+                                        <br>
+                                        <small class="text-muted text-light" style="font-size: 13.5px;">
+                                            {{ $house->users->email }}
+                                        </small>
                                     </a>
-                                @empty
-                                    Belum diatur
-                                @endforelse
+                                @else
+                                    <span class="text-muted">Belum diatur</span>
+                                @endif
                             </td>
                             <td>Blok {{ $data->blocks->name ?? 'N/a' }} No {{ $data->number }} <br><small
                                     class="text-muted text-light" style="font-size: 13.5px;">
                                     RT {{ $data->neighborhoodUnits->no }} RW
                                     {{ $data->communityUnits->no }}</small></td>
                             <td>
-                                @forelse ($data->users_houses as $primary_house)
-                                    {{ $primary_house->is_primary }}
+                                @if($house && $house->users)
+                                    {{ $house->is_primary }}
                                     <br><small class="text-muted text-light" style="font-size: 13.5px;">
-                                        {{ $primary_house->total_resident }} Penghuni</small>
-                                @empty
-                                    Belum diatur
-                                @endforelse
+                                        {{ $house->total_resident }} Penghuni</small>
+                                @else
+                                    <span class="text-muted">Belum diatur</span>
+                                @endif
                             </td>
                             <td>{{ $data->building_Types->name }}<br><small class="text-muted text-light"
                                     style="font-size: 13.5px;">

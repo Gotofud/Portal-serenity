@@ -17,7 +17,6 @@ class News extends Model
         'description',
         'status',
         'views',
-        'upload_at'
     ];
 
     public function users()

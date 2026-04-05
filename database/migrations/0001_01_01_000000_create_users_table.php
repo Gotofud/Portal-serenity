@@ -10,13 +10,20 @@ return new class extends Migration {
      */
     public function up(): void
     {
+        Schema::create('roles', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->enum('status', ['Aktif', 'Nonaktif'])->default('Aktif');
+            $table->timestamps();
+        });
+        
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('google_id')->nullable();
             $table->string('avatar')->nullable();
             $table->string('name');
             $table->string('email')->unique();
-            $table->BigInteger('role_id')->default('6');
+            $table->foreignId('role_id')->constrained('roles')->onDelete('cascade')->default('3');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable();
             $table->string('otp')->nullable();
@@ -27,22 +34,16 @@ return new class extends Migration {
             $table->timestamps();
         });
 
-        Schema::create('roles', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->enum('status', ['Aktif', 'Nonaktif'])->default('Aktif');
-            $table->timestamps();
-        });
-
         Schema::create('users_profile', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('user_id');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->string('full_name');
+            $table->string('telephone_num');
             $table->date('bod');
             $table->string('pob');
             $table->enum('gender', ['Laki-Laki', 'Perempuan']);
             $table->enum('citizenship', ['WNA', 'WNI']);
-            $table->enum('family_status',['Kepala Keluarga','Ibu Rumah Tangga','Anak','Lainnya']);
+            $table->enum('family_status', ['Kepala Keluarga', 'Ibu Rumah Tangga', 'Anak', 'Lainnya']);
             $table->bigInteger('nik');
             $table->bigInteger('nkk');
             $table->string('religion');

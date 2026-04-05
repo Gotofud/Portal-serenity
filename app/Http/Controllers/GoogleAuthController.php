@@ -53,7 +53,10 @@ class GoogleAuthController extends Controller
             return redirect()->route('user-profile.index');
         }
 
-        return redirect('/dashboard');
+           if (in_array($user->roles->name, ['Super Admin', 'Admin'])) {
+            return redirect('/dashboard');
+        }
+        return redirect('/user-dashboard');
     }
     private function sendOtp($user)
     {

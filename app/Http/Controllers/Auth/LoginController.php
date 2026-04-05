@@ -30,10 +30,10 @@ class LoginController extends Controller
     public function redirectTo()
     {
         $user = Auth::user();
-        if (in_array($user->roles->name, ['Super Admin', 'Admin', 'Security'])) {
+        if (in_array($user->roles->name, ['Super Admin', 'Admin'])) {
             return '/dashboard';
         }
-        return '/';
+        return '/user-dashboard';
     }
 
     /**

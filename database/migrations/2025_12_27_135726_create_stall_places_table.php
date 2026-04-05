@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('stall_places', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('community_id');
-            $table->bigInteger('neighborhood_id');
+             $table->foreignId('community_id')->constrained('community_units')->onDelete('cascade');
+            $table->foreignId('neighborhood_id')->constrained('neighborhood_units')->onDelete('cascade');
             $table->string('name');
             $table->integer('stall_unit');
             $table->bigInteger('rent_amount');
@@ -25,8 +25,8 @@ return new class extends Migration
         Schema::create('stalls', function (Blueprint $table) {
             $table->id();
             $table->string('code');
-            $table->bigInteger('user_id');
-            $table->bigInteger('stall_id');
+             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('stall_id')->constrained('stall_places')->onDelete('cascade');
             $table->enum('status',['Aktif','Nonaktif','Pending'])->default('pending');
             $table->dateTime('start_date');
             $table->dateTime('end_date');

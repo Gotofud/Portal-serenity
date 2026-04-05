@@ -1,109 +1,48 @@
-<footer>
-    <div class="container-fluid">
-        <div class="border-bottom">
-            <div class="row mb-sm-12 mb-4">
-                <div class="col-md-3 col-6">
-                    <h3 class="fs-4 fw-semibold mb-7">Applications</h3>
-                    <ul class="d-flex flex-column gap-9">
-                        <li>
-                            <a href="../main/app-kanban.html" class="fs-4 text-body link-primary">Kanban</a>
-                        </li>
-                        <li>
-                            <a href="../main/app-invoice.html" class="fs-4 text-body link-primary">Invoice
-                                List</a>
-                        </li>
-                        <li>
-                            <a href="../main/eco-shop.html" class="fs-4 text-body link-primary">eCommerce</a>
-                        </li>
-                        <li>
-                            <a href="../main/app-chat.html" class="fs-4 text-body link-primary">Chat</a>
-                        </li>
-                        <li>
-                            <a href="../main/app-calendar.html" class="fs-4 text-body link-primary">Calendar</a>
-                        </li>
-                        <li>
-                            <a href="../main/blog-posts.html" class="fs-4 text-body link-primary">Blog</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-md-3 col-6">
-                    <h3 class="fs-4 fw-semibold mb-7">Forms</h3>
-                    <ul class="d-flex flex-column gap-9">
-                        <li>
-                            <a href="../main/form-basic.html" class="fs-4 text-body link-primary">Form
-                                Basic</a>
-                        </li>
-                        <li>
-                            <a href="../main/form-horizontal.html" class="fs-4 text-body link-primary">Form
-                                Horizontal</a>
-                        </li>
-                        <li>
-                            <a href="../main/form-wizard.html" class="fs-4 text-body link-primary">Form
-                                Wizard</a>
-                        </li>
-                        <li>
-                            <a href="../main/form-bootstrap-validation.html" class="fs-4 text-body link-primary">Form
-                                Validation
-                            </a>
-                        </li>
-                        <li>
-                            <a href="../main/form-editor-quill.html" class="fs-4 text-body link-primary">Quill
-                                Editor</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-md-3 col-6">
-                    <h3 class="fs-4 fw-semibold mb-7">Tables</h3>
-                    <ul class="d-flex flex-column gap-9">
-                        <li>
-                            <a href="../main/table-basic.html" class="fs-4 text-body link-primary">Basic
-                                Table</a>
-                        </li>
-                        <li>
-                            <a href="../main/table-dark-basic.html" class="fs-4 text-body link-primary">Table
-                                Dark Basic</a>
-                        </li>
-                        <li>
-                            <a href="../main/table-sizing.html" class="fs-4 text-body link-primary">Table
-                                Sizing</a>
-                        </li>
-                        <li>
-                            <a href="../main/table-layout-coloured.html" class="fs-4 text-body link-primary">Coloured
-                                Table</a>
-                        </li>
-                        <li>
-                            <a href="../main/table-datatable-basic.html" class="fs-4 text-body link-primary">Basic
-                                Initialisation</a>
-                        </li>
-                        <li>
-                            <a href="../main/table-datatable-api.html" class="fs-4 text-body link-primary">API</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-md-3 col-6">
-                    <h3 class="fs-4 fw-semibold mb-7">Follow us</h3>
-                    <div class="d-flex gap-9">
-                        <a href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-title="Facebook">
-                            <img src="../assets/images/frontend-pages/icon-facebook.svg" alt="facebook">
-                        </a>
-                        <a href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-title="Twitter">
-                            <img src="../assets/images/frontend-pages/icon-twitter.svg" alt="twitter">
-                        </a>
-                        <a href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-title="Instagram">
-                            <img src="../assets/images/frontend-pages/icon-instagram.svg" alt="instagram">
-                        </a>
+<footer class="landing-footer">
+    <div class="footer-top position-relative overflow-hidden">
+        <img src="../../assets/img/front-pages/backgrounds/footer.png" alt="footer bg"
+            class="footer-bg banner-bg-img" />
+        <div class="container">
+            <div class="row gx-5 gy-6 g-lg-10">
+                <div class="col-lg-5">
+                    <div class="footer-section text-white">
+                        <div class="d-flex align-items-center mb-4">
+                            <img src="{{ asset('assets/img/logo-white.png') }}" alt="Serenity Logo"
+                                style="width: 150px; height: auto;" class="me-3">
+                        </div>
+
+                        <p class="mb-4 opacity-75" style="max-width: 400px;">
+                            Portal Terpadu Komplek Bojong Malaka Indah untuk mempermudah aktivitas warga.
+                        </p>
+                        <img src="../../assets/img/front-pages/landing-page/apple-icon.png" alt="apple icon" />
+                        <img src="../../assets/img/front-pages/landing-page/google-play-icon.png"
+                            alt="google play icon" />
                     </div>
+                </div>
+                <div class="col-lg-5">
+
                 </div>
             </div>
         </div>
-        <div class="d-flex justify-content-between py-7 flex-md-nowrap flex-wrap gap-sm-0 gap-3">
-            <div class="d-flex gap-3 align-items-center">
-                <img src="../assets/images/logos/favicon.png" alt="icon">
-                <p class="fs-4 mb-0">All rights reserved by Modernize. </p>
+    </div>
+    <div class="footer-bottom py-5" style="background-color: #323232;">
+        <div
+            class="container d-flex flex-wrap justify-content-between flex-md-row flex-column text-center text-md-start">
+            <div class="mb-2 mb-md-0">
+                <span class="footer-bottom-text">©
+                    <script>
+                        document.write(new Date().getFullYear());
+                    </script>
+                    , Made with <i class="icon-base ri ri-heart-fill text-danger"></i> by
+                </span>
+                <a href="https://github.com/gotofud" target="_blank"
+                    class="footer-link fw-medium footer-theme-link">Gotofud</a>
             </div>
             <div>
-                <p class="mb-0">Produced by <a target="_blank" href="https://adminmart.com/"
-                        class="text-primary link-primary">AdminMart</a>.</p>
+                <a href="https://github.com/gotofud" class="footer-link me-4" target="_blank"><i
+                        class="icon-base ri ri-github-fill"></i></a>
+                <a href="https://www.instagram.com/fazlirf_/" class="footer-link" target="_blank"><i
+                        class="icon-base ri ri-instagram-line"></i></a>
             </div>
         </div>
     </div>

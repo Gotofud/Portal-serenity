@@ -4,7 +4,7 @@
 @endphp
 <aside id="layout-menu" class="layout-menu menu-vertical menu">
     <div class="app-brand mt-5 mb-4">
-        <a href="index.html" class="app-brand-link">
+        <a class="app-brand-link">
             <span class="app-brand-logo demo">
                 <img src="{{ asset('assets/img/text-icon.svg') }}">
             </span>
