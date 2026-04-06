@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\Finance\Bills;
+use App\Models\Master\CommunityUnit;
 use App\Models\Master\House;
 use App\Models\Service\Report;
 use App\Models\User;
@@ -58,10 +59,12 @@ class Dashboard extends Controller
             $allBills = collect();
         }
 
-        $primaryHouse = UsersHouse::where('user_id', Auth::id())->where('is_primary', 'Rumah Utama')->get ();
+        $primaryHouse = UsersHouse::where('user_id', Auth::id())->where('is_primary', 'Rumah Utama')->get();
         $secondaryHouse = UsersHouse::where('user_id', Auth::id())->where('is_primary', 'Rumah Lainnya')->get();
 
-        return view('user.dashboard', compact('greeting', 'date', 'houseCount', 'vehicleCount', 'billsPaidCount', 'billsPaidSum', 'allBills', 'primaryHouse', 'secondaryHouse'));
+        $co = CommunityUnit::all();
+
+        return view('user.dashboard', compact('greeting', 'date', 'houseCount', 'vehicleCount', 'billsPaidCount', 'billsPaidSum', 'allBills', 'primaryHouse', 'secondaryHouse', 'co'));
     }
 
     /**
@@ -72,6 +75,18 @@ class Dashboard extends Controller
         //
     }
 
+    public function storeHouse(Request $request)
+    {
+        $addHouse = new UsersHouse();
+        $addHouse->user_id = Auth::id();
+        $addHouse->house_id = $request->house_id;
+        $addHouse->total_resident = $request->total_resident;
+        $addHouse->is_primary = $request->is_primary;
+        $addHouse->status = $request->status;
+        $addHouse->save();
+
+        return redirect()->route('user-dashboard.index')->with('success', 'Data Berhasil Ditambahkan');
+    }
     /**
      * Store a newly created resource in storage.
      */

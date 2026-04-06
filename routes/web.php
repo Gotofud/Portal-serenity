@@ -159,7 +159,7 @@ Route::get('/', function () {
     })->count();
     $rt = NeighborhoodUnit::all()->count();
     $rw = CommunityUnit::all()->count();
-    return view('welcome', compact('faq', 'mainNews', 'recentNews', 'house', 'user', 'rt', 'rw','otherNews'));
+    return view('welcome', compact('faq', 'mainNews', 'recentNews', 'house', 'user', 'rt', 'rw', 'otherNews'));
 })->name('home');
 Route::resource('/contact', App\Http\Controllers\User\Service\Contact::class);
 // Route Berita User
@@ -170,4 +170,15 @@ Route::prefix('services')->as('services.')->group(function () {
 Route::middleware(['auth', 'is_verified'])->group(function () {
     Route::resource('user-profile', App\Http\Controllers\User\UserProfileController::class);
     Route::resource('user-dashboard', App\Http\Controllers\User\Dashboard::class);
+    Route::post('/storehouse', [App\Http\Controllers\User\Dashboard::class, 'storehouse'])
+        ->name('user-dashboard.storehouse');
+    Route::prefix('services')->as('services.')->group(function () {
+        Route::resource('announcements', App\Http\Controllers\User\Service\AnnouncementsController::class);
+        Route::resource('stall', App\Http\Controllers\User\Service\StallController::class);
+        Route::resource('guest', App\Http\Controllers\User\Service\GuestController::class);
+        Route::resource('report', App\Http\Controllers\User\Service\ReportController::class);
+    });
+    Route::prefix('finances')->as('finances.')->group(function () {
+        Route::resource('bill', App\Http\Controllers\User\Finance\BillsController::class);
+    });
 });
