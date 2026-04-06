@@ -4,7 +4,10 @@ namespace App\Http\Controllers\User\Finance;
 
 use App\Http\Controllers\Controller;
 use App\Models\Finance\Bills;
+use App\Models\Master\House;
+use Config;
 use Illuminate\Http\Request;
+use Midtrans\Snap;
 
 class BillsController extends Controller
 {
@@ -14,15 +17,68 @@ class BillsController extends Controller
     public function index()
     {
         $bill = Bills::all();
-        return view('user.bill.index',compact('bill'));
+        return view('user.bills.index', compact('bill'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function pay($id)
     {
-        //
+        $bill = Bills::findOrFail($id);
+        $house = House::with('users_houses')->first();
+        \Midtrans\Config::$serverKey = config('midtrans.serverKey');
+
+        $orderId = $bill->code . '-' . time();
+
+        $params = [
+            'transaction_details' => [
+                'order_id' => $orderId,
+                'gross_amount' => (int) $bill->amount,
+            ],
+            'customer_details' => [
+                'first_name' => $house->users_houses->first()->users->user_profile->full_name ?? $house->users_houses->first()->users->name,
+                'email' => $house->users_houses->first()->users->email ?? $house->users_houses->first()->users->email,
+            ],
+        ];
+
+        $snapToken = Snap::getSnapToken($params);
+
+        return view('user.bills.detail', compact('snapToken', 'bill', 'house'));
+    }
+
+    public function callback()
+    {
+        \Midtrans\Config::$serverKey = config('midtrans.serverKey');
+        \Midtrans\Config::$isProduction = config('midtrans.isProduction');
+
+        $notif = new \Midtrans\Notification();
+
+        $order_id = $notif->order_id;
+        $status = $notif->transaction_status;
+
+        $parts = explode('-', $order_id);
+
+        // gabungkan balik sesuai format code kamu
+        $code = $parts[0] . '-' . $parts[1] . '-' . $parts[2];
+
+        $bill = Bills::where('code', $code)->first();
+
+        if (!$bill) {
+            return response()->json(['message' => 'not found']);
+        }
+
+        if ($status == 'settlement') {
+            $bill->status = 'paid';
+            $bill->paid_at = now();
+        } elseif ($status == 'pending') {
+            $bill->status = 'pending';
+        } elseif ($status == 'expire') {
+            $bill->status = 'expired';
+        } elseif ($status == 'cancel') {
+            $bill->status = 'cancelled';
+        }
+
+        $bill->save();
+
+        return redirect()->back()->with('success', 'Berhasil mengubah status');
     }
 
     /**
@@ -38,7 +94,9 @@ class BillsController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $bill = Bills::findOrFail($id);
+        $house = House::with('users_houses')->first();
+        return view('user.bills.detail', compact('bill', 'house'));
     }
 
     /**

@@ -166,7 +166,8 @@ Route::resource('/contact', App\Http\Controllers\User\Service\Contact::class);
 Route::prefix('services')->as('services.')->group(function () {
     Route::resource('news', App\Http\Controllers\User\Service\NewsController::class);
 });
-
+// Midtrans Callback
+Route::post('/midtrans/callback', [App\Http\Controllers\User\Finance\BillsController::class, 'callback']);
 Route::middleware(['auth', 'is_verified'])->group(function () {
     Route::resource('user-profile', App\Http\Controllers\User\UserProfileController::class);
     Route::resource('user-dashboard', App\Http\Controllers\User\Dashboard::class);
@@ -180,5 +181,7 @@ Route::middleware(['auth', 'is_verified'])->group(function () {
     });
     Route::prefix('finances')->as('finances.')->group(function () {
         Route::resource('bill', App\Http\Controllers\User\Finance\BillsController::class);
+        Route::get('payment/{id}', [App\Http\Controllers\User\Finance\BillsController::class, 'pay'])
+            ->name('payment.pay');
     });
 });

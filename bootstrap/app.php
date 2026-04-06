@@ -16,6 +16,9 @@ return Application::configure(basePath: dirname(__DIR__))
             'is_verified' => \App\Http\Middleware\IsVerified::class,
             'security' => \App\Http\Middleware\Security::class,
         ]);
+        $middleware->validateCsrfTokens(except: [
+            'midtrans/callback',
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

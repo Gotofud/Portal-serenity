@@ -48,7 +48,7 @@
             class="text-danger">*</span></label>
     <select class="form-select @error('status') is-invalid @enderror" name="status" id="inputstatus">
         <option value="" selected>Pilih status</option>
-        @if ($primaryHouse && $primaryHouse->count() < 0)
+        @if ($secondaryHouse && $primaryHouse->count() <= 0)
             <option value="Dihuni" {{ old('status', $data->status ?? '') == 'Dihuni' ? 'selected' : '' }}>
                 Dihuni
             </option>
@@ -68,7 +68,7 @@
             class="text-danger">*</span></label>
     <select class="form-select @error('is_primary') is-invalid @enderror" name="is_primary" id="inputis_primary">
         <option value="" selected>Pilih Status Rumah</option>
-        @if ($primaryHouse && $primaryHouse->count() < 0)
+        @if ($secondaryHouse && $primaryHouse->count() <= 0)
             <option value="Rumah Utama" {{ old('is_primary', $data->is_primary ?? '') == 'Rumah Utama' ? 'selected' : '' }}>
                 Rumah Utama
             </option>

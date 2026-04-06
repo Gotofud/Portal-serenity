@@ -111,7 +111,7 @@
                                             </div>
                                             <div>
                                                 <h6 class="mb-0 text-white" style="font-size: 14px;">Blok {{ $housePrimary->houses->blocks->name }} No {{ $housePrimary->houses->number }}</h6>
-                                                <small class="opacity-75" style="font-size: 11px;">Rumah Tinggal</small>
+                                                <small class="opacity-75" style="font-size: 11px;">{{ $housePrimary->houses->building_Types->name }} | {{ $housePrimary->is_primary }} | {{ $housePrimary->total_resident .' Penghuni' }} </small>
                                             </div>
                                         </div>
                                     </div>
@@ -139,7 +139,7 @@
                                                 </div>
                                                 <div>
                                                     <h6 class="mb-0 text-primary" style="font-size: 14px;">Blok {{ $houseSecondary->houses->blocks->name }} No {{ $houseSecondary->houses->number }}</h6>
-                                                    <small class="opacity-75" style="font-size: 11px;">Rumah Tinggal</small>
+                                                    <small class="opacity-75" style="font-size: 11px;">{{ $houseSecondary->houses->building_Types->name }} | {{ $houseSecondary->is_primary }} | {{ $houseSecondary->total_resident .' Penghuni' }} </small>
                                                 </div>
                                             </div>
                                             <button class="btn btn-sm btn-outline-light text-muted rounded-circle border-0"><i class="ri-arrow-right-s-line fs-4"></i></button>
@@ -181,13 +181,15 @@
                                 @forelse($allBills as $bill)
                                     @php $isPaid = $bill->status == 'paid'; @endphp
                                     <div class="col-3 mb-2">
-                                        <div class="rounded-3 border d-flex align-items-center justify-content-center"
+                                        <a href="{{ route('finances.payment.pay',$bill->id) }}">
+                                           <div class="rounded-3 border d-flex align-items-center justify-content-center"
                                             style="background:{{ $isPaid ? '#5d87ff' : '#F8F9FD' }}; border-color:{{ $isPaid ? '#5D87FF' : '#E8ECF4' }}; height: 75px;">
                                             <div class="text-center">
                                                 <span class="fw-bold d-block {{ $isPaid ? 'text-white' : 'text-muted' }}" style="font-size: 14px;">{{ $bill->month }}</span>
                                                 <i class="{{ $isPaid ? 'ri-checkbox-circle-fill text-white' : 'ri ri-time-line text-muted' }}" style="font-size: 12px;"></i>
                                             </div>
-                                        </div>
+                                        </div>   
+                                        </a>
                                     </div>
                                 @empty 
                                     <div class="text-muted fs-7 py-5 text-center col-12">
