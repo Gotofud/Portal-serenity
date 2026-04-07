@@ -1,8 +1,13 @@
 <x-user>
      <x-partials.admin.form-modal :formRoute="route('user-dashboard.storehouse')" id="addHouse"
-        icon="ri ri-function-add-line" title="Tambah Unit"
+        icon="ri ri-function-add-line" title="Tambah Rumah"
         subtitle="Jika Sudah ada Rumah Utama maka Status akan hanya ada Rumah Lainnya">
         @include('user._fields-house')
+    </x-partials.admin.form-modal>
+     <x-partials.admin.form-modal :formRoute="route('user-dashboard.storevehicle')" id="addVehicle"
+        icon="ri ri-function-add-line" title="Tambah Kendaraan"
+        subtitle="Tambahkan data Kendaraan anda">
+        @include('user._fields-vehicle')
     </x-partials.admin.form-modal>
     <div class="container-fluid py-5" style="margin-top: 100px; margin-bottom:100px;">
 
@@ -81,18 +86,34 @@
         <div class="row g-3 mb-4">
             <div class="col-md-7">
                 <div class="card border-0 shadow-sm h-100" style="background: #ffffff; overflow: hidden; border-radius: 24px;">
-                    <div class="card-header border-0 pt-4 px-4 pb-2"
-                        style="background: linear-gradient(to bottom, #f8faff, #ffffff);">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                                <h5 class="fw-bold mb-1" style="color: #1A1F3C; letter-spacing: -0.5px;">Daftar Rumah & Aset</h5>
-                                <p class="text-muted mb-0" style="font-size: 12px;">Total {{number_format($houseCount ?? 0, 0, ',', '.')}} Unit Terdaftar</p>
-                            </div>
-                            <button class="btn btn-sm btn-primary px-3" style="font-size: 11px;" data-bs-toggle="modal" data-bs-target="#addHouse">
-                                <i class="ri ri-add-line"></i> Tambah Unit
-                            </button>
-                        </div>
-                    </div>
+                 <div class="card-header border-0 pt-4 px-4 pb-2"
+     style="background: linear-gradient(to bottom, #f8faff, #ffffff);">
+    <div class="d-flex justify-content-between align-items-center">
+        
+        <div>
+            <h5 class="fw-bold mb-1" style="color: #1A1F3C; letter-spacing: -0.5px;">
+                Daftar Rumah & Aset
+            </h5>
+            <p class="text-muted mb-0" style="font-size: 12px;">
+                Total {{number_format($total ?? 0, 0, ',', '.')}} Aset Terdaftar
+            </p>
+        </div>
+
+        <!-- GROUP BUTTON -->
+        <div class="d-flex gap-2">
+            <button class="btn btn-sm btn-primary px-3" style="font-size: 11px;"
+                data-bs-toggle="modal" data-bs-target="#addHouse">
+                <i class="ri ri-add-line"></i> Tambah Rumah
+            </button>
+
+            <button class="btn btn-sm btn-primary px-3" style="font-size: 11px;"
+                data-bs-toggle="modal" data-bs-target="#addVehicle">
+                <i class="ri ri-add-line"></i> Tambah Kendaraan
+            </button>
+        </div>
+
+    </div>
+</div>
 
                     <div class="card-body p-4 pt-3 d-flex flex-column" style="max-height: 550px;">
                         <div class="flex-grow-1 overflow-auto custom-scrollbar">
@@ -129,7 +150,7 @@
                                 <label class="text-uppercase fw-bold text-muted" style="font-size: 10px; letter-spacing: 1px;">Unit Properti Lainnya</label>
                             </div>
 
-                            <div class="vstack gap-3">
+                            <div class="vstack gap-3" style="max-height: 180px; overflow-y: auto;">
                                 @if ($secondaryHouse && $secondaryHouse->count() > 0)
                                     @foreach ($secondaryHouse as $houseSecondary)
                                         <div class="p-3 rounded-4 border border-light-subtle d-flex align-items-center justify-content-between transition-all hover-card" style="background: #ffffff;">
@@ -144,13 +165,29 @@
                                             </div>
                                             <button class="btn btn-sm btn-outline-light text-muted rounded-circle border-0"><i class="ri-arrow-right-s-line fs-4"></i></button>
                                         </div>
-                                    @endforeach       
+                                    @endforeach     
                                 @else
                                     <div class="text-muted fs-7 py-5 text-center ">
                                         <div style="font-size:32px; opacity:0.5;"><i class="ri ri-home-4-fill"></i></div>
-                                        <p class="mb-1 fw-semibold">Belum ada Rumah Lainnya</p>
-                                        <small>Pengguna belum mendaftarkan rumah lainnya.</small>
+                                        <p class="mb-1 fw-semibold">Belum ada aset lainnya</p>
+                                        <small>Pengguna belum mendaftarkan aset lainnya.</small>
                                     </div>
+                                @endif
+                                  @if ($vehicle->count() >= 0)
+                                     @foreach ($vehicle as $vehicleData)
+                                        <div class="p-3 rounded-4 border border-light-subtle d-flex align-items-center justify-content-between transition-all hover-card" style="background: #ffffff;">
+                                            <div class="d-flex align-items-center position-relative">
+                                                <div class="bg-primary bg-opacity-25 rounded-3 d-flex align-items-center justify-content-center me-3" style="width: 48px; height: 48px; backdrop-filter: blur(4px);">
+                                                    <i class="ri ri-car-fill text-white fs-4"></i>
+                                                </div>
+                                                <div>
+                                                    <h6 class="mb-0 text-primary" style="font-size: 14px;">{{ $vehicleData->plate_number }}</h6>
+                                                    <small class="opacity-75" style="font-size: 11px;">{{ $vehicleData->vehicleTypes->name }} </small>
+                                                </div>
+                                            </div>
+                                            <button class="btn btn-sm btn-outline-light text-muted rounded-circle border-0"><i class="ri-arrow-right-s-line fs-4"></i></button>
+                                        </div>
+                                    @endforeach  
                                 @endif
                             </div>
                         </div>

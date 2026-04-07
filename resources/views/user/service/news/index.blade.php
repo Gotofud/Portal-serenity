@@ -1,81 +1,89 @@
 <x-user>
-    <div class="container py-4">
-        <div class="row g-4" style="margin-top:100px;">
+    <section id="landingReviews" class="section-py bg-body landing-reviews">
+        <div class="container py-4">
+            <div class="row g-4">
+                <a href="{{ route('services.news.show', $mainNews->id) }}">
+                    <div class="col-lg-12">
+                        <!-- Title -->
+                        <h2 class="fw-bold mb-2" style="line-height: 1.3;">
+                            {{ $mainNews->title }}
+                        </h2>
 
-            <!-- LEFT CONTENT -->
-            <div class="col-lg-8">
+                        <!-- Meta -->
+                        <div class="mb-3">
+                            <span class="text-danger small">{{ $mainNews->news_types }}</span>
+                            <span class="text-muted border-start ps-2 text-dark small">
+                                {{ $mainNews->created_at ? $mainNews->created_at->format('d M Y') : '-' }}</span>
+                        </div>
 
+                        <!-- Image -->
+                        <img src="{{ Storage::url($mainNews->image) }}" class="w-100 rounded-4"
+                            style="height: 350px; object-fit: cover;">
 
-                <!-- Title -->
-                <h2 class="fw-bold mb-2" style="line-height: 1.3;">
-                    Women's Basketball Semifinals
-                    Preview And Schedule
-                </h2>
+                    </div>
+                </a>
 
-                <!-- Meta -->
-                <div class="mb-3">
-                    <span class="text-warning small fw-semibold">Olympics</span>
-                    <span class="text-muted small"> • 6 minute read</span>
-                </div>
-
-                <!-- Image -->
-                <img src="https://images.unsplash.com/photo-1517649763962-0c623066013b"
-                     class="w-100 rounded-4"
-                     style="height: 350px; object-fit: cover;">
 
             </div>
 
-            <!-- RIGHT SIDEBAR -->
-            <div class="col-lg-4">
-
-                <!-- ITEM 1 -->
-                <div class="d-flex mb-4">
-                    <div class="flex-grow-1 me-3">
-                        <h6 class="fw-bold mb-1" style="line-height:1.3;">
-                            Boom, Snoop Dogg: Breaking Electrifies
-                            Paris 2024 Olympics
-                        </h6>
-
-                        <span class="text-warning small fw-semibold">Olympics</span>
-                        <span class="text-muted small"> • 4 min read</span>
-                    </div>
-
-                    <img src="https://images.unsplash.com/photo-1504711434969-e33886168f5c"
-                         style="width: 110px; height: 80px; object-fit: cover; border-radius: 10px;">
+            <div class="row mt-5">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2 class="fw-bold mb-0">Berita Lainnya</h2>
                 </div>
+                @foreach ($otherNews as $otherNewsData)
 
-                <!-- ITEM 2 -->
-                <div class="d-flex mb-4">
-                    <div class="flex-grow-1 me-3">
-                        <h6 class="fw-bold mb-1" style="line-height:1.3;">
-                            Carlos Nasar wins 89kg gold and breaks World Record
-                        </h6>
+                            <div class="col-sm-6 col-md-3">
+                                <a href="{{ route('services.news.show', $otherNewsData->id) }}">
+                                    <div class="cardh-100">
+                                        <img src="{{ Storage::url($otherNewsData->image) }}" class="card-img-top rounded-4 mb-3"
+                                            alt="Article 1" style="height: 180px; object-fit: cover;">
+                                        <div class="card-body p-0">
+                                            <h6 class="fw-bold lh-base mb-3">{{ $otherNewsData->title }}</h6>
+                                            <div class="d-flex align-items-center small mt-auto">
+                                                <span class="text-danger fw-bold me-2">{{ $otherNewsData->news_types }}</span>
+                                                @php
+                                                    $date = $otherNewsData->created_at;
+                                                @endphp
 
-                        <span class="text-warning small fw-semibold">Olympics</span>
-                        <span class="text-muted small"> • 6 min read</span>
-                    </div>
+                                                <span class="text-muted text-dark border-start ps-2">
+                                                    {{ $date
+                    ? ($date->diffInDays(now()) <= 5
+                        ? $date->diffForHumans()
+                        : $date->format('d M Y'))
+                    : '-' }}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
 
-                    <img src="https://images.unsplash.com/photo-1504711434969-e33886168f5c"
-                         style="width: 110px; height: 80px; object-fit: cover; border-radius: 10px;">
-                </div>
-
-                <!-- ITEM 3 -->
-                <div class="d-flex mb-4">
-                    <div class="flex-grow-1 me-3">
-                        <h6 class="fw-bold mb-1" style="line-height:1.3;">
-                            The People's Republic of China reigns supreme in men's team
-                        </h6>
-
-                        <span class="text-warning small fw-semibold">Olympics</span>
-                        <span class="text-muted small"> • 2 min read</span>
-                    </div>
-
-                    <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c"
-                         style="width: 110px; height: 80px; object-fit: cover; border-radius: 10px;">
-                </div>
-
+                @endforeach
             </div>
 
+            <div class="row g-4 mt-3">
+                @foreach ($recentNews as $newsData)
+                    <div class="col-md-6">
+                        <a href="{{ route('services.news.show', $newsData->id) }}">
+                            <div class="card border-0 text-white overflow-hidden shadow-sm" style="height: 18rem;">
+                                <img src="{{ Storage::url($newsData->image) }}" class="card-img" alt="Diver"
+                                    style="height: 350px; object-fit: cover;">
+                                <div class="card-img-overlay d-flex flex-column justify-content-end"
+                                    style="background: linear-gradient(transparent, rgba(0, 0, 0, 0.6));">
+                                    <div class="flex me-3">
+                                        <span class="text-danger small  fw-semibold">{{ $newsData->news_types }}</span>
+                                        <span class="text-muted border-start ps-2 small">
+                                            {{ $newsData->created_at ? $newsData->created_at->format('d M Y') : '-' }}</span>
+                                        <h5 class="mb-1 text-white" style="line-height:1.3;">
+                                            {{ $newsData->title }}
+                                        </h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                @endforeach
+            </div>
         </div>
-    </div>
+    </section>
 </x-user>

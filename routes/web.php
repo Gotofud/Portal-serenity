@@ -173,6 +173,8 @@ Route::middleware(['auth', 'is_verified'])->group(function () {
     Route::resource('user-dashboard', App\Http\Controllers\User\Dashboard::class);
     Route::post('/storehouse', [App\Http\Controllers\User\Dashboard::class, 'storehouse'])
         ->name('user-dashboard.storehouse');
+    Route::post('/storevehicle', [App\Http\Controllers\User\Dashboard::class, 'storevehicle'])
+        ->name('user-dashboard.storevehicle');
     Route::prefix('services')->as('services.')->group(function () {
         Route::resource('announcements', App\Http\Controllers\User\Service\AnnouncementsController::class);
         Route::resource('stall', App\Http\Controllers\User\Service\StallController::class);

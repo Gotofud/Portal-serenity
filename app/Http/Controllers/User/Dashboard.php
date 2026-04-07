@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Finance\Bills;
 use App\Models\Master\CommunityUnit;
 use App\Models\Master\House;
+use App\Models\Master\VehicleTypes;
 use App\Models\Service\Report;
 use App\Models\User;
 use App\Models\User\UsersHouse;
@@ -39,6 +40,7 @@ class Dashboard extends Controller
 
         $houseCount = UsersHouse::where('user_id', Auth::id())->count();
         $vehicleCount = Vehicles::where('user_id', Auth::id())->count();
+        $total = $houseCount + $vehicleCount;
 
         if ($houseId) {
             $billsQuery = Bills::where('house_id', $houseId);
@@ -61,10 +63,25 @@ class Dashboard extends Controller
 
         $primaryHouse = UsersHouse::where('user_id', Auth::id())->where('is_primary', 'Rumah Utama')->get();
         $secondaryHouse = UsersHouse::where('user_id', Auth::id())->where('is_primary', 'Rumah Lainnya')->get();
-
+        $vehicle = Vehicles::where('user_id', Auth::id())->get();
         $co = CommunityUnit::all();
+        $vehicleTypes = VehicleTypes::all();
 
-        return view('user.dashboard', compact('greeting', 'date', 'houseCount', 'vehicleCount', 'billsPaidCount', 'billsPaidSum', 'allBills', 'primaryHouse', 'secondaryHouse', 'co'));
+        return view('user.dashboard', compact(
+            'greeting',
+            'date',
+            'houseCount',
+            'vehicleCount',
+            'billsPaidCount',
+            'billsPaidSum',
+            'allBills',
+            'primaryHouse',
+            'secondaryHouse',
+            'co',
+            'vehicle',
+            'vehicleTypes',
+            'total'
+        ));
     }
 
     /**
@@ -73,6 +90,16 @@ class Dashboard extends Controller
     public function create()
     {
         //
+    }
+
+    public function storeVehicle(Request $request)
+    {
+        $addVehicle = new Vehicles();
+        $addVehicle->user_id = Auth::id();
+        $addVehicle->vehicle_types = $request->vehicle_types;
+        $addVehicle->plate_number = $request->plate_number;
+        $addVehicle->save();
+        return redirect()->route('user-dashboard.index')->with('success', 'Data Berhasil Ditambahkan');
     }
 
     public function storeHouse(Request $request)

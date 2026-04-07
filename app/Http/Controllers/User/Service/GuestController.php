@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User\Service;
 
 use App\Http\Controllers\Controller;
 use App\Models\Resident\Guest;
+use Auth;
 use Illuminate\Http\Request;
 
 class GuestController extends Controller
@@ -13,7 +14,7 @@ class GuestController extends Controller
      */
     public function index()
     {
-        $guest = Guest::all();
+        $guest = Guest::where('user_id',Auth::id())->get();
         return view('user.service.guest.index',compact('guest'));
     }
 

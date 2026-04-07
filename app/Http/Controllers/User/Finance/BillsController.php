@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User\Finance;
 use App\Http\Controllers\Controller;
 use App\Models\Finance\Bills;
 use App\Models\Master\House;
+use App\Models\User\UsersHouse;
 use Config;
 use Illuminate\Http\Request;
 use Midtrans\Snap;
@@ -16,8 +17,17 @@ class BillsController extends Controller
      */
     public function index()
     {
-        $bill = Bills::all();
-        return view('user.bills.index', compact('bill'));
+        $primaryHouse = UsersHouse::where('user_id', auth()->id())
+            ->where('is_primary', 'Rumah Utama')
+            ->get();
+
+        $secondaryHouse = UsersHouse::where('user_id', auth()->id())
+            ->where('is_primary', 'Rumah Lainnya')
+            ->get();
+
+        $primarybill = Bills::whereIn('house_id', $primaryHouse->pluck('house_id'))->get();
+        $secondarybill = Bills::whereIn('house_id', $secondaryHouse->pluck('house_id'))->get();
+        return view('user.bills.index', compact('primarybill', 'secondarybill','primaryHouse','secondaryHouse'));
     }
 
     public function pay($id)

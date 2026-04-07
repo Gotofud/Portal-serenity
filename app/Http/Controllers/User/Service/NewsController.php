@@ -14,8 +14,9 @@ class NewsController extends Controller
     public function index()
     {
         $mainNews = News::latest()->first();
-        $sideNews = News::latest()->skip(1)->take(3)->get();
-        return view('user.service.news.index', compact('mainNews', 'sideNews'));
+        $recentNews = News::inRandomOrder()->limit(2)->get();
+        $otherNews = News::inRandomOrder()->limit(4)->get();
+        return view('user.service.news.index', compact('mainNews', 'recentNews', 'otherNews'));
     }
 
     /**
