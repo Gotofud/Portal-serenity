@@ -15,7 +15,7 @@ class NewsController extends Controller
     {
         $mainNews = News::latest()->first();
         $recentNews = News::inRandomOrder()->limit(2)->get();
-        $otherNews = News::inRandomOrder()->limit(4)->get();
+        $otherNews = News::inRandomOrder()->paginate(16);
         return view('user.service.news.index', compact('mainNews', 'recentNews', 'otherNews'));
     }
 

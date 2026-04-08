@@ -20,9 +20,10 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->string('guest_amount');
+            $table->string('name');
+            $table->string('telephone_num');
             $table->foreignId('guest_types')->constrained('guest_types')->onDelete('cascade');
             $table->foreignId('house_id')->constrained('houses')->onDelete('cascade');
-            $table->dateTime('visit_at')->now();
             $table->timestamps();
         });
     }

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\User\Service;
 
 use App\Http\Controllers\Controller;
+use App\Models\Master\CommunityUnit;
+use App\Models\Master\GuestTypes;
 use App\Models\Resident\Guest;
 use Auth;
 use Illuminate\Http\Request;
@@ -14,16 +16,12 @@ class GuestController extends Controller
      */
     public function index()
     {
-        $guest = Guest::where('user_id',Auth::id())->get();
-        return view('user.service.guest.index',compact('guest'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        $guest = Guest::where('user_id', Auth::id())
+            ->latest()
+            ->paginate(6);
+        $guestTypes = GuestTypes::all();
+        $co = CommunityUnit::all();
+        return view('user.service.guest.index', compact('guest', 'guestTypes', 'co'));
     }
 
     /**
@@ -31,7 +29,15 @@ class GuestController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $guest = new Guest();
+        $guest->user_id = Auth::id();
+        $guest->house_id = $request->house_id;
+        $guest->guest_types = $request->guest_types;
+        $guest->name = $request->name;
+        $guest->telephone_num = $request->telephone_num;
+        $guest->guest_amount = $request->guest_amount;
+        $guest->save();
+        return redirect()->route('services.guest.index')->with('success', 'Data Berhasil Ditambahkan');
     }
 
     /**
@@ -39,7 +45,8 @@ class GuestController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $guest = Guest::findOrFail($id);
+        return view('user.service.guest.detail',compact('guest'));
     }
 
     /**

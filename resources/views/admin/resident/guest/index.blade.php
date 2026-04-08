@@ -88,8 +88,8 @@
                     <tr>
                         <th>No</th>
                         <th>Penerima Tamu</th>
+                        <th>Kontak Tamu</th>
                         <th>Jumlah Tamu</th>
-                        <th>Jenis Tamu</th>
                         <th>Rumah Tujuan</th>
                         <th>Mengunjungi Pada</th>
                         <th></th>
@@ -109,8 +109,10 @@
                                         style="font-size: 13.5px;">{{ $data->users->email }}</small>
                                 </a>
                             </td>
-                            <td>{{ $data->guest_amount }} Orang</td>
-                            <td>{{ $data->guestTypes->name }}</td>
+                            <td>{{ $data->name }} <br><small class="text-muted text-light"
+                                    style="font-size: 13.5px;">{{ $data->telephone_num }}</small></td>
+                            <td>{{ $data->guest_amount }} Orang<br><small class="text-muted text-light"
+                                    style="font-size: 13.5px;">{{ $data->guestTypes->name }}</small></td>
                             <td>
                                 Blok {{ $data->houses->blocks->name }} No {{ $data->houses->number }}<br><small
                                     class="text-muted text-light" style="font-size: 12.5px;">Rw

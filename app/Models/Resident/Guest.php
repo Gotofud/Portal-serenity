@@ -14,13 +14,10 @@ class Guest extends Model
         'user_id',
         'Guests_amount',
         'Guest_types',
-        'visit_at',
-        'house_id'
+        'house_id',
+        'name',
+        'telephone_num'
     ];
-    protected $casts = [
-        'visit_at' => 'datetime',
-    ];
-
 
     public function users()
     {
