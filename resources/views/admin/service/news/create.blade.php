@@ -69,8 +69,13 @@
                             <!-- Gambar & Subtitle -->
                             <div class="row g-3">
                                 <div class="col-md-6">
-                                    <label class="form-label fw-medium">Gambar</label>
-                                    <input type="file" name="image" class="form-control">
+                                    <label class="form-label fw-medium">Gambar <span
+                                            class="text-danger">*</span></label>
+                                    <input type="file" name="image"
+                                        class="form-control @error('image') is-invalid @enderror">
+                                    @error('image')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label fw-medium">Subtitle Gambar</label>
@@ -124,16 +129,24 @@
                 });
 
                 const form = document.getElementById('newsForm');
+                const descriptionInput = document.getElementById('description');
 
-                form.addEventListener('submit', function () {
+                form.addEventListener('submit', function (e) {
+                    // Ambil isi dari Quill
                     let html = quill.root.innerHTML;
 
-                    console.log("ISI QUILL:", html); // debug
-
-                    if (html === '<p><br></p>') {
-                        document.getElementById('description').value = '';
+                    // Cek jika kosong (Quill default kosong adalah <p><br></p>)
+                    if (html === '<p><br></p>' || quill.getText().trim().length === 0) {
+                        descriptionInput.value = '';
                     } else {
-                        document.getElementById('description').value = html;
+                        descriptionInput.value = html;
+                    }
+
+                    // Pastikan input description sudah terisi sebelum submit benar-benar terjadi
+                    if (descriptionInput.value === '') {
+                        alert('Deskripsi tidak boleh kosong!');
+                        e.preventDefault(); // Gagalkan submit jika kosong
+                        return false;
                     }
                 });
             });

@@ -13,7 +13,13 @@ class AnnouncementsController extends Controller
      */
     public function index()
     {
-        $announcements = Announcements::all();
-        return view('user.service.announcements.index',compact('announcements'));
+        $announcements = Announcements::where('is_public', true)->latest()->paginate(10);
+        return view('user.service.announcements.index', compact('announcements'));
+    }
+
+    public function show($id)
+    {
+        $announcements = Announcements::findOrFail($id);
+        return view('user.service.announcements.detail', compact('announcements'));
     }
 }

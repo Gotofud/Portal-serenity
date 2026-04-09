@@ -31,7 +31,7 @@
             .article-page {
                 max-width: 70rem;
                 margin: 0 auto;
-                padding: 40px 24px 80px;
+                padding: 40px 24px;
             }
 
             /* ── Category + meta ── */
@@ -284,6 +284,8 @@
         <!-- Article -->
         <article class="article-page" style="margin-top:75px;">
             <!-- Meta -->
+            <!-- Headline -->
+            <h1 class="headline">{{ $news->title }}</h1>
             <div class="meta-row">
                 <div class="flex-shrink-0">
                     @if ($news->users->avatar)
@@ -308,9 +310,6 @@
                 <span class="meta-dot">•</span>
                 <span class="pub-date">{{ $news->created_at ? $news->created_at->format('d M Y') : '-' }}</span>
             </div>
-
-            <!-- Headline -->
-            <h1 class="headline">{{ $news->title }}</h1>
             <!-- Hero image (CSS-generated cityscape placeholder) -->
             <div class="hero-wrap">
                 <img src="{{ Storage::url($news->image) }}">

@@ -2,6 +2,7 @@
 
 namespace App\Models\Master;
 
+use App\Models\Service\Stall;
 use Illuminate\Database\Eloquent\Model;
 
 class StallPlace extends Model
@@ -22,5 +23,10 @@ class StallPlace extends Model
     public function neighborhoodUnits()
     {
         return $this->belongsTo(NeighborhoodUnit::class, 'neighborhood_id');
+    }
+
+    public function stalls()
+    {
+        return $this->hasMany(Stall::class, 'stall_id');
     }
 }

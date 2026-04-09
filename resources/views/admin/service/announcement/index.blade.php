@@ -25,7 +25,7 @@
                                     class="d-flex justify-content-between align-items-start card-widget-2 border-end pb-4 pb-sm-0">
                                     <div>
                                         <h4 class="mb-0">
-                                            {{ App\Models\Service\Announcements::where('is_publish', true)->count() }}
+                                            {{ App\Models\Service\Announcements::where('is_public', true)->count() }}
                                         </h4>
                                         <p class="mb-0">Pengumuman Aktif</p>
                                     </div>
@@ -42,7 +42,7 @@
                                     class="d-flex justify-content-between align-items-start  pb-4 pb-sm-0 card-widget-3">
                                     <div>
                                         <h4 class="mb-0">
-                                            {{ App\Models\Service\Announcements::where('is_publish', false)->count() }}
+                                            {{ App\Models\Service\Announcements::where('is_public', false)->count() }}
                                         </h4>
                                         <p class="mb-0">Pengumuman Nonaktif</p>
                                     </div>
@@ -140,7 +140,7 @@
                                 </div>
                                 <form action="{{ route('service.announcements.publish', $data->id) }}" method="post">
                                     <div class="small text-muted text-ligth" style="font-size: 12.5px;">
-                                        @if ($data->is_publish == true)
+                                        @if ($data->is_public == true)
                                             <span class="badge bg-label-prmary">
                                                 Publik
                                             </span>
@@ -152,9 +152,9 @@
                                         •
                                         @csrf
                                         <button type="submit"
-                                            class="btn btn-outline-{{  $data->is_publish == 1 ? 'primary' : 'danger'  }} text-{{  $data->is_publish == 1 ? 'primary' : 'danger' }} d-inline-flex align-items-center justify-content-center p-0"
+                                            class="btn btn-outline-{{  $data->is_public == 1 ? 'primary' : 'danger'  }} text-{{  $data->is_public == 1 ? 'primary' : 'danger' }} d-inline-flex align-items-center justify-content-center p-0"
                                             style="height: 20px; width: 20px;">
-                                            <i class="ri ri-{{  $data->is_publish == 1 ? 'eye-fill' : 'eye-off-fill' }} "
+                                            <i class="ri ri-{{  $data->is_public == 1 ? 'eye-fill' : 'eye-off-fill' }} "
                                                 style="font-size: 10px; line-height: 1;"></i>
                                         </button>
 

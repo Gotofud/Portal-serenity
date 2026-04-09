@@ -28,14 +28,14 @@ class AnnouncementsController extends Controller
         $request->validate([
             'subject' => 'required',
             'image' => 'required|image',
-            'is_publish' => 'required',
+            'is_public' => 'required',
             'description' => 'required',
         ]);
         $announcement = new Announcements();
         $announcement->user_id = $user->id;
         $announcement->subject = $request->subject;
         $announcement->description = $request->description;
-        $announcement->is_publish = $request->is_publish;
+        $announcement->is_public = $request->is_public;
         $filePatch = null;
         if ($request->hasFile('image')) {
             $filePatch = $request->file('image')->store('announcement', 'public');
@@ -58,11 +58,11 @@ class AnnouncementsController extends Controller
     {
         $announcement = Announcements::findOrFail($id);
 
-        if ($announcement->is_publish == true) {
-            $announcement->is_publish = false;
+        if ($announcement->is_public == true) {
+            $announcement->is_public = false;
             $announcement->save();
         } else {
-            $announcement->is_publish = true;
+            $announcement->is_public = true;
             $announcement->save();
         }
 
@@ -86,14 +86,14 @@ class AnnouncementsController extends Controller
         $request->validate([
             'subject' => 'required',
             'image' => 'required|image',
-            'is_publish' => 'required',
+            'is_public' => 'required',
             'description' => 'required',
         ]);
         $announcement = Announcements::findOrFail($id);
         $announcement->user_id = $user->id;
         $announcement->subject = $request->subject;
         $announcement->description = $request->description;
-        $announcement->is_publish = $request->is_publish;
+        $announcement->is_public = $request->is_public;
         $filePatch = null;
         if ($request->hasFile('image')) {
             $filePatch = $request->file('image')->store('announcement', 'public');

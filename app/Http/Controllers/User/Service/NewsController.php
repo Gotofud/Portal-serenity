@@ -11,13 +11,20 @@ class NewsController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        $mainNews = News::latest()->first();
-        $recentNews = News::inRandomOrder()->limit(2)->get();
-        $otherNews = News::inRandomOrder()->paginate(16);
-        return view('user.service.news.index', compact('mainNews', 'recentNews', 'otherNews'));
-    }
+ public function index()
+{
+    $mainNews = News::latest()->first();
+    $recentNews = News::where('id', '!=', $mainNews->id)
+                      ->latest()
+                      ->limit(2)
+                      ->get();
+    $excludedIds = $recentNews->pluck('id')->push($mainNews->id);
+    $otherNews = News::whereNotIn('id', $excludedIds)
+                     ->latest()
+                     ->paginate(16);
+
+    return view('user.service.news.index', compact('mainNews', 'recentNews', 'otherNews'));
+}
 
     /**
      * Show the form for creating a new resource.

@@ -12,7 +12,7 @@ class Announcements extends Model
         'subject',
         'description',
         'image',
-        'is_publish',
+        'is_public',
     ];
 
 

@@ -1,233 +1,176 @@
 <x-user>
-    <script src="https://app.sandbox.midtrans.com/snap/snap.js"
-        data-client-key="{{ config('midtrans.clientKey') }}"></script>
-    @php
-        $daysLeft = now()->startOfDay()->diffInDays($bill->due_at->startOfDay(), false);
-        $progress = $daysLeft > 7 ? 100 : ($daysLeft > 0 ? ($daysLeft / 7) * 100 : 0);
-        $color = $daysLeft > 7 ? 'primary' : ($daysLeft > 0 ? 'warning' : 'danger');
-    @endphp
-    <div class="content-wrapper" style="margin:100px 100px 0 100px">
-        <!-- Content -->
-        <div class="container-xxl flex-grow-1 container-p-y">
-            <div class="card">
-                <a href="{{ url()->previous() }}">
-                    <div class="btn mt-5">
-                        <i class="ri ri-reply-fill text-primary"></i>
-                    </div>
-                </a>
-                <div class="card-header d-flex flex-column align-items-start mx-3">
-                    <div class="app-brand mb-2">
-                        <div class="app-brand-link">
-                            <span class="app-brand-logo demo">
-                                <img src="{{ asset('assets/img/text-icon.svg') }}">
-                            </span>
-                        </div>
-                    </div>
-                    <h4 class="mb-1 mt-2">Invoice IWD - Komplek Bojong Malaka Indah</h4>
-                    <div class="d-flex justify-content-start gap-5">
-                        <div class="text-muted" style="font-size: 15px;">
-                            <span class="text-dark fw-bold">Kode : </span>{{ $bill->code ?? '-' }}
-                        </div>
-                        <div class="text-muted" style="font-size: 15px;">
-                            <span class="text-dark fw-bold">Periode : </span>{{ $bill->month }} {{ $bill->year }}
-                        </div>
+    <section class="section-py px-4 px-md-5">
+
+        <div class="container">
+
+
+
+            <div class="row g-4">
+
+                <!-- LEFT: IMAGE -->
+                <div class="col-lg-7">
+                    <div class="overflow-hidden rounded-4 shadow-sm">
+                        <img src="https://picsum.photos/800/500" class="w-100" style="height: 400px; object-fit: cover;"
+                            alt="stall">
                     </div>
                 </div>
-                <hr class="my-4">
-                <div class="card-body">
 
-                    {{-- CUSTOMER + INVOICE INFO --}}
-                    <div class="row mb-5 px-3">
+                <!-- RIGHT: DETAIL -->
+                <div class="col-lg-5">
 
-                        {{-- LEFT SIDE --}}
-                        <div class="col-md-6 mb-4 mb-md-0">
-                            <div class="d-flex justify-content-between mb-2">
-                                <span class="text-muted small">Kode Invoice</span>
-                                <span class="fw-semibold text-end">
-                                    {{ $bill->code ?? '-' }}
-                                </span>
-                            </div>
-                            <div class="d-flex justify-content-between mb-2">
-                                <span class="text-muted small">Ditagihkan Kepada</span>
-                                <span class="fw-semibold text-end">
-                                    {{ $house->users_houses->first()->users->user_profile->full_name ?? $house->users_houses->first()->users->name }}
-                                </span>
-                            </div>
-                            <div class="d-flex justify-content-between mb-2">
-                                <span class="text-muted small">Rumah</span>
-                                <span class="fw-semibold text-end">
-                                    Blok {{ $bill->houses->blocks->name }} No. {{ $bill->houses->number }}
-                                </span>
-                            </div>
-                            <div class="d-flex justify-content-between mb-2">
-                                <span class="text-muted small">RT / RW</span>
-                                <span class="fw-semibold text-end">
-                                    RT {{ $bill->houses->neighborhoodUnits->no }}
-                                    / RW {{ $bill->houses->communityUnits->no }}
-                                </span>
-                            </div>
+                    <div class="p-3 p-md-4 border rounded-4 shadow-sm h-100 d-flex flex-column">
 
+                        <!-- Title -->
+                        <h3 class="fw-bold mb-2">{{ $stall->name }}</h3>
+
+                        <!-- Availability -->
+                        @php
+                            $total = $stall->stall_unit;
+                            $rented = $stall->stalls_count;
+                            $available = $total - $rented;
+                        @endphp
+
+
+                        <!-- Price -->
+                        <div class="fs-4 fw-bold text-primary mb-3">
+                            Rp {{ number_format($stall->rent_amount ?? 0, 0, ',', '.') }}
+                            <span class="fs-6 fw-normal text-muted">/ bulan</span>
                         </div>
 
-                        {{-- RIGHT SIDE --}}
-                        <div class="col-md-6 border-start ps-md-4">
+                        <div class="mb-3">
+                            <span class="badge badge-sm bg-light text-dark me-2">
+                                {{ $total }} Unit Terdaftar
+                            </span>
 
-                            <div class="d-flex justify-content-between mb-2">
-                                <span class="text-muted small">Tipe Bangunan</span>
-                                <span class="fw-semibold text-end">
-                                    {{ $bill->houses->building_Types->name }}
+                            @if($available > 0)
+                                <span class="badge badge-sm bg-success">
+                                    {{ $available }} Tersedia
                                 </span>
-                            </div>
-                            <div class="d-flex justify-content-between mb-2">
-                                <span class="text-muted small">Periode</span>
-                                <span class="fw-semibold text-end">
-                                    {{ $bill->month }} {{ $bill->year }}
+                            @else
+                                <span class="badge badge-sm bg-danger">
+                                    Unit Penuh
                                 </span>
-                            </div>
-                            <div class="d-flex justify-content-between mb-2">
-                                <span class="text-muted small">Jatuh Tempo</span>
-                                <span class="fw-semibold text-end">
-                                    {{ $bill->due_at ? $bill->due_at->format('d M Y') : '-' }}
-                                </span>
-                            </div>
-                            <div class="d-flex justify-content-between mb-2">
-                                <span class="text-muted small">Status</span>
-                                <span class="fw-semibold text-end">
-                                    <span
-                                        class="badge bg-{{ $bill->status == 'paid' ? 'label-success' : 'label-danger' }}">
-                                        @if ($bill->status == 'paid')
-                                            Sudah Lunas
-                                        @else
-                                            Belum Lunas
-                                        @endif
-                                    </span>
-                                </span>
-                            </div>
-
+                            @endif
                         </div>
 
-                    </div>
+                        <!-- Divider -->
+                        <hr>
 
-                    <hr class="my-4">
-
-                    {{-- TABLE --}}
-                    <div class="table-responsive mb-4">
-                        <table class="table align-middle">
-
-                            <thead>
-                                <tr class="text-muted small border-bottom">
-                                    <th>Item Tagihan</th>
-                                    <th class="text-end">Jumlah</th>
-                                </tr>
-                            </thead>
-
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <div class="fw-semibold">
-                                            Iuran Wajib Daerah RW{{ $bill->houses->communityUnits->no }}
-                                        </div>
-                                    </td>
-                                    <td class="text-end fw-semibold">
-                                        Rp {{ number_format($bill->amount, 0, ',', '.') }}
-                                    </td>
-                                </tr>
-
-                                @if($bill->penalty)
-                                    <tr>
-                                        <td>
-                                            <div class="fw-semibold text-danger">Denda Keterlambatan</div>
-                                            <small class="text-muted">
-                                                Terlambat {{ $bill->days_late }} hari
-                                            </small>
-                                        </td>
-                                        <td class="text-end fw-semibold text-danger">
-                                            Rp {{ number_format($bill->penalty, 0, ',', '.') }}
-                                        </td>
-                                    </tr>
-                                @endif
-                            </tbody>
-
-                            <tfoot>
-                                <tr class="border-top">
-                                    <td class="fw-semibold pt-3">Total Tagihan</td>
-                                    <td class="text-end pt-3">
-                                        <span class="fs-5 fw-bold text-primary">
-                                            Rp {{ number_format($bill->amount + ($bill->penalty ?? 0), 0, ',', '.') }}
-                                        </span>
-                                    </td>
-                                </tr>
-                            </tfoot>
-
-                        </table>
-                    </div>
-
-                    {{-- STATUS --}}
-                    <div class="mt-4">
-
-                        @if($bill->paid_at)
-                            <div class="d-flex align-items-start gap-3 p-3 rounded-3 bg-success-subtle">
-                                <i class="bx bx-check-circle text-success fs-4"></i>
-                                <div>
-                                    <div class="fw-semibold text-success">
-                                        Pembayaran Berhasil
-                                    </div>
-                                    <div class="text-muted small">
-                                        {{ $bill->paid_at->format('d F Y H:i') }}
-                                        • @if ($bill->paid_at && $bill->file)
-                                            Sistem Manual (Admin)
-                                        @else
-                                            Sistem Aplikasi
-                                        @endif
-                                    </div>
-                                </div>
+                        <!-- Info Tambahan -->
+                        <div class="mb-3">
+                            <h6 class="fw-bold mb-3">Tentang Kios</h6>
+                            <div class="d-flex justify-content-between small mb-2">
+                                <span class="text-muted">Tipe</span>
+                                <span class="fw-semibold">Kios</span>
+                            </div>
+                            <div class="d-flex justify-content-between small mb-2">
+                                <span class="text-muted">Status</span>
+                                <span class="fw-semibold text-success">Aktif</span>
+                            </div>
+                            <div class="d-flex justify-content-between small mb-2">
+                                <span class="text-muted">Unit</span>
+                                <span class="fw-semibold">{{ $stall->stall_unit }} Unit</span>
                             </div>
 
-                        @elseif(!$bill->paid_at && $bill->status == 'pending')
-                            <div class="d-flex justify-content-between align-items-center p-3 rounded-3 bg-primary-subtle">
-                                <div>
-                                    <div class="fw-semibold text-primary">
-                                        Menunggu Pembayaran
-                                    </div>
-                                    <div class="text-muted small">
-                                        Silakan selesaikan pembayaran Anda
-                                    </div>
-                                </div>
-                                <button id="pay-button"
-                                    class="btn btn-sm btn-primary">
-                                    Bayar Sekarang
+                            <div class="d-flex justify-content-between small">
+                                <span class="text-muted">Lokasi</span>
+                                <span class="fw-semibold">
+                                    RT {{ $stall->neighborhoodUnits->no }} RW
+                                    {{ $stall->communityUnits->no }}
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- CTA -->
+                        <div class="mt-auto">
+                            @if($available > 0)
+                                <a href="#" class="btn btn-primary w-100 rounded-3">
+                                    Sewa Sekarang
+                                </a>
+                            @else
+                                <button class="btn btn-secondary w-100 rounded-3" disabled>
+                                    Kios Penuh
                                 </button>
-                            </div>
-                        @endif
-
-                        <div class="mt-3">
-                            <small class="text-muted">
-                                <span class="text-danger">*</span>
-                                Pembayaran dianggap sah setelah dana masuk ke rekening RT.
-                            </small>
+                            @endif
                         </div>
 
                     </div>
 
+                </div>
+
+            </div>
+
+            <!-- DESKRIPSI -->
+            <div class="row mt-5">
+                <div class="col-lg-8">
+                    <h5 class="fw-bold mb-3">Penyewa Kios</h5>
+
+                    <div class="list-group list-group-flush">
+
+                        @forelse ($stall->stalls as $rentedStall)
+                            <div class="list-group-item px-0 py-3 d-flex align-items-center justify-content-between">
+
+                                <!-- Left: User Info -->
+                                <div class="d-flex align-items-center">
+
+                                    <!-- Avatar -->
+                                    @if ($rentedStall->users->avatar)
+                                        <div
+                                            style="width: 45px; height: 45px; border-radius:50%; margin-right:10px;; overflow:hidden; display:flex; align-items:center; justify-content:center;">
+                                            <img src="{{ $rentedStall->users->avatar }}" alt="Profile"
+                                                style="width: 100%; height: 100%; object-fit: cover; "
+                                                referrerpolicy="no-referrer">
+                                        </div>
+                                    @else
+                                        <div class="bg-light d-flex align-items-center justify-content-center"
+                                            style="width: 45px; height: 45px; border-radius:50%; margin-right:10px;">
+
+                                            <span class="fs-5 fw-bold text-white">
+                                                {{ substr($rentedStall->users->name ?? '-', 0, 2) }}
+                                            </span>
+
+                                        </div>
+                                    @endif
+
+                                    <!-- Name + Date -->
+                                    <div>
+                                        <div class="fw-semibold">
+                                            {{ $rentedStall->users->user_profile->full_name ?? $rentedStall->users->name }}
+                                        </div>
+                                        <div class="text-muted text-secondary small">
+                                         Menyewa Selama : {{ $rentedStall->duration }} Bulan 
+                                        </div>
+                                        <div class="text-muted text-secondary small">
+                                            {{ $rentedStall->start_date?->format('d M Y') ?? '-' }}
+                                            -
+                                            {{ $rentedStall->end_date?->format('d M Y') ?? '-' }}
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <!-- Right: Status -->
+                                <div>
+                                    @if($rentedStall->status == 'Aktif')
+                                        <span class="badge bg-success">Aktif</span>
+                                    @else
+                                        <span class="badge bg-primary">Selesai</span>
+                                    @endif
+                                </div>
+
+                            </div>
+                        @empty
+                            <div class="text-muted mt-3">
+                                <i class="ri ri-user-unfollow-fill fs-3 me-3"></i>
+                                Belum ada penyewa
+                            </div>
+                        @endforelse
+
+                    </div>
                 </div>
             </div>
+
         </div>
-    </div>
-    @push('scripts')
-        <script>
-            document.getElementById('pay-button').onclick = function () {
-                snap.pay('{{ $snapToken }}', {
-                    onSuccess: function (result) {
-                        console.log(result);
-                    },
-                    onPending: function (result) {
-                        console.log(result);
-                    },
-                    onError: function (result) {
-                        console.log(result);
-                    }
-                });
-            };
-        </script>
-    @endpush
+
+    </section>
 </x-user>

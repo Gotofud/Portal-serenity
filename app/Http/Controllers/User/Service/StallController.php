@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User\Service;
 
 use App\Http\Controllers\Controller;
+use App\Models\Master\StallPlace;
 use App\Models\Service\Stall;
 use Illuminate\Http\Request;
 
@@ -13,8 +14,15 @@ class StallController extends Controller
      */
     public function index()
     {
-        $stall = Stall::all();
-        return view('user.service.stall.index',compact('stall'));
+        $stall = StallPlace::where('status', 'Aktif')
+            ->withCount([
+                'stalls' => function ($q) {
+                    $q->where('status', 'Aktif'); // hanya yang sedang disewa
+                }
+            ])
+            ->latest()
+            ->paginate(10);
+        return view('user.service.stall.index', compact('stall'));
     }
 
     /**
@@ -33,12 +41,15 @@ class StallController extends Controller
         //
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show($id)
     {
-        //
+        $stall = StallPlace::withCount([
+            'stalls' => function ($q) {
+                $q->where('status', 'Aktif');
+            }
+        ])->with('stalls')->findOrFail($id);
+
+        return view('user.service.stall.detail', compact('stall'));
     }
 
     /**

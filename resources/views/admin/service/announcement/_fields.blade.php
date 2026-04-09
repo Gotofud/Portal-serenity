@@ -34,12 +34,12 @@
     <div class="col-md-6 mb-3">
         <label for="inputStatus" class="form-label" style="font-weight: 500;">Status Publikasi<span
                 class="text-danger">*</span></label>
-        <select class="form-select @error('is_publish') is-invalid @enderror" name="is_publish" id="inputis_publish">
+        <select class="form-select @error('is_public') is-invalid @enderror" name="is_public" id="inputis_public">
             <option value="" selected>Pilih Status</option>
-            <option value="1" {{ old('is_publish', $data->is_publish ?? '') == '1' ? 'selected' : '' }}>
+            <option value="1" {{ old('is_public', $data->is_public ?? '') == '1' ? 'selected' : '' }}>
                 Publik
             </option>
-            <option value="0" {{ old('is_publish', $data->is_publish ?? '') == '0' ? 'selected' : '' }}>
+            <option value="0" {{ old('is_public', $data->is_public ?? '') == '0' ? 'selected' : '' }}>
                 Privat
             </option>
         </select>
