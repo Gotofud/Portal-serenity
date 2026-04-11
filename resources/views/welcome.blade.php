@@ -325,7 +325,7 @@
                 </div>
                 <div class="col-lg-6 pt-lg-12">
                     <img src="../../assets/img/front-pages/landing-page/bg-website.png" alt="cta dashboard"
-                        class="img-fluid" />
+                        class="img-fluid" />    
                 </div>
             </div>
         </div>

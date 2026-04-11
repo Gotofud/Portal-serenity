@@ -10,18 +10,21 @@ class Stall extends Model
 {
     protected $fillable = [
         'user_id',
-        'stall_place_id',
+        'stall_id',
         'code',
         'status',
         'start_date',
         'end_date',
         'duration',
-        'total_cost'
+        'total_cost',
+        'notes',
+        'paid_at',
     ];
 
      protected $casts = [
         'start_date' => 'datetime',
         'end_date' => 'datetime',
+        'paid_at' => 'datetime',
     ];
 
 
@@ -31,6 +34,6 @@ class Stall extends Model
     }
 
     public function stall_place(){
-        return $this->belongsTo(StallPlace::class, 'stall_place_id');
+        return $this->belongsTo(StallPlace::class, 'stall_id');
     }
 }

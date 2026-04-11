@@ -168,6 +168,7 @@ Route::prefix('services')->as('services.')->group(function () {
 });
 // Midtrans Callback
 Route::post('/midtrans/callback', [App\Http\Controllers\User\Finance\BillsController::class, 'callback']);
+Route::post('/midtrans/callback', [App\Http\Controllers\User\Service\StallController::class, 'callback']);
 Route::middleware(['auth', 'is_verified'])->group(function () {
     Route::resource('user-profile', App\Http\Controllers\User\UserProfileController::class);
     Route::resource('user-dashboard', App\Http\Controllers\User\Dashboard::class);
@@ -178,6 +179,8 @@ Route::middleware(['auth', 'is_verified'])->group(function () {
     Route::prefix('services')->as('services.')->group(function () {
         Route::resource('announcements', App\Http\Controllers\User\Service\AnnouncementsController::class);
         Route::resource('stall', App\Http\Controllers\User\Service\StallController::class);
+        Route::get('payment/{id}', [App\Http\Controllers\User\Service\StallController::class, 'pay'])
+            ->name('payment.pay');
         Route::resource('guest', App\Http\Controllers\User\Service\GuestController::class);
         Route::resource('report', App\Http\Controllers\User\Service\ReportController::class);
     });

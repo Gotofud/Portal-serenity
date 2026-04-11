@@ -12,7 +12,8 @@ class StallPlace extends Model
         'neighborhood_id',
         'name',
         'stall_unit',
-        'rent_amount'
+        'rent_amount',
+        'image'
     ];
 
     public function communityUnits()
