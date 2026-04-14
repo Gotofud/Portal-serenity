@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Finance\CommunityUnitAggrements;
 use App\Models\Master\BuildingType;
 use App\Models\Master\CommunityUnit;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 
 class AgreementController extends Controller
@@ -19,6 +20,13 @@ class AgreementController extends Controller
         $co = CommunityUnit::all();
         $building_type = BuildingType::all();
         return view('admin.finance.agreement.index', compact('agreement', 'building_type', 'co'));
+    }
+
+    public function exportPdf()
+    {
+        $agreement = CommunityUnitAggrements::all();
+        $pdf = Pdf::loadView('exports.pdf.finance.agreement', compact('agreement'));
+        return $pdf->download('data-perjanjian-rw.pdf');
     }
 
     /**
@@ -80,6 +88,8 @@ class AgreementController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $agreement = CommunityUnitAggrements::findOrFail($id);
+        $agreement->delete();
+        return redirect()->route('finance.agreement.index')->with('success', 'Data Berhasil Dihapus');
     }
 }

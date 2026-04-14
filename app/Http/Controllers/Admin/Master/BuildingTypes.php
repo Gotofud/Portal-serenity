@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Master;
 use App\Http\Controllers\Controller;
 use App\Imports\BuildingTypeImport;
 use App\Models\Master\BuildingType;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -27,6 +28,13 @@ class BuildingTypes extends Controller
         Excel::import(new BuildingTypeImport(), $request->file('file'));
 
         return back()->with('success', 'Data Berhasil Diimport!');
+    }
+
+    public function exportPdf()
+    {
+        $buildingTypes = BuildingType::all();
+        $pdf = Pdf::loadView('exports.pdf.master.building-type', compact('buildingTypes'));
+        return $pdf->download('data-jenis-bangunan.pdf');
     }
     /**
      * Store a newly created resource in storage.

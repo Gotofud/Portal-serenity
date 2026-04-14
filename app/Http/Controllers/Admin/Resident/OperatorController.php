@@ -8,6 +8,7 @@ use App\Models\Master\CommunityUnit;
 use App\Models\Master\Role;
 use App\Models\Resident\NeighborhoodOperator;
 use App\Models\Resident\User;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
@@ -27,7 +28,7 @@ class OperatorController extends Controller
         $opActive = $operator->where('status', 'Aktif')->count();
         $opNonactive = $operator->where('status', 'Nonaktif')->count();
         $co = CommunityUnit::all();
-        return view('admin.resident.operator.index', compact('operator', 'opActive', 'opCount', 'opNonactive','co'));
+        return view('admin.resident.operator.index', compact('operator', 'opActive', 'opCount', 'opNonactive', 'co'));
     }
 
     public function import(Request $request)
@@ -39,6 +40,15 @@ class OperatorController extends Controller
         Excel::import(new OperatorImport(), $request->file('file'));
 
         return back()->with('success', 'Data Berhasil Diimport!');
+    }
+
+    public function exportPdf()
+    {
+        $operator = User::whereHas('roles', function ($role) {
+            $role->whereIn('name', ['Admin', 'Security', 'Super Admin']);
+        })->get();
+        $pdf = Pdf::loadView('exports.pdf.residents.operator', compact('operator'));
+        return $pdf->download('data-operator.pdf');
     }
 
     /**
@@ -71,7 +81,7 @@ class OperatorController extends Controller
             $operator->status = $request->status;
             $operator->role_id = Role::where('name', 'Admin')->value('id');
             $operator->save();
-            
+
             $neighborhood_Operator = new NeighborhoodOperator();
             $neighborhood_Operator->user_id = $operator->id;
             $neighborhood_Operator->community_id = $request->community_id;
@@ -157,11 +167,11 @@ class OperatorController extends Controller
         try {
             // Hapus neighborhood operator terlebih dahulu (foreign key)
             NeighborhoodOperator::where('user_id', $id)->delete();
-            
+
             // Kemudian hapus user
             $operator = User::findOrFail($id);
             $operator->delete();
-            
+
             return redirect()
                 ->route('resident.operator.index')
                 ->with('success', 'Data Berhasil Dihapus');

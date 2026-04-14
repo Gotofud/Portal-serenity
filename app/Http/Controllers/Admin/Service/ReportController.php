@@ -1,9 +1,13 @@
 <?php
 
 namespace App\Http\Controllers\Admin\Service;
+use App\Enums\ReportStatus;
 use App\Http\Controllers\Controller;
+use App\Mail\ReportEmail;
 use App\Models\Service\Report;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class ReportController extends Controller
 {
@@ -13,9 +17,14 @@ class ReportController extends Controller
     public function index()
     {
         $report = Report::latest()->with('users.user_profile')->get();
-        return view('admin.service.report.index',compact('report'));
+        return view('admin.service.report.index', compact('report'));
     }
-
+    public function exportPdf()
+    {
+        $report = Report::all();
+        $pdf = Pdf::loadView('exports.pdf.service.report', compact('report'));
+        return $pdf->download('data-laporan.pdf');
+    }
     /**
      * Show the form for creating a new resource.
      */
@@ -38,31 +47,18 @@ class ReportController extends Controller
     public function show(string $id)
     {
         $report = Report::findOrFail($id);
-        return view('admin.service.report.detail',compact('report'));
+        return view('admin.service.report.detail', compact('report'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
-        //
+        $report = Report::findOrFail($id);
+        $report->delete();
+        return redirect()->route('service.report.index')->with('success', 'Data Berhasil Dihapus');
     }
 
     /**
@@ -80,7 +76,15 @@ class ReportController extends Controller
             'acc_reply' => $request->acc_reply,
         ]);
 
-        return redirect()->back()->with('success', 'Laporan berhasil diterima');
+        Mail::to($report->users->email)->send(
+            new ReportEmail(
+                $report,
+                $request->acc_reply ?? '-',
+                ReportStatus::ACCEPTED
+            )
+        );
+
+        return back()->with('success', 'Laporan berhasil diterima');
     }
 
     /**
@@ -98,7 +102,15 @@ class ReportController extends Controller
             'reply' => $request->reply,
         ]);
 
-        return redirect()->back()->with('success', 'Laporan berhasil diselesaikan');
+        Mail::to($report->users->email)->send(
+            new ReportEmail(
+                $report,
+                $request->reply ?? '-',
+                ReportStatus::FINISHED
+            )
+        );
+
+        return back()->with('success', 'Laporan berhasil diselesaikan');
     }
 
     /**
@@ -116,6 +128,14 @@ class ReportController extends Controller
             'rejected_reply' => $request->rejected_reply,
         ]);
 
-        return redirect()->back()->with('success', 'Laporan berhasil ditolak');
+        Mail::to($report->users->email)->send(
+            new ReportEmail(
+                $report,
+                $request->rejected_reply ?? '-',
+                ReportStatus::REJECTED
+            )
+        );
+
+        return back()->with('success', 'Laporan berhasil ditolak');
     }
 }

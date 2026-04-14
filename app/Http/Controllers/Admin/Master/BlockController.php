@@ -7,6 +7,7 @@ use App\Imports\BlockImport;
 use App\Models\Master\Block;
 use App\Models\Master\CommunityUnit;
 use App\Models\Master\NeighborhoodUnit;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -20,17 +21,25 @@ class BlockController extends Controller
         $block = Block::all();
         $co = CommunityUnit::all();
 
-        return view('admin.master.block.index', compact('block','co'));
+        return view('admin.master.block.index', compact('block', 'co'));
     }
 
-     public function import(Request $request) {
+    public function import(Request $request)
+    {
         $request->validate([
             'file' => 'required|file|mimes:xlsx,csv.xls',
         ]);
 
         Excel::import(new BlockImport(), $request->file('file'));
 
-        return back()->with('success','Data Berhasil Diimport!');
+        return back()->with('success', 'Data Berhasil Diimport!');
+    }
+
+    public function exportPdf()
+    {
+        $block = Block::all();
+        $pdf = Pdf::loadView('exports.pdf.master.block', compact('block'));
+        return $pdf->download('data-block.pdf');
     }
     /**
      * Store a newly created resource in storage.
@@ -81,6 +90,6 @@ class BlockController extends Controller
     {
         $block = Block::findOrFail($id);
         $block->delete();
-         return redirect()->route('dashboard.block.index')->with('success', 'Data Berhasil Dihapus');
+        return redirect()->route('dashboard.block.index')->with('success', 'Data Berhasil Dihapus');
     }
 }

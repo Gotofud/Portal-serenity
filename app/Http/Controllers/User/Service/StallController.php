@@ -138,42 +138,6 @@ class StallController extends Controller
         return view('user.service.stall.payment', compact('snapToken', 'stall'));
     }
 
-    public function callback()
-    {
-        \Midtrans\Config::$serverKey = config('midtrans.serverKey');
-        \Midtrans\Config::$isProduction = config('midtrans.isProduction');
-
-        $notif = new \Midtrans\Notification();
-
-        $order_id = $notif->order_id;
-        $status = $notif->transaction_status;
-
-        $parts = explode('-', $order_id);
-
-        // gabungkan balik sesuai format code kamu
-        $code = $parts[0] . '-' . $parts[1] . '-' . $parts[2];
-
-        $stall = Stall::where('code', $code)->first();
-
-        if (!$stall) {
-            return response()->json(['message' => 'not found']);
-        }
-
-        if ($status == 'settlement') {
-            $stall->status = 'Aktif';
-            $stall->paid_at = now();
-        } elseif ($status == 'pending') {
-            $stall->status = 'Pending';
-        } elseif ($status == 'expire') {
-            $stall->status = 'expired';
-        } elseif ($status == 'cancel') {
-            $stall->status = 'cancelled';
-        }
-
-        $stall->save();
-
-        return redirect()->back()->with('success', 'Berhasil mengubah status');
-    }
 
     /**
      * Show the form for editing the specified resource.

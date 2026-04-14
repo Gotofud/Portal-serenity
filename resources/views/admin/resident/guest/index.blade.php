@@ -62,7 +62,8 @@
     </div>
 
     <div class="card mt-5">
-        <x-partials.admin.export_modal :exportExcel="route('dashboard.community-unit.export')" />
+        <x-partials.admin.export_modal :exportExcel="route('dashboard.community-unit.export')"
+            :exportPdf="route('resident.guest.exportPdf')" />
         <div class="card-header">
             <div class="d-sm-flex justify-content-between align-items-start">
                 <div class="input-group position-relative d-inline-block w-25">
@@ -120,10 +121,10 @@
                                     {{ $data->houses->neighborhoodUnits->no }}
                                 </small>
                             </td>
-                            <td>{{ $data->visit_at->format('d M Y , H:i')  }} WIB
+                            <td>{{ $data->created_at->format('d M Y , H:i')  }} WIB
                                 <br>
                                 <small class="text-muted text-light" style="font-size: 11.5px;">
-                                    {{ $data->visit_at->diffForHumans() }}
+                                    {{ $data->created_at->diffForHumans() }}
                                 </small>
                             </td>
                             <td class="text-center">

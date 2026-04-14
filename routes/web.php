@@ -42,35 +42,45 @@ Route::middleware(['auth', 'is_verified'])->group(function () {
         Route::resource('/community-unit', App\Http\Controllers\Admin\Master\CUController::class);
         Route::get('/community-unit-export', [App\Http\Controllers\Admin\Master\CUController::class, 'export'])->name('community-unit.export');
         Route::post('/community-unit-import', [App\Http\Controllers\Admin\Master\CUController::class, 'import'])->name('community-unit.import');
+        Route::get('/community-unit-pdfexport', [App\Http\Controllers\Admin\Master\CUController::class, 'exportPdf'])->name('community-unit.exportPdf');
         // Neighborhood Unit
         Route::resource('/neighborhood-unit', App\Http\Controllers\Admin\Master\NUController::class);
         Route::post('/neighborhood-unit-import', [App\Http\Controllers\Admin\Master\NUController::class, 'import'])->name('neighborhood-unit.import');
+        Route::get('/neighborhood-unit-pdfexport', [App\Http\Controllers\Admin\Master\NUController::class, 'exportPdf'])->name('neighborhood-unit.exportPdf');
         // Block
         Route::resource('/block', App\Http\Controllers\Admin\Master\BlockController::class);
         Route::post('/block-import', [App\Http\Controllers\Admin\Master\BlockController::class, 'import'])->name('block.import');
+        Route::get('/block-pdfexport', [App\Http\Controllers\Admin\Master\BlockController::class, 'exportPdf'])->name('block.exportPdf');
         // Building Type
         Route::resource('/building-type', App\Http\Controllers\Admin\Master\BuildingTypes::class);
         Route::post('/building-type-import', [App\Http\Controllers\Admin\Master\BuildingTypes::class, 'import'])->name('building-type.import');
+        Route::get('/building-type-pdfexport', [App\Http\Controllers\Admin\Master\BuildingTypes::class, 'exportPdf'])->name('building-type.exportPdf');
         // Stall Place
         Route::resource('/stall-place', App\Http\Controllers\Admin\Master\StallsPlaceController::class);
         Route::post('/stall-place-import', [App\Http\Controllers\Admin\Master\StallsPlaceController::class, 'import'])->name('stall-place.import');
+        Route::get('/stall-place-pdfexport', [App\Http\Controllers\Admin\Master\StallsPlaceController::class, 'exportPdf'])->name('stall-place.exportPdf');
         // Vehicle Type
         Route::resource('/vehicle-type', App\Http\Controllers\Admin\Master\VehicleTypeController::class);
         Route::post('/vehicle-type-import', [App\Http\Controllers\Admin\Master\VehicleTypeController::class, 'import'])->name('vehicle-type.import');
+        Route::get('/vehicle-type-pdfexport', [App\Http\Controllers\Admin\Master\VehicleTypeController::class, 'exportPdf'])->name('vehicle-type.exportPdf');
         // Report Categories
         Route::resource('/report-categories', App\Http\Controllers\Admin\Master\ReportCategories::class);
         Route::post('/report-categories-import', [App\Http\Controllers\Admin\Master\ReportCategories::class, 'import'])->name('report-categories.import');
+        Route::get('/report-categories-pdfexport', [App\Http\Controllers\Admin\Master\ReportCategories::class, 'exportPdf'])->name('report-categories.exportPdf');
         // Guest Type
         Route::resource('/guest-type', App\Http\Controllers\Admin\Master\GuestTypeController::class);
         Route::post('/guest-type-import', [App\Http\Controllers\Admin\Master\GuestTypeController::class, 'import'])->name('guest-type.import');
+        Route::get('/guest-type-pdfexport', [App\Http\Controllers\Admin\Master\GuestTypeController::class, 'exportPdf'])->name('guest-type.exportPdf');
         // Faq
         Route::resource('/faq', App\Http\Controllers\Admin\Master\FaqController::class);
         Route::post('/faq-import', [App\Http\Controllers\Admin\Master\FaqController::class, 'import'])->name('faq.import');
+        Route::get('/faq-pdfexport', [App\Http\Controllers\Admin\Master\FaqController::class, 'exportPdf'])->name('faq.exportPdf');
         // Banner
         Route::resource('/banner', App\Http\Controllers\Admin\Master\BannerController::class);
         // House
         Route::resource('/house', App\Http\Controllers\Admin\Master\HouseController::class);
         Route::post('/house-import', [App\Http\Controllers\Admin\Master\HouseController::class, 'import'])->name('house.import');
+        Route::get('/house-pdfexport', [App\Http\Controllers\Admin\Master\HouseController::class, 'exportPdf'])->name('house.exportPdf');
         // Template Excel
         Route::get('/template/{type}', function ($type) {
 
@@ -111,17 +121,22 @@ Route::middleware(['auth', 'is_verified'])->group(function () {
     Route::prefix('service')->as('service.')->middleware(['auth', Security::class])->group(function () {
         Route::resource('/announcements', App\Http\Controllers\Admin\Service\AnnouncementsController::class);
         Route::post('/publish-announcements/{announcement}', [App\Http\Controllers\Admin\Service\AnnouncementsController::class, 'publish'])->name('announcements.publish');
+        Route::get('/announcements-pdfexport', [App\Http\Controllers\Admin\Service\AnnouncementsController::class, 'exportPdf'])->name('announcements.exportPdf');
         Route::resource('/report', App\Http\Controllers\Admin\Service\ReportController::class);
+        Route::get('/report-pdfexport', [App\Http\Controllers\Admin\Service\ReportController::class, 'exportPdf'])->name('report.exportPdf');
         Route::post('/report/{report}/accept', [App\Http\Controllers\Admin\Service\ReportController::class, 'accept'])->name('report.accept');
         Route::post('/report/{report}/complete', [App\Http\Controllers\Admin\Service\ReportController::class, 'complete'])->name('report.complete');
         Route::post('/report/{report}/reject', [App\Http\Controllers\Admin\Service\ReportController::class, 'reject'])->name('report.reject');
         Route::resource('/stall', App\Http\Controllers\Admin\Service\StallController::class);
+        Route::get('/stall-pdfexport', [App\Http\Controllers\Admin\Service\StallController::class, 'exportPdf'])->name('stall.exportPdf');
         Route::resource('/contact', App\Http\Controllers\Admin\Service\ContactController::class);
+        Route::get('/contact-pdfexport', [App\Http\Controllers\Admin\Service\ContactController::class, 'exportPdf'])->name('contact.exportPdf');
         Route::get('/contact/{contact}/reply', [ContactController::class, 'reply'])
             ->name('contact.reply');
         Route::post('/contact/{contact}/reply', [ContactController::class, 'sendReply'])
             ->name('contact.sendReply');
         Route::resource('/news', App\Http\Controllers\Admin\Service\NewsController::class);
+        Route::get('/news-pdfexport', [App\Http\Controllers\Admin\Service\NewsController::class, 'exportPdf'])->name('news.exportPdf');
         // Route Support
         Route::get('/support', function () {
             return view('admin.service.support');
@@ -132,13 +147,18 @@ Route::middleware(['auth', 'is_verified'])->group(function () {
     Route::prefix('resident')->as('resident.')->middleware(['auth', Security::class])->group(function () {
         Route::resource('/operator', App\Http\Controllers\Admin\Resident\OperatorController::class);
         Route::post('/operator-import', [App\Http\Controllers\Admin\Resident\OperatorController::class, 'import'])->name('operator.import');
+        Route::get('/operator-pdfexport', [App\Http\Controllers\Admin\Resident\OperatorController::class, 'exportPdf'])->name('operator.exportPdf');
         Route::resource('/user', App\Http\Controllers\Admin\Resident\UserController::class);
+        Route::get('/user-pdfexport', [App\Http\Controllers\Admin\Resident\UserController::class, 'exportPdf'])->name('user.exportPdf');
         Route::resource('/guest', App\Http\Controllers\Admin\Resident\GuestController::class);
+        Route::get('/guest-pdfexport', [App\Http\Controllers\Admin\Resident\GuestController::class, 'exportPdf'])->name('guest.exportPdf');
     });
     // Finance
     Route::prefix('finance')->as('finance.')->middleware(['auth', Security::class])->group(function () {
         Route::resource('/agreement', App\Http\Controllers\Admin\Finance\AgreementController::class);
+        Route::get('/agreement-pdfexport', [App\Http\Controllers\Admin\Finance\AgreementController::class, 'exportPdf'])->name('agreement.exportPdf');
         Route::resource('/bill', App\Http\Controllers\Admin\Finance\BillController::class);
+        Route::get('/bill-pdfexport', [App\Http\Controllers\Admin\Finance\BillController::class, 'exportPdf'])->name('bill.exportPdf');
         Route::post('/generate-bill', [App\Http\Controllers\Admin\Finance\BillController::class, 'generateBill'])->name('bill.generate');
         Route::get('/bill-export', [App\Http\Controllers\Admin\Finance\BillController::class, 'export'])->name('bill.export');
         Route::get('/bill-import', [App\Http\Controllers\Admin\Finance\BillController::class, 'import'])->name('bill.import');
@@ -167,9 +187,11 @@ Route::prefix('services')->as('services.')->group(function () {
     Route::resource('news', App\Http\Controllers\User\Service\NewsController::class);
 });
 // Midtrans Callback
-Route::post('/midtrans/callback', [App\Http\Controllers\User\Finance\BillsController::class, 'callback']);
-Route::post('/midtrans/callback', [App\Http\Controllers\User\Service\StallController::class, 'callback']);
+Route::post('/midtrans/callback', [App\Http\Controllers\User\MidtransController::class, 'callback']);
 Route::middleware(['auth', 'is_verified'])->group(function () {
+    Route::get('profile', function () {
+        return view('user.profile.profile');
+    })->name('profile');
     Route::resource('user-profile', App\Http\Controllers\User\UserProfileController::class);
     Route::resource('user-dashboard', App\Http\Controllers\User\Dashboard::class);
     Route::post('/storehouse', [App\Http\Controllers\User\Dashboard::class, 'storehouse'])

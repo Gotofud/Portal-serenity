@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Resident;
 
 use App\Http\Controllers\Controller;
 use App\Models\Resident\Guest;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 
 class GuestController extends Controller
@@ -17,44 +18,11 @@ class GuestController extends Controller
         return view('admin.resident.guest.index', compact('guest'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function exportPdf()
     {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-    
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
+        $guest = Guest::all();
+        $pdf = Pdf::loadView('exports.pdf.residents.guest', compact('guest'));
+        return $pdf->download('data-lapor-tamu.pdf');
     }
 
     /**
@@ -62,6 +30,8 @@ class GuestController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $guest = Guest::findOrFail($id);
+        $guest->delete();
+        return redirect()->route('resident.guest.index')->with('success', 'Data Berhasil Dihapus');
     }
 }

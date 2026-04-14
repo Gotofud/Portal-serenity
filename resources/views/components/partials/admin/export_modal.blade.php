@@ -35,7 +35,7 @@
                 @endif
 
                 {{-- PDF --}}
-                <a href="#" class="d-flex align-items-center gap-3 text-decoration-none"
+                <a href="{{ $exportPdf }}" class="d-flex align-items-center gap-3 text-decoration-none"
                     style="padding:16px 18px; border-radius:14px; border:1.5px solid #fef2f2; background:#fffafa;">
                     <div
                         style="width:50px; height:50px; border-radius:12px; background:linear-gradient(135deg,#b91c1c,#ef4444); display:flex; align-items:center; justify-content:center; flex-shrink:0;">

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Master;
 use App\Http\Controllers\Controller;
 use App\Imports\VehicletypeImport;
 use App\Models\Master\VehicleTypes;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -30,6 +31,13 @@ class VehicleTypeController extends Controller
         return back()->with('success', 'Data Berhasil Diimport!');
     }
 
+    public function exportPdf()
+    {
+        $vehicleTypes = VehicleTypes::all();
+        $pdf = Pdf::loadView('exports.pdf.master.vehicle-type', compact('vehicleTypes'));
+        return $pdf->download('data-jenis-kendaraan.pdf');
+    }
+
     /**
      * Store a newly created resource in storage.
      */
@@ -45,7 +53,7 @@ class VehicleTypeController extends Controller
 
         return redirect()->route('dashboard.vehicle-type.index')->with('success', 'Data Berhasil Ditambahkan');
     }
-    
+
     /**
      * Show the form for editing the specified resource.
      */

@@ -65,7 +65,8 @@
         @include('admin.master.stall-place._fields')
     </x-partials.admin.form-modal>
     <div class="card mt-5">
-        <x-partials.admin.export_modal :exportExcel="route('dashboard.community-unit.export')" />
+        <x-partials.admin.export_modal :exportExcel="route('dashboard.community-unit.export')"
+            :exportPdf="route('dashboard.stall-place.exportPdf')" />
         <div class="card-header">
             <div class="d-sm-flex justify-content-between align-items-start">
                 <div class="input-group position-relative d-inline-block w-25">
@@ -139,7 +140,7 @@
                             <td class="text-center">{{ Number::currency($data->rent_amount, 'IDR', 'id') }}</td>
                             <td>
                                 <span class="badge bg-{{ $data->status == 'Aktif' ? 'label-primary' : 'label-danger' }}
-                                                                                    me-1">{{ $data->status }}</span>
+                                                                                        me-1">{{ $data->status }}</span>
                             </td>
                             <td>{{ $data->created_at ? $data->created_at->format('d M Y , H:i') : '-' }}
                             </td>

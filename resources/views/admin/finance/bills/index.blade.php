@@ -73,7 +73,7 @@
     </div>
 
     <div class="card mt-5">
-        <x-partials.admin.export_modal :exportExcel="route('finance.bill.export')" />
+        <x-partials.admin.export_modal :exportExcel="route('finance.bill.export')" :exportPdf="route('finance.bill.exportPdf')" />
         <div class="card-header">
             <div class="d-sm-flex justify-content-between align-items-start">
                 <div class="input-group position-relative d-inline-block w-25">

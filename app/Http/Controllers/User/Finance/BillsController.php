@@ -54,43 +54,6 @@ class BillsController extends Controller
         return view('user.bills.detail', compact('snapToken', 'bill', 'house'));
     }
 
-    public function callback()
-    {
-        \Midtrans\Config::$serverKey = config('midtrans.serverKey');
-        \Midtrans\Config::$isProduction = config('midtrans.isProduction');
-
-        $notif = new \Midtrans\Notification();
-
-        $order_id = $notif->order_id;
-        $status = $notif->transaction_status;
-
-        $parts = explode('-', $order_id);
-
-        // gabungkan balik sesuai format code kamu
-        $code = $parts[0] . '-' . $parts[1] . '-' . $parts[2];
-
-        $bill = Bills::where('code', $code)->first();
-
-        if (!$bill) {
-            return response()->json(['message' => 'not found']);
-        }
-
-        if ($status == 'settlement') {
-            $bill->status = 'paid';
-            $bill->paid_at = now();
-        } elseif ($status == 'pending') {
-            $bill->status = 'pending';
-        } elseif ($status == 'expire') {
-            $bill->status = 'expired';
-        } elseif ($status == 'cancel') {
-            $bill->status = 'cancelled';
-        }
-
-        $bill->save();
-
-        return redirect()->back()->with('success', 'Berhasil mengubah status');
-    }
-
     /**
      * Store a newly created resource in storage.
      */

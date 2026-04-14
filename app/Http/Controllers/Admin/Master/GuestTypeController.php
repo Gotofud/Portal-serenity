@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Master;
 use App\Http\Controllers\Controller;
 use App\Imports\GuestypeImport;
 use App\Models\Master\GuestTypes;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -28,6 +29,13 @@ class GuestTypeController extends Controller
         Excel::import(new GuestypeImport(), $request->file('file'));
 
         return back()->with('success', 'Data Berhasil Diimport!');
+    }
+
+      public function exportPdf()
+    {
+        $guestTypes = GuestTypes::all();
+        $pdf = Pdf::loadView('exports.pdf.master.guest-type', compact('guestTypes'));
+        return $pdf->download('data-jenis-tamu.pdf');
     }
 
     /**

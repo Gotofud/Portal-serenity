@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Service;
 use App\Http\Controllers\Controller;
 use App\Models\Service\News;
 use Auth;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 
 class NewsController extends Controller
@@ -26,17 +27,24 @@ class NewsController extends Controller
         return view('admin.service.news.create');
     }
 
+    public function exportPdf()
+    {
+        $news = News::all();
+        $pdf = Pdf::loadView('exports.pdf.service.news', compact('news'));
+        return $pdf->download('data-berita.pdf');
+    }
+
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-    
+
         $user = Auth::user();
         $request->validate([
             'title' => 'required',
             'image_subtitle' => 'required',
-            'image' => 'required|image|max:5120', 
+            'image' => 'required|image|max:5120',
             'news_types' => 'required',
             'description' => 'required',
             'status' => 'required',

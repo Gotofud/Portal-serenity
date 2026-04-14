@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Imports\NuImport;
 use App\Models\Master\CommunityUnit;
 use App\Models\Master\NeighborhoodUnit;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -18,19 +19,26 @@ class NUController extends Controller
     {
         $nu = NeighborhoodUnit::all();
         $co = CommunityUnit::all();
-        return view('admin.master.neighborhood-unit.index', compact('nu','co'));
+        return view('admin.master.neighborhood-unit.index', compact('nu', 'co'));
     }
 
-     public function import(Request $request) {
+    public function import(Request $request)
+    {
         $request->validate([
             'file' => 'required|file|mimes:xlsx,csv.xls',
         ]);
 
         Excel::import(new NuImport, $request->file('file'));
 
-        return back()->with('success','Data Berhasil Diimport!');
+        return back()->with('success', 'Data Berhasil Diimport!');
     }
 
+    public function exportPdf()
+    {
+        $nu = NeighborhoodUnit::all();
+        $pdf = Pdf::loadView('exports.pdf.master.nu', compact('nu'));
+        return $pdf->download('data-rt.pdf');
+    }
 
     /**
      * Store a newly created resource in storage.

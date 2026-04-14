@@ -65,7 +65,8 @@
         @include('admin.service.announcement._fields')
     </x-partials.admin.form-modal>
     <div class="card mt-5">
-        <x-partials.admin.export_modal :exportExcel="route('dashboard.community-unit.export')" />
+        <x-partials.admin.export_modal :exportExcel="route('dashboard.community-unit.export')"
+            :exportPdf="route('service.announcements.exportPdf')" />
         <div class="card-header">
             <div class="d-sm-flex justify-content-between align-items-start">
                 <div class="input-group position-relative d-inline-block w-25">
@@ -131,7 +132,7 @@
                                     <img src="{{ Storage::url($data->image) }}"
                                         style="width: 150px; height: 80px; object-fit: cover;">
                                 @else
-                                Tidak Ada Gambar
+                                    Tidak Ada Gambar
                                 @endif
                             </td>
                             <td style="max-width: 150px;">

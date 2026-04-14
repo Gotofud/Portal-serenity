@@ -152,7 +152,7 @@
                             </div>
                         </div>
 
-                    @elseif(!$stall->paid_at && $stall->status == 'pending')
+                    @elseif(!$stall->paid_at && $stall->status == 'Pending')
                         <div class="d-flex justify-content-between align-items-center p-3 rounded-3 bg-primary-subtle">
                             <div>
                                 <div class="fw-semibold text-primary">
@@ -164,7 +164,7 @@
                             </div>
                             <button id="pay-button" class="btn btn-sm btn-primary">
                                 Bayar Sekarang
-                            </button>
+                            </button>       
                         </div>
                     @endif
                     <div class="mt-3">

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Master;
 
 use App\Http\Controllers\Controller;
 use App\Imports\ReportCategoriesImport;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -28,6 +29,13 @@ class ReportCategories extends Controller
         Excel::import(new ReportCategoriesImport(), $request->file('file'));
 
         return back()->with('success', 'Data Berhasil Diimport!');
+    }
+
+    public function exportPdf()
+    {
+        $reportCat = ReportCategories::all();
+        $pdf = Pdf::loadView('exports.pdf.master.report-categories', compact('reportCat'));
+        return $pdf->download('data-kategori-laporan.pdf');
     }
 
     /**

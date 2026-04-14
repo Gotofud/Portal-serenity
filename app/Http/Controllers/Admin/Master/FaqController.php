@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Master;
 use App\Http\Controllers\Controller;
 use App\Imports\FaqImport;
 use App\Models\Master\Faq;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -28,6 +29,13 @@ class FaqController extends Controller
         Excel::import(new FaqImport(), $request->file('file'));
 
         return back()->with('success', 'Data Berhasil Diimport!');
+    }
+
+    public function exportPdf()
+    {
+        $faq = Faq::all();
+        $pdf = Pdf::loadView('exports.pdf.master.faq', compact('faq'));
+        return $pdf->download('data-faq.pdf');
     }
 
     /**

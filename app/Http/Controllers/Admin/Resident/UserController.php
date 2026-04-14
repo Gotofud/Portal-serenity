@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Resident;
 use App\Http\Controllers\Controller;
 use App\Models\Finance\CommunityUnitAggrements;
 use App\Models\Resident\User;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -23,6 +24,17 @@ class UserController extends Controller
         $userActive = $user->where('status', 'Aktif')->count();
         $userBanned = $user->where('status', 'Nonaktif')->count();
         return view('admin.resident.user.index', compact('user', 'userCount', 'userActive', 'userBanned'));
+    }
+
+    public function exportPdf()
+    {
+        $user = User::whereHas('roles', function ($role) {
+            $role->whereIn('name', ['Resident', 'Onboarding']);
+        })
+            ->with('user_profile')
+            ->get();
+        $pdf = Pdf::loadView('exports.pdf.residents.user', compact('user'));
+        return $pdf->download('data-pengguna.pdf');
     }
 
     /**
@@ -58,18 +70,17 @@ class UserController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
-        //
+
+        $user = User::findOrFail($id);
+        $user->delete();
+
+        return redirect()
+            ->route('resident.user.index')
+            ->with('success', 'Data Berhasil Dihapus');
+
     }
 }

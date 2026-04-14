@@ -8,6 +8,7 @@ use App\Models\Master\CommunityUnit;
 use App\Models\Master\House;
 use App\Models\Master\BuildingType;
 use App\Models\User\UsersHouse;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -34,6 +35,12 @@ class HouseController extends Controller
         Excel::import(new HouseImport(), $request->file('file'));
 
         return back()->with('success', 'Data Berhasil Diimport!');
+    }
+    public function exportPdf()
+    {
+        $house = House::all();
+        $pdf = Pdf::loadView('exports.pdf.master.house', compact('house'));
+        return $pdf->download('data-rumah.pdf');
     }
 
     /**

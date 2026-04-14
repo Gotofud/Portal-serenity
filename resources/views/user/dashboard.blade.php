@@ -135,6 +135,7 @@
                                                 <small class="opacity-75" style="font-size: 11px;">{{ $housePrimary->houses->building_Types->name }} | {{ $housePrimary->is_primary }} | {{ $housePrimary->total_resident .' Penghuni' }} </small>
                                             </div>
                                         </div>
+                                        <button class="btn btn-sm btn-outline-light text-muted rounded-circle border-0"><i class="ri ri-arrow-right-s-line fs-4"></i></button>
                                     </div>
                                 @empty
                                     <div class="text-muted fs-7 py-5 text-center">
@@ -163,16 +164,10 @@
                                                     <small class="opacity-75" style="font-size: 11px;">{{ $houseSecondary->houses->building_Types->name }} | {{ $houseSecondary->is_primary }} | {{ $houseSecondary->total_resident .' Penghuni' }} </small>
                                                 </div>
                                             </div>
-                                            <button class="btn btn-sm btn-outline-light text-muted rounded-circle border-0"><i class="ri-arrow-right-s-line fs-4"></i></button>
+                                            <button class="btn btn-sm btn-outline-light text-muted rounded-circle border-0"><i class="ri ri-arrow-right-s-line fs-4"></i></button>
                                         </div>
-                                    @endforeach     
-                                @else
-                                    <div class="text-muted fs-7 py-5 text-center ">
-                                        <div style="font-size:32px; opacity:0.5;"><i class="ri ri-home-4-fill"></i></div>
-                                        <p class="mb-1 fw-semibold">Belum ada aset lainnya</p>
-                                        <small>Pengguna belum mendaftarkan aset lainnya.</small>
-                                    </div>
-                                @endif
+                                    @endforeach    
+                                @endif 
                                   @if ($vehicle->count() >= 0)
                                      @foreach ($vehicle as $vehicleData)
                                         <div class="p-3 rounded-4 border border-light-subtle d-flex align-items-center justify-content-between transition-all hover-card" style="background: #ffffff;">
@@ -185,10 +180,22 @@
                                                     <small class="opacity-75" style="font-size: 11px;">{{ $vehicleData->vehicleTypes->name }} </small>
                                                 </div>
                                             </div>
-                                            <button class="btn btn-sm btn-outline-light text-muted rounded-circle border-0"><i class="ri-arrow-right-s-line fs-4"></i></button>
+                                            <button class="btn btn-sm btn-outline-light text-muted rounded-circle border-0"><i class="ri ri-arrow-right-s-line fs-4"></i></button>
                                         </div>
                                     @endforeach  
                                 @endif
+                                @if (
+                                (!$secondaryHouse || $secondaryHouse->count() == 0) &&
+                                (!$vehicle || $vehicle->count() == 0)
+                            )
+                                <div class="text-muted fs-7 py-5 text-center">
+                                    <div style="font-size:32px; opacity:0.5;">
+                                        <i class="ri ri-home-4-fill"></i>
+                                    </div>
+                                    <p class="mb-1 fw-semibold">Belum ada aset lainnya</p>
+                                    <small>Pengguna belum mendaftarkan aset lainnya.</small>
+                                </div>
+                            @endif
                             </div>
                         </div>
                     </div>

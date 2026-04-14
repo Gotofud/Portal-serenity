@@ -15,7 +15,8 @@ Route::middleware('auth:sanctum')->group(function () {
     // Api Logout
     Route::post('/logout', [\App\Http\Controllers\Api\AuthController::class, 'logout']);
     Route::resource('/guest',\App\Http\Controllers\Api\GuestReportController::class);
+    Route::get('/guest-types',[\App\Http\Controllers\Api\GuestReportController::class,'guestTypes'])->name('guest-types');
     Route::resource('/news',\App\Http\Controllers\Api\NewsController::class);
     Route::resource('/report',\App\Http\Controllers\Api\ReportController::class);
-    Route::resource('/ads',\App\Http\Controllers\Api\AdsController::class);
+    Route::resource('/stall',\App\Http\Controllers\Api\StallsController::class);
 });

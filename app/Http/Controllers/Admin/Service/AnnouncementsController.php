@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Service;
 
 use App\Http\Controllers\Controller;
 use App\Models\Service\Announcements;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -44,6 +45,13 @@ class AnnouncementsController extends Controller
 
         $announcement->save();
         return redirect()->route('service.announcements.index')->with('success', 'Data Berhasil Ditambahkan');
+    }
+
+     public function exportPdf()
+    {
+        $ann = Announcements::all();
+        $pdf = Pdf::loadView('exports.pdf.service.announcements', compact('ann'));
+        return $pdf->download('data-pengumuman.pdf');
     }
 
     /**

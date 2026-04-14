@@ -12,8 +12,8 @@ class Guest extends Model
     public $table = 'guest';
     protected $fillable = [
         'user_id',
-        'Guests_amount',
-        'Guest_types',
+        'guest_amount',
+        'guest_types',
         'house_id',
         'name',
         'telephone_num'

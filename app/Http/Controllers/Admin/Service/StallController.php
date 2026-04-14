@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Service;
 
 use App\Http\Controllers\Controller;
 use App\Models\Service\Stall;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 
 class StallController extends Controller
@@ -13,24 +14,15 @@ class StallController extends Controller
      */
     public function index()
     {
-        $stall  = Stall::all();
-        return view('admin.service.stall.index',compact('stall'));
+        $stall = Stall::all();
+        return view('admin.service.stall.index', compact('stall'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function exportPdf()
     {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
+        $stall = Stall::all();
+        $pdf = Pdf::loadView('exports.pdf.service.stall', compact('stall'));
+        return $pdf->download('data-kios.pdf');
     }
 
     /**
@@ -39,23 +31,7 @@ class StallController extends Controller
     public function show(string $id)
     {
         $stall = Stall::findOrFail($id);
-        return view('admin.service.stall.detail',compact('stall'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
+        return view('admin.service.stall.detail', compact('stall'));
     }
 
     /**
@@ -63,6 +39,8 @@ class StallController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $stall = Stall::findOrFail($id);
+        $stall->delete();
+        return redirect()->route('service.stall.index')->with('success', 'Data Berhasil Dihapus');
     }
 }

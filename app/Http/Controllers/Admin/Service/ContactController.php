@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Service;
 use App\Http\Controllers\Controller;
 use App\Mail\SendEmail;
 use App\Models\Service\Contact;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
@@ -36,8 +37,8 @@ class ContactController extends Controller
         ]);
 
         Mail::to($contact->email)
-            ->send(new SendEmail($contact,  $request->reply));
-            
+            ->send(new SendEmail($contact, $request->reply));
+
         $contact->reply = $request->reply;
         $contact->replied_at = now();
         $contact->save();
@@ -45,6 +46,13 @@ class ContactController extends Controller
         return redirect()
             ->route('service.contact.index')
             ->with('success', 'Balasan berhasil dikirim');
+    }
+
+    public function exportPdf()
+    {
+        $contact = Contact::all();
+        $pdf = Pdf::loadView('exports.pdf.service.contact', compact('contact'));
+        return $pdf->download('data-kontak.pdf');
     }
 
     /**
@@ -58,4 +66,6 @@ class ContactController extends Controller
             ->route('service.contact.index')
             ->with('success', 'Balasan berhasil dihapus');
     }
+
+
 }

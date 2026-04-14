@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Master\GuestTypes;
 use App\Models\Resident\Guest;
 use Auth;
 use Illuminate\Http\Request;
@@ -13,7 +14,10 @@ class GuestReportController extends Controller
     public function index()
     {
         $user = Auth::id();
-        $guest = Guest::where('user_id', $user)->latest()->get();
+        $guest = Guest::with('guestTypes')
+            ->where('user_id', $user)
+            ->latest()
+            ->get();
         $res = [
             'success' => true,
             'data' => $guest,
@@ -21,13 +25,21 @@ class GuestReportController extends Controller
         ];
         return response()->json($res, 200);
     }
+    public function guestTypes()
+    {
+        $types = GuestTypes::select('id', 'name')->get();
 
+        return response()->json([
+            'success' => true,
+            'data' => $types
+        ]);
+    }
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'guest_types' => 'required',
             'guest_amount' => 'required',
-            'visit_at' => 'required',
+            'house_id' => 'nullable',
         ]);
         if ($validator->fails()) {
             return response()->json([
@@ -40,7 +52,8 @@ class GuestReportController extends Controller
         $guest->user_id = Auth::id();
         $guest->guest_amount = $request->guest_amount;
         $guest->guest_types = $request->guest_types;
-        $guest->visit_at = $request->visit_at;
+        $guest->name = $request->name;
+        $guest->telephone_num = $request->telephone_num;
         $guest->save();
 
         $res = [

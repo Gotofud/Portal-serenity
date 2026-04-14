@@ -68,17 +68,20 @@
                         <p class="text-dark mb-2 small">{!! $report->description ?? 'Tidak Ada Isi' !!}</p>
                     </div>
 
-                    <div class="row mb-5 px-3">
-                        <div class="col-12">
-                            <small class="text-muted">Lampiran Foto : </small>
+                    @if ($report->image)
+                        <div class="row mb-5 px-3">
+                            <div class="col-12">
+                                <small class="text-muted">Lampiran Foto : </small>
 
-                            <div class="mt-2">
-                                <img src="https://picsum.photos/800/400" class="img-fluid rounded shadow-sm w-100"
-                                    style="max-height: 400px; object-fit: cover;" alt="Lampiran Foto">
+                                <div class="mt-2">
+                                    <img src="{{ Storage::url($report->image) }}" class="img-fluid rounded shadow-sm w-100"
+                                        style="max-height: 400px; object-fit: cover;" alt="Lampiran Foto">
+                                </div>
                             </div>
-                        </div>
 
-                    </div>
+                        </div>
+                    @endif
+
 
 
                     {{-- STATUS --}}

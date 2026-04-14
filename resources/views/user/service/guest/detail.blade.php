@@ -40,7 +40,7 @@
                             <div class="d-flex justify-content-between mb-2">
                                 <span class="text-muted small">Kontak</span>
                                 <span class="fw-semibold text-end">
-                                    {{ $guest->users->user_profile->telephone_num }}
+                                    {{ implode('-', str_split($guest->users->user_profile->telephone_num , 4)) }}
                                 </span>
                             </div>
                             <div class="d-flex justify-content-between mb-2">
@@ -71,7 +71,7 @@
                             <div class="d-flex justify-content-between mb-2">
                                 <span class="text-muted small">Kontak</span>
                                 <span class="fw-semibold text-end">
-                                    {{ $guest->telephone_num }}
+                                    {{ implode('-', str_split($guest->telephone_num, 4)) }}
                                 </span>
                             </div>
                             <div class="d-flex justify-content-between mb-2">
@@ -102,7 +102,7 @@
                     <div class="mt-3">
                         <small class="text-muted">
                             <span class="text-danger">*</span>
-                            Pelaporan tamu dianggap sah jika ada bukti laporan tamu di  <b>Serenity</b>.
+                            Pelaporan tamu dianggap sah jika ada bukti laporan tamu di <b>Serenity</b>.
                         </small>
                     </div>
                 </div>

@@ -62,7 +62,8 @@
     </div>
 
     <div class="card mt-5">
-        <x-partials.admin.export_modal :exportExcel="route('dashboard.community-unit.export')" />
+        <x-partials.admin.export_modal :exportExcel="route('dashboard.community-unit.export')"
+            :exportPdf="route('resident.user.exportPdf')" />
         <div class="card-header">
             <div class="d-sm-flex justify-content-between align-items-start">
                 <div class="input-group position-relative d-inline-block w-25">
@@ -146,7 +147,7 @@
                             <td>{{ $data->created_at ? $data->created_at->format('d M Y , H:i') : '-' }}
                             </td>
                             <td class="text-center">
-                               <a class="btn btn-outline-danger text-danger d-inline-flex align-items-center justify-content-center p-0"
+                                <a class="btn btn-outline-danger text-danger d-inline-flex align-items-center justify-content-center p-0"
                                     style="height: 40px; width: 40px;" data-bs-toggle="modal" data-bs-target="#addRw">
                                     <i class="ri ri-delete-bin-fill" style="font-size: 15px; line-height: 1;"></i>
                                 </a>

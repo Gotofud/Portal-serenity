@@ -29,14 +29,36 @@
         </select>
     </div>
 </div>
-
+<div class="row">
+    <div class="col-md-6 mb-3">
+        @if(isset($data?->image))
+            <div class="mb-3">
+                <small class="text-muted d-block mb-2">Foto saat ini:</small>
+                <img src="{{ asset('storage/' . $data->image) }}" class="img-fluid rounded border" alt="Banner Image"
+                    style="max-width: 250px;">
+            </div>
+        @endif
+    </div>
+    <div class="{{ isset($data?->image) ? 'col-md-6' : ' ' }} mb-3">
+        <label for="image" class="form-label fw-semibold">
+            Upload Banner <span class="text-danger">*</span>
+        </label>
+        <input type="file" name="image" id="image" class="form-control @error('image') is-invalid @enderror">
+        @if(isset($data?->image))
+            <small class="text-muted d-block mt-2"><span class="text-danger">*</span>Ukuran Gambar Wajib 3780x1890</small>
+        @endif
+        @error('image')
+            <div class="invalid-feedback">{{ $message }}</div>
+        @enderror
+    </div>
+</div>
 <div class="row">
     <div class="col-md-6 mb-3">
         <label for="exampleInputname" class="form-label">Jumlah Unit</label>
         <input type="text" nputmode="numeric" pattern="[0-9]*" id="inputAngka"
             oninput="this.value=this.value.replace(/[^0-9]/g,'')" name="stall_unit"
             class="form-control @error('stall_unit') is-invalid @enderror " id="exampleInputname"
-            placeholder="Masukan Jumlah Unit" value="{{ old('stall_unit',$data->stall_unit ?? '') }}">
+            placeholder="Masukan Jumlah Unit" value="{{ old('stall_unit', $data->stall_unit ?? '') }}">
     </div>
     <div class="col-md-6 mb-3">
         <label for="exampleInputname" class="form-label">Harga Sewa Perbulan</label>
@@ -48,8 +70,8 @@
 
             <input type="text" inputmode="numeric" id="harga" name="rent_amount" autocomplete="off"
                 class="form-control border-start-0 ps-1 @error('rent_amount') is-invalid @enderror"
-                placeholder="Masukan Harga Sewa" style="border-top-right-radius: 8px; border-bottom-right-radius: 8px;" 
-                value="{{ old('rent_amount' , $data->rent_amount ?? '') }}">
+                placeholder="Masukan Harga Sewa" style="border-top-right-radius: 8px; border-bottom-right-radius: 8px;"
+                value="{{ old('rent_amount', $data->rent_amount ?? '') }}">
         </div>
     </div>
 </div>

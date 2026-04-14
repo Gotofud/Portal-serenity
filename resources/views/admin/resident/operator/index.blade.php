@@ -66,7 +66,8 @@
 
     </x-partials.admin.form-modal>
     <div class="card mt-5">
-        <x-partials.admin.export_modal :exportExcel="route('dashboard.community-unit.export')" />
+        <x-partials.admin.export_modal :exportExcel="route('dashboard.community-unit.export')"
+            :exportPdf="route('resident.operator.exportPdf')" />
         <div class="card-header">
             <div class="d-sm-flex justify-content-between align-items-start">
                 <div class="input-group position-relative d-inline-block w-25">

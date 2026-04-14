@@ -56,8 +56,8 @@
 
                         <div class="col-12">
                             <span class="text-muted" style="font-size:12.5px;">Telepon</span>
-                            <div class="fw-bold" style="font-size: 13.5px;">
-                                {{ $user->phone ?? '-' }}
+                            <div class="fw-bold text-dark" style="font-size: 13.5px;">
+                                {{ $user->user_profile->telephone_num ?? '-' }}
                             </div>
                         </div>
 

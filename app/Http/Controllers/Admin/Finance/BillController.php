@@ -9,6 +9,7 @@ use App\Models\Master\CommunityUnit;
 use App\Models\Master\House;
 use App\Exports\BillsExport;
 use App\Imports\BillsImport;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -35,7 +36,12 @@ class BillController extends Controller
 
         return view('admin.finance.bills.index', compact('bill', 'co'));
     }
-
+    public function exportPdf()
+    {
+        $bill = Bills::all();
+        $pdf = Pdf::loadView('exports.pdf.finance.bill', compact('bill'));
+        return $pdf->download('data-iwd.pdf');
+    }
     public function generateBill()
     {
         $year = date('Y');
@@ -97,7 +103,7 @@ class BillController extends Controller
     {
         $bill = Bills::findOrFail($id);
         $house = House::with('users_houses')->first();
-        return view('admin.finance.bills.detail', compact('bill','house'));
+        return view('admin.finance.bills.detail', compact('bill', 'house'));
     }
 
     /**

@@ -169,9 +169,9 @@
                             <div class="text-muted small">
                                 {{ $bill->paid_at->format('d F Y H:i') }}
                                 • @if ($bill->paid_at && $bill->file)
-                                Sistem Manual (Admin)
+                                    Sistem Manual (Admin)
                                 @else
-                                Sistem Aplikasi
+                                    Sistem Aplikasi
                                 @endif
                             </div>
                         </div>
