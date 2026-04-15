@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Finance\CommunityUnitAggrements;
 use App\Models\Master\BuildingType;
 use App\Models\Master\CommunityUnit;
+use App\Models\Resident\NeighborhoodOperator;
+use Auth;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 
@@ -16,7 +18,13 @@ class AgreementController extends Controller
      */
     public function index()
     {
-        $agreement = CommunityUnitAggrements::all();
+        $user = Auth::user();
+        if ($user->roles->name == 'Admin') {
+            $nu = NeighborhoodOperator::where('user_id', $user->id)->first();
+            $agreement = CommunityUnitAggrements::where('community_id', $nu->community_id)->get();
+        } else {
+            $agreement = CommunityUnitAggrements::all();
+        }
         $co = CommunityUnit::all();
         $building_type = BuildingType::all();
         return view('admin.finance.agreement.index', compact('agreement', 'building_type', 'co'));
@@ -24,7 +32,13 @@ class AgreementController extends Controller
 
     public function exportPdf()
     {
-        $agreement = CommunityUnitAggrements::all();
+        $user = Auth::user();
+        if ($user->roles->name == 'Admin') {
+            $nu = NeighborhoodOperator::where('user_id', $user->id)->first();
+            $agreement = CommunityUnitAggrements::where('community_id', $nu->community_id)->get();
+        } else {
+            $agreement = CommunityUnitAggrements::all();
+        }
         $pdf = Pdf::loadView('exports.pdf.finance.agreement', compact('agreement'));
         return $pdf->download('data-perjanjian-rw.pdf');
     }

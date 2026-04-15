@@ -135,8 +135,13 @@
                                                 <small class="opacity-75" style="font-size: 11px;">{{ $housePrimary->houses->building_Types->name }} | {{ $housePrimary->is_primary }} | {{ $housePrimary->total_resident .' Penghuni' }} </small>
                                             </div>
                                         </div>
-                                        <button class="btn btn-sm btn-outline-light text-muted rounded-circle border-0"><i class="ri ri-arrow-right-s-line fs-4"></i></button>
+                                        <button data-bs-toggle="modal" data-bs-target="#editHouse{{ $housePrimary->id }}" class="btn btn-sm btn-outline-light text-muted rounded-circle border-0"><i class="ri ri-arrow-right-s-line fs-4"></i></button>
                                     </div>
+                                    <x-partials.admin.form-modal id="editHouse{{ $housePrimary->id }}"
+                            :formRoute="route('user-dashboard.updatehouse', $housePrimary->id)" method="PUT"
+                            title="Edit Rumah">
+                            @include('user._fields-house', ['data' => $housePrimary])
+                        </x-partials.admin.form-modal>
                                 @empty
                                     <div class="text-muted fs-7 py-5 text-center">
                                         <div style="font-size:32px; margin:0 auto 12px; opacity:0.5;"><i class="ri ri-home-4-fill"></i></div>
@@ -164,8 +169,13 @@
                                                     <small class="opacity-75" style="font-size: 11px;">{{ $houseSecondary->houses->building_Types->name }} | {{ $houseSecondary->is_primary }} | {{ $houseSecondary->total_resident .' Penghuni' }} </small>
                                                 </div>
                                             </div>
-                                            <button class="btn btn-sm btn-outline-light text-muted rounded-circle border-0"><i class="ri ri-arrow-right-s-line fs-4"></i></button>
+                                            <button data-bs-toggle="modal" data-bs-target="#editHouse{{ $houseSecondary->id }}" class="btn btn-sm btn-outline-light text-muted rounded-circle border-0"><i class="ri ri-arrow-right-s-line fs-4"></i></button>
                                         </div>
+                                        <x-partials.admin.form-modal id="editHouse{{ $houseSecondary->id }}"
+                            :formRoute="route('user-dashboard.updatehouse', $houseSecondary->id)" method="PUT"
+                            title="Edit Rumah">
+                            @include('user._fields-house', ['data' => $houseSecondary])
+                        </x-partials.admin.form-modal>
                                     @endforeach    
                                 @endif 
                                   @if ($vehicle->count() >= 0)
@@ -180,8 +190,13 @@
                                                     <small class="opacity-75" style="font-size: 11px;">{{ $vehicleData->vehicleTypes->name }} </small>
                                                 </div>
                                             </div>
-                                            <button class="btn btn-sm btn-outline-light text-muted rounded-circle border-0"><i class="ri ri-arrow-right-s-line fs-4"></i></button>
+                                            <button data-bs-toggle="modal" data-bs-target="#editVehicle{{ $vehicleData->id }}" class="btn btn-sm btn-outline-light text-muted rounded-circle border-0"><i class="ri ri-arrow-right-s-line fs-4"></i></button>
                                         </div>
+                                             <x-partials.admin.form-modal id="editVehicle{{ $vehicleData->id }}"
+                            :formRoute="route('user-dashboard.updatevehicle', $vehicleData->id)" method="PUT"
+                            title="Edit Kendaraan">
+                            @include('user._fields-vehicle', ['data' => $vehicleData])
+                        </x-partials.admin.form-modal>
                                     @endforeach  
                                 @endif
                                 @if (

@@ -122,12 +122,6 @@ use Illuminate\Support\Facades\Auth;
                                         </a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" href="pages-account-settings-account.html">
-                                            <i class="icon-base ri ri-settings-4-line icon-22px me-3"></i><span
-                                                class="align-middle">Settings</span>
-                                        </a>
-                                    </li>
-                                    <li>
                                         <div class="d-grid px-4 pt-2 pb-1">
                                             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                                 @csrf

@@ -7,7 +7,9 @@ use App\Imports\HouseImport;
 use App\Models\Master\CommunityUnit;
 use App\Models\Master\House;
 use App\Models\Master\BuildingType;
+use App\Models\Resident\NeighborhoodOperator;
 use App\Models\User\UsersHouse;
+use Auth;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
@@ -19,7 +21,14 @@ class HouseController extends Controller
      */
     public function index()
     {
-        $house = House::with(['users_houses.users.user_profile'])->get();
+        $user = Auth::user();
+        if ($user->roles->name == 'Admin') {
+            $nu = NeighborhoodOperator::where('user_id', $user->id)->first();
+            $house = House::with(['users_houses.users.user_profile'])->where('community_id', $nu->community_id)->get();
+        } else {
+            $house = House::with(['users_houses.users.user_profile'])->get();
+        }
+
         $co = CommunityUnit::all();
         $bt = BuildingType::all();
         return view('admin.master.house.index', compact('house', 'co', 'bt'));
@@ -38,7 +47,13 @@ class HouseController extends Controller
     }
     public function exportPdf()
     {
-        $house = House::all();
+        $user = Auth::user();
+        if ($user->roles->name == 'Admin') {
+            $nu = NeighborhoodOperator::where('user_id', $user->id)->first();
+            $house = House::with(['users_houses.users.user_profile'])->where('community_id', $nu->community_id)->get();
+        } else {
+            $house = House::with(['users_houses.users.user_profile'])->get();
+        }
         $pdf = Pdf::loadView('exports.pdf.master.house', compact('house'));
         return $pdf->download('data-rumah.pdf');
     }

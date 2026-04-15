@@ -1,6 +1,6 @@
 @php
     // Hitung Laporan masuk dan belum diproses
-    $report = App\Models\Service\Report::whereIn('status', ['Pending','Diterima'])->count();
+    $report = App\Models\Service\Report::whereIn('status', ['Pending', 'Diterima'])->count();
 @endphp
 <aside id="layout-menu" class="layout-menu menu-vertical menu">
     <div class="app-brand mt-5 mb-4">
@@ -48,61 +48,67 @@
                 <div data-i18n="Master">Master</div>
             </a>
             <ul class="menu-sub">
-                <li class="menu-item {{ request()->routeIs('dashboard.banner.*') ? 'active' : '' }}">
-                    <a href="{{ route('dashboard.banner.index') }}" class="menu-link">
-                        <div data-i18n="Banner">Banner</div>
-                    </a>
-                </li>
-                <li class="menu-item {{ request()->routeIs('dashboard.community-unit.*') ? 'active' : '' }}">
-                    <a href="{{ route('dashboard.community-unit.index') }}" class="menu-link">
-                        <div data-i18n="Data RW">Data RW</div>
-                    </a>
-                </li>
-                <li class="menu-item {{ request()->routeIs('dashboard.neighborhood-unit.*') ? 'active' : '' }}">
-                    <a href="{{ route('dashboard.neighborhood-unit.index') }}" class="menu-link">
-                        <div data-i18n="Data RT">Data RT</div>
-                    </a>
-                </li>
-                <li class="menu-item {{ request()->routeIs('dashboard.block.*') ? 'active' : '' }}">
-                    <a href="{{ route('dashboard.block.index') }}" class="menu-link">
-                        <div data-i18n="Blok Rumah">Blok Rumah</div>
-                    </a>
-                </li>
-                <li class="menu-item {{ request()->routeIs('dashboard.building-type.*') ? 'active' : '' }}">
-                    <a href="{{ route('dashboard.building-type.index') }}" class="menu-link">
-                        <div data-i18n="Jenis Bangunan">Jenis Bangunan</div>
-                    </a>
-                </li>
+                @if (Auth::user()->roles->name == 'Super Admin')
+                    <li class="menu-item {{ request()->routeIs('dashboard.banner.*') ? 'active' : '' }}">
+                        <a href="{{ route('dashboard.banner.index') }}" class="menu-link">
+                            <div data-i18n="Banner">Banner</div>
+                        </a>
+                    </li>
+                    <li class="menu-item {{ request()->routeIs('dashboard.community-unit.*') ? 'active' : '' }}">
+                        <a href="{{ route('dashboard.community-unit.index') }}" class="menu-link">
+                            <div data-i18n="Data RW">Data RW</div>
+                        </a>
+                    </li>
+                    <li class="menu-item {{ request()->routeIs('dashboard.neighborhood-unit.*') ? 'active' : '' }}">
+                        <a href="{{ route('dashboard.neighborhood-unit.index') }}" class="menu-link">
+                            <div data-i18n="Data RT">Data RT</div>
+                        </a>
+                    </li>
+                    <li class="menu-item {{ request()->routeIs('dashboard.block.*') ? 'active' : '' }}">
+                        <a href="{{ route('dashboard.block.index') }}" class="menu-link">
+                            <div data-i18n="Blok Rumah">Blok Rumah</div>
+                        </a>
+                    </li>
+                    <li class="menu-item {{ request()->routeIs('dashboard.building-type.*') ? 'active' : '' }}">
+                        <a href="{{ route('dashboard.building-type.index') }}" class="menu-link">
+                            <div data-i18n="Jenis Bangunan">Jenis Bangunan</div>
+                        </a>
+                    </li>
+                @endif
                 <li class="menu-item {{ request()->routeIs('dashboard.house.*') ? 'active' : '' }}">
                     <a href="{{ route('dashboard.house.index') }}" class="menu-link">
                         <div data-i18n="Rumah Warga">Rumah Warga</div>
                     </a>
                 </li>
-                <li class="menu-item {{ request()->routeIs('dashboard.report-categories.*') ? 'active' : '' }}">
-                    <a href="{{ route('dashboard.report-categories.index') }}" class="menu-link">
-                        <div data-i18n="Jenis Laporan">Jenis Laporan</div>
-                    </a>
-                </li>
-                <li class="menu-item {{ request()->routeIs('dashboard.guest-type.*') ? 'active' : '' }}">
-                    <a href="{{ route('dashboard.guest-type.index') }}" class="menu-link">
-                        <div data-i18n="Jenis Tamu">Jenis Tamu</div>
-                    </a>
-                </li>
-                <li class="menu-item {{ request()->routeIs('dashboard.vehicle-type.*') ? 'active' : '' }}">
-                    <a href="{{ route('dashboard.vehicle-type.index') }}" class="menu-link">
-                        <div data-i18n="Jenis Kendaraan">Jenis Kendaraan</div>
-                    </a>
-                </li>
+                @if (Auth::user()->roles->name == 'Super Admin')
+                    <li class="menu-item {{ request()->routeIs('dashboard.report-categories.*') ? 'active' : '' }}">
+                        <a href="{{ route('dashboard.report-categories.index') }}" class="menu-link">
+                            <div data-i18n="Jenis Laporan">Jenis Laporan</div>
+                        </a>
+                    </li>
+                    <li class="menu-item {{ request()->routeIs('dashboard.guest-type.*') ? 'active' : '' }}">
+                        <a href="{{ route('dashboard.guest-type.index') }}" class="menu-link">
+                            <div data-i18n="Jenis Tamu">Jenis Tamu</div>
+                        </a>
+                    </li>
+                    <li class="menu-item {{ request()->routeIs('dashboard.vehicle-type.*') ? 'active' : '' }}">
+                        <a href="{{ route('dashboard.vehicle-type.index') }}" class="menu-link">
+                            <div data-i18n="Jenis Kendaraan">Jenis Kendaraan</div>
+                        </a>
+                    </li>
+                @endif
                 <li class="menu-item {{ request()->routeIs('dashboard.stall-place.*') ? 'active' : '' }}">
                     <a href="{{ route('dashboard.stall-place.index') }}" class="menu-link">
                         <div data-i18n="Tempat Kios">Tempat Kios</div>
                     </a>
                 </li>
-                <li class="menu-item {{ request()->routeIs('dashboard.faq.*') ? 'active' : '' }}">
-                    <a href="{{ route('dashboard.faq.index') }}" class="menu-link">
-                        <div data-i18n="Faq">Faq</div>
-                    </a>
-                </li>
+                @if (Auth::user()->roles->name == 'Super Admin')
+                    <li class="menu-item {{ request()->routeIs('dashboard.faq.*') ? 'active' : '' }}">
+                        <a href="{{ route('dashboard.faq.index') }}" class="menu-link">
+                            <div data-i18n="Faq">Faq</div>
+                        </a>
+                    </li>
+                @endif
             </ul>
         </li>
 
@@ -119,11 +125,13 @@
                         <div data-i18n="Warga Komplek">Warga Komplek</div>
                     </a>
                 </li>
+                @if (Auth::user()->roles->name == 'Super Admin')
                 <li class="menu-item {{ request()->routeIs('resident.operator.*') ? 'active' : '' }}">
                     <a href="{{ route('resident.operator.index') }}" class="menu-link">
                         <div data-i18n="Staff Serenity">Staff Serenity</div>
                     </a>
                 </li>
+                @endif
                 <li class="menu-item {{ request()->routeIs('resident.guest.*') ? 'active' : '' }}">
                     <a href="{{ route('resident.guest.index') }}" class="menu-link">
                         <div data-i18n="Tamu">Tamu</div>
@@ -162,11 +170,13 @@
                         <div data-i18n="Berita">Berita</div>
                     </a>
                 </li>
+                @if (Auth::user()->roles->name == 'Super Admin')
                 <li class="menu-item {{ request()->routeIs('service.contact.*') ? 'active' : '' }}">
                     <a href="{{route('service.contact.index')}}" class="menu-link">
                         <div data-i18n="Kontak">Kontak</div>
                     </a>
                 </li>
+                @endif
             </ul>
         </li>
 

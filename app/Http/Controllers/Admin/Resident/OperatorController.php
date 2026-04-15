@@ -80,6 +80,7 @@ class OperatorController extends Controller
             $operator->password = bcrypt($request->password);
             $operator->status = $request->status;
             $operator->role_id = Role::where('name', 'Admin')->value('id');
+            $operator->is_verified = 1;
             $operator->save();
 
             $neighborhood_Operator = new NeighborhoodOperator();
@@ -138,6 +139,7 @@ class OperatorController extends Controller
             $operator->password = bcrypt($request->password);
             $operator->status = $request->status;
             $operator->role_id = Role::where('name', 'Admin')->value('id');
+            $operator->is_verified = 1;
             $operator->save();
 
             // Update atau buat neighborhood operator jika belum ada

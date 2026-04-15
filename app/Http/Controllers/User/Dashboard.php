@@ -102,6 +102,16 @@ class Dashboard extends Controller
         return redirect()->route('user-dashboard.index')->with('success', 'Data Berhasil Ditambahkan');
     }
 
+    public function updateVehicle(Request $request, string $id)
+    {
+        $addVehicle = Vehicles::findOrFail($id);
+        $addVehicle->user_id = Auth::id();
+        $addVehicle->vehicle_types = $request->vehicle_types;
+        $addVehicle->plate_number = $request->plate_number;
+        $addVehicle->save();
+        return redirect()->route('user-dashboard.index')->with('success', 'Data Berhasil Diedit');
+    }
+
     public function storeHouse(Request $request)
     {
         $addHouse = new UsersHouse();
@@ -113,6 +123,19 @@ class Dashboard extends Controller
         $addHouse->save();
 
         return redirect()->route('user-dashboard.index')->with('success', 'Data Berhasil Ditambahkan');
+    }
+
+    public function updateHouse(Request $request, string $id)
+    {
+        $addHouse = UsersHouse::findOrFail($id);
+        $addHouse->user_id = Auth::id();
+        $addHouse->house_id = $request->house_id;
+        $addHouse->total_resident = $request->total_resident;
+        $addHouse->is_primary = $request->is_primary;
+        $addHouse->status = $request->status;
+        $addHouse->save();
+
+        return redirect()->route('user-dashboard.index')->with('success', 'Data Berhasil Diedit');
     }
     /**
      * Store a newly created resource in storage.

@@ -7,6 +7,8 @@ use App\Imports\StallPlaceImport;
 use App\Models\Master\CommunityUnit;
 use App\Models\Master\NeighborhoodUnit;
 use App\Models\Master\StallPlace;
+use App\Models\Resident\NeighborhoodOperator;
+use Auth;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
@@ -18,9 +20,15 @@ class StallsPlaceController extends Controller
      */
     public function index()
     {
+        $user = Auth::user();
+        if ($user->roles->name == 'Admin') {
+            $nu = NeighborhoodOperator::where('user_id', $user->id)->first();
+            $stall_place = StallPlace::where('community_id', $nu->community_id)->get();
+        } else {
+            $stall_place = StallPlace::all();
+        }
         $co = CommunityUnit::all();
         $nu = NeighborhoodUnit::all();
-        $stall_place = StallPlace::all();
         return view('admin.master.stall-place.index', compact('stall_place', 'co', 'nu'));
     }
 
@@ -37,7 +45,13 @@ class StallsPlaceController extends Controller
 
     public function exportPdf()
     {
-        $stallPlace = StallPlace::all();
+        $user = Auth::user();
+        if ($user->roles->name == 'Admin') {
+            $nu = NeighborhoodOperator::where('user_id', $user->id)->first();
+            $stall_place = StallPlace::where('community_id', $nu->community_id)->get();
+        } else {
+            $stall_place = StallPlace::all();
+        }
         $pdf = Pdf::loadView('exports.pdf.master.stall-place', compact('stallPlace'));
         return $pdf->download('data-tempat-kios.pdf');
     }
